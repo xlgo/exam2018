@@ -1,0 +1,109 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{
+	background: #fafafa;
+}
+.gaimi-header{
+	height: 45px;
+	width: 100%;
+	background: #fff;
+}
+.header-back{
+	position: absolute;
+	height: 45px;
+	width: 40px;
+}
+.gaimi-title{
+ 	margin:0 50px;
+    text-align: center;
+    height:44px;
+    line-height: 44px;
+    font-size:16px;
+	}
+.gaimi-index:after{
+	display: block;
+	content: "";
+	clear: both;
+}
+.gaimi-index li{
+	display: block;
+	margin-top: 10px;
+	background: #fff;
+	/*height: 40px;*/
+	line-height: 40px;
+}
+.gaimi-index li span{
+	display: block;
+	float: left;
+	width: 100px;
+	text-align: right;
+}
+.gaimi-index li input{
+	border:none;
+	height: 40px;
+	line-height: 40px;
+	padding-left: 10px;
+}
+.gaitop{
+	margin-top:30px;
+}
+.gaimi-index li b{
+	font-weight: normal;
+	height: 40px;
+	line-height: 40px;
+	padding-left: 10px;
+}
+.tishi-header{
+	height: 55px;
+	width: 100%;
+	background: #f5f5f5;
+}
+.tishi-head{
+	background: #fff;
+	height: 45px;
+	line-height: 45px;
+}
+
+.register-tishi{
+	line-height: 24px;
+	color: #ff0000;
+	padding:10px;
+	background: #fff;
+	margin:10px 0;
+}
+.register-sex{
+	line-height: 40px;
+	padding-right: 10px;
+	font-style: normal;
+	display: block;
+	float: left;
+	height: 40px;
+	width: 30px;
+	text-align: center;
+}
+.register-xuan{
+	display: block;
+	float: left;
+	margin-left: 10px;
+	line-height: 40px;
+}
+.register-nian{
+	display: block;
+	float: left;
+	margin-left: 10px;
+	line-height: 40px;
+}
+.register-ji{
+	line-height: 40px;
+	padding-right: 10px;
+	font-style: normal;
+	display: block;
+	float: left;
+	height: 40px;
+	width: 30px;
+	text-align: center;
+}
+.register-nian-right{
+	padding-left: 100px;
+}

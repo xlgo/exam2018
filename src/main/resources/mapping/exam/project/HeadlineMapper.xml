@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.hnzxl.exam.project.dao.HeadlineMapper">
+	<resultMap id="BaseResultMap" type="cn.hnzxl.exam.project.model.Headline">
+		<id column="headline_id" property="headlineId" jdbcType="VARCHAR" />
+		<result column="headline_examination_id" property="headlineExaminationId" jdbcType="VARCHAR" />
+		<result column="headline_examination_name" property="headlineExaminationName" jdbcType="VARCHAR" />
+		<result column="headline_headline_subject" property="headlineHeadlineSubject" jdbcType="VARCHAR" />
+		<result column="headline_examination_content" property="headlineExaminationContent" jdbcType="VARCHAR" />
+		<result column="headline_question_count" property="headlineQuestionCount" jdbcType="INTEGER" />
+		<result column="headline_score" property="headlineScore" jdbcType="INTEGER" />
+		<result column="headline_pattern" property="headlinePattern" jdbcType="INTEGER" />
+		<result column="headline_answer_pattern" property="headlineAnswerPattern" jdbcType="INTEGER" />
+		<result column="headline_sort" property="headlineSort" jdbcType="INTEGER" />
+		<result column="headline_question_type" property="headlineQuestionType" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		headline_id, headline_examination_id, headline_headline_subject, headline_examination_content,
+		headline_question_count, headline_score, headline_pattern, headline_answer_pattern,
+		headline_sort,headline_question_type
+	</sql>
+
+	<sql id="Base_Dynamic_Where">
+		<where>
+			AND headline_examination_id = examination_id
+			<if test="@Ognl@isNotEmpty(headlineExaminationId)">
+				AND headline_examination_id = #{headlineExaminationId,jdbcType=VARCHAR}
+			</if>
+			<if test="@Ognl@isNotEmpty(headlineHeadlineSubject)">
+				AND headline_headline_subject like #{headlineHeadlineSubject,jdbcType=VARCHAR}
+			</if>
+			<if test="@Ognl@isNotEmpty(headlineExaminationContent)">
+				AND headline_examination_content like #{headlineExaminationContent,jdbcType=VARCHAR}
+			</if>
+			<if test="@Ognl@isNotEmpty(headlineQuestionCount)">
+				AND headline_question_count = #{headlineQuestionCount,jdbcType=INTEGER}
+			</if>
+			<if test="@Ognl@isNotEmpty(headlineScore)">
+				AND headline_score = #{headlineScore,jdbcType=INTEGER}
+			</if>
+			<if test="@Ognl@isNotEmpty(headlinePattern)">
+				AND headline_pattern = #{headlinePattern,jdbcType=INTEGER}
+			</if>
+			<if test="@Ognl@isNotEmpty(headlineAnswerPattern)">
+				AND headline_answer_pattern = #{headlineAnswerPattern,jdbcType=INTEGER}
+			</if>
+			<if test="@Ognl@isNotEmpty(headlineSort)">
+				AND headline_sort = #{headlineSort,jdbcType=INTEGER}
+			</if>
+			<if test="@Ognl@isNotEmpty(headlineQuestionType)">
+				AND headline_question_type = #{headlineQuestionType,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
+	<select id="selectAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />,examination_subject headline_examination_name
+		from headline,examination 
+		<include refid="Base_Dynamic_Where" />
+		<if test="sortField != null">
+			order by ${sortField} ${sortOrder}
+		</if>
+		<if test="sortField == null">
+			order by headline_examination_id,headline_sort asc
+		</if>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />,examination_subject headline_examination_name
+		from headline,examination
+		where headline_examination_id = examination_id AND headline_id = #{headlineId,jdbcType=VARCHAR}  
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from headline
+		where headline_id =
+		#{headlineId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="cn.hnzxl.exam.project.model.Headline">
+		insert into headline (headline_id, headline_examination_id,
+		headline_headline_subject, headline_examination_content,
+		headline_question_count, headline_score, headline_pattern,
+		headline_answer_pattern, headline_sort,headline_question_type)
+		values (#{headlineId,jdbcType=VARCHAR},
+		#{headlineExaminationId,jdbcType=VARCHAR},
+		#{headlineHeadlineSubject,jdbcType=VARCHAR},
+		#{headlineExaminationContent,jdbcType=VARCHAR},
+		#{headlineQuestionCount,jdbcType=INTEGER},
+		#{headlineScore,jdbcType=INTEGER}, #{headlinePattern,jdbcType=INTEGER},
+		#{headlineAnswerPattern,jdbcType=INTEGER},
+		#{headlineSort,jdbcType=INTEGER},
+		#{headlineQuestionType,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="cn.hnzxl.exam.project.model.Headline">
+		insert into headline
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="headlineId != null">
+				headline_id,
+			</if>
+			<if test="headlineExaminationId != null">
+				headline_examination_id,
+			</if>
+			<if test="headlineHeadlineSubject != null">
+				headline_headline_subject,
+			</if>
+			<if test="headlineExaminationContent != null">
+				headline_examination_content,
+			</if>
+			<if test="headlineQuestionCount != null">
+				headline_question_count,
+			</if>
+			<if test="headlineScore != null">
+				headline_score,
+			</if>
+			<if test="headlinePattern != null">
+				headline_pattern,
+			</if>
+			<if test="headlineAnswerPattern != null">
+				headline_answer_pattern,
+			</if>
+			<if test="headlineSort != null">
+				headline_sort,
+			</if>
+			<if test="headlineQuestionType != null">
+				headline_question_type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="headlineId != null">
+				#{headlineId,jdbcType=VARCHAR},
+			</if>
+			<if test="headlineExaminationId != null">
+				#{headlineExaminationId,jdbcType=VARCHAR},
+			</if>
+			<if test="headlineHeadlineSubject != null">
+				#{headlineHeadlineSubject,jdbcType=VARCHAR},
+			</if>
+			<if test="headlineExaminationContent != null">
+				#{headlineExaminationContent,jdbcType=VARCHAR},
+			</if>
+			<if test="headlineQuestionCount != null">
+				#{headlineQuestionCount,jdbcType=INTEGER},
+			</if>
+			<if test="headlineScore != null">
+				#{headlineScore,jdbcType=INTEGER},
+			</if>
+			<if test="headlinePattern != null">
+				#{headlinePattern,jdbcType=INTEGER},
+			</if>
+			<if test="headlineAnswerPattern != null">
+				#{headlineAnswerPattern,jdbcType=INTEGER},
+			</if>
+			<if test="headlineSort != null">
+				#{headlineSort,jdbcType=INTEGER},
+			</if>
+			<if test="headlineQuestionType != null">
+				#{headlineQuestionType,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.hnzxl.exam.project.model.Headline">
+		update headline
+		<set>
+			<if test="headlineExaminationId != null">
+				headline_examination_id = #{headlineExaminationId,jdbcType=VARCHAR},
+			</if>
+			<if test="headlineHeadlineSubject != null">
+				headline_headline_subject = #{headlineHeadlineSubject,jdbcType=VARCHAR},
+			</if>
+			<if test="headlineExaminationContent != null">
+				headline_examination_content = #{headlineExaminationContent,jdbcType=VARCHAR},
+			</if>
+			<if test="headlineQuestionCount != null">
+				headline_question_count = #{headlineQuestionCount,jdbcType=INTEGER},
+			</if>
+			<if test="headlineScore != null">
+				headline_score = #{headlineScore,jdbcType=INTEGER},
+			</if>
+			<if test="headlinePattern != null">
+				headline_pattern = #{headlinePattern,jdbcType=INTEGER},
+			</if>
+			<if test="headlineAnswerPattern != null">
+				headline_answer_pattern = #{headlineAnswerPattern,jdbcType=INTEGER},
+			</if>
+			<if test="headlineSort != null">
+				headline_sort = #{headlineSort,jdbcType=INTEGER},
+			</if>
+			<if test="headlineQuestionType != null">
+				headline_question_type=#{headlineQuestionType,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where headline_id = #{headlineId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.hnzxl.exam.project.model.Headline">
+		update headline
+		set headline_examination_id =
+		#{headlineExaminationId,jdbcType=VARCHAR},
+		headline_headline_subject = #{headlineHeadlineSubject,jdbcType=VARCHAR},
+		headline_examination_content = #{headlineExaminationContent,jdbcType=VARCHAR},
+		headline_question_count =
+		#{headlineQuestionCount,jdbcType=INTEGER},
+		headline_score = #{headlineScore,jdbcType=INTEGER},
+		headline_pattern =
+		#{headlinePattern,jdbcType=INTEGER},
+		headline_answer_pattern = #{headlineAnswerPattern,jdbcType=INTEGER},
+		headline_sort
+		= #{headlineSort,jdbcType=INTEGER},
+		headline_question_type=#{headlineQuestionType,jdbcType=VARCHAR}
+		where headline_id = #{headlineId,jdbcType=VARCHAR}
+	</update>
+</mapper>

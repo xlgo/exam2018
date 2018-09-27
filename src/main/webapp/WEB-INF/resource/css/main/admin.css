@@ -1,0 +1,17 @@
+div#header {
+	background: #fff url(images/loginBody.jpg) repeat-x;
+}
+
+div#header .logo1 {
+	height: 100%;
+	width: 100%;
+	text-align: right;
+	background: url(images/loginTop.jpg) no-repeat -200px -43px;
+}
+
+.logo1 span{
+	display:block;
+	font-weight:bold;
+	padding-top:30px;
+	margin-right: 30px;
+}

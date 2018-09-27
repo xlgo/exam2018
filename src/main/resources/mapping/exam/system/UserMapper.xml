@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.hnzxl.exam.system.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="cn.hnzxl.exam.system.model.User">
+		<id column="userid" property="userid" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="gender" property="gender" jdbcType="SMALLINT" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="permission" property="permission" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+		<result column="idnumber" property="idnumber" jdbcType="VARCHAR" />
+		<result column="identity" property="identity" jdbcType="VARCHAR" />
+		<result column="mobilenumber" property="mobilenumber" jdbcType="VARCHAR" />
+		<result column="area" property="area" jdbcType="VARCHAR" />
+		<result column="school" property="school" jdbcType="VARCHAR" />
+		<result column="classname" property="classname" jdbcType="VARCHAR" />
+		<result column="verifyquestion" property="verifyquestion" jdbcType="VARCHAR" />
+		<result column="verifyanswer" property="verifyanswer" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		
+		<result column="grade" property="grade" jdbcType="INTEGER" />
+		<result column="major" property="major" jdbcType="VARCHAR" />
+		<result column="wx_Openid" property="wxOpenid" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		userid, name, gender, username, permission, password, age, idnumber, identity, mobilenumber,
+		area, school,
+		classname, verifyquestion, verifyanswer, create_time, update_time,grade,major,wx_Openid
+	</sql>
+	<sql id="Base_Dynamic_Where">
+		<where>
+			<if test="name != null">
+				AND name like #{name,jdbcType=VARCHAR}
+			</if>
+			<if test="gender != null">
+				AND gender = #{gender,jdbcType=SMALLINT}
+			</if>
+			<if test="username != null">
+				AND username like #{username,jdbcType=VARCHAR}
+			</if>
+			<if test="permission != null">
+				AND permission like #{permission,jdbcType=VARCHAR}
+			</if>
+			<if test="password != null">
+				AND password = #{password,jdbcType=VARCHAR}
+			</if>
+			<if test="age != null">
+				AND age = #{age,jdbcType=INTEGER}
+			</if>
+			<if test="idnumber != null">
+				AND idnumber like #{idnumber,jdbcType=VARCHAR}
+			</if>
+			<if test="identity != null">
+				AND identity like #{identity,jdbcType=VARCHAR}
+			</if>
+			<if test="mobilenumber != null">
+				AND mobilenumber like #{mobilenumber,jdbcType=VARCHAR}
+			</if>
+			<if test="area != null">
+				AND area like #{area,jdbcType=VARCHAR}
+			</if>
+			<if test="school != null">
+				AND school like #{school,jdbcType=VARCHAR}
+			</if>
+			<if test="classname != null">
+				AND classname like #{classname,jdbcType=VARCHAR}
+			</if>
+			<if test="verifyquestion != null">
+				AND verifyquestion = #{verifyquestion,jdbcType=VARCHAR}
+			</if>
+			<if test="verifyanswer != null">
+				AND verifyanswer = #{verifyanswer,jdbcType=VARCHAR}
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="grade != null">
+				AND grade = #{grade}
+			</if>
+			<if test="major != null">
+				AND major = #{major}
+			</if>
+			<if test="wxOpenid != null">
+				AND wx_Openid = #{wxOpenid}
+			</if>
+		</where>
+	</sql>
+
+
+	<select id="selectAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from user
+		<include refid="Base_Dynamic_Where" />
+		<if test="sortField != null">
+			order by ${sortField} ${sortOrder}
+		</if>
+		<if test="sortField == null">
+			order by update_time desc
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from user
+		where userid = #{userid,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from user
+		where userid = #{userid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="cn.hnzxl.exam.system.model.User">
+		insert into user (userid, name, gender,
+		username, permission, password,
+		age,
+		idnumber, identity,
+		mobilenumber, area, school,
+		classname, verifyquestion, verifyanswer,
+		create_time, update_time,grade,major,wx_Openid)
+		values
+		(#{userid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=SMALLINT},
+		#{username,jdbcType=VARCHAR},
+		#{permission,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+		#{age,jdbcType=INTEGER}, #{idnumber,jdbcType=VARCHAR},
+		#{identity,jdbcType=VARCHAR},
+		#{mobilenumber,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR},
+		#{classname,jdbcType=VARCHAR}, #{verifyquestion,jdbcType=VARCHAR}, #{verifyanswer,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},#{grade},#{major},#{wxOpenid})
+	</insert>
+	<insert id="insertSelective" parameterType="cn.hnzxl.exam.system.model.User">
+		insert into user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userid != null">
+				userid,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="gender != null">
+				gender,
+			</if>
+			<if test="username != null">
+				username,
+			</if>
+			<if test="permission != null">
+				permission,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="age != null">
+				age,
+			</if>
+			<if test="idnumber != null">
+				idnumber,
+			</if>
+			<if test="identity != null">
+				identity,
+			</if>
+			<if test="mobilenumber != null">
+				mobilenumber,
+			</if>
+			<if test="area != null">
+				area,
+			</if>
+			<if test="school != null">
+				school,
+			</if>
+			<if test="classname != null">
+				classname,
+			</if>
+			<if test="verifyquestion != null">
+				verifyquestion,
+			</if>
+			<if test="verifyanswer != null">
+				verifyanswer,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="grade != null">
+				grade,
+			</if>
+			<if test="major != null">
+				major,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userid != null">
+				#{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="gender != null">
+				#{gender,jdbcType=SMALLINT},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="permission != null">
+				#{permission,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				#{age,jdbcType=INTEGER},
+			</if>
+			<if test="idnumber != null">
+				#{idnumber,jdbcType=VARCHAR},
+			</if>
+			<if test="identity != null">
+				#{identity,jdbcType=VARCHAR},
+			</if>
+			<if test="mobilenumber != null">
+				#{mobilenumber,jdbcType=VARCHAR},
+			</if>
+			<if test="area != null">
+				#{area,jdbcType=VARCHAR},
+			</if>
+			<if test="school != null">
+				#{school,jdbcType=VARCHAR},
+			</if>
+			<if test="classname != null">
+				#{classname,jdbcType=VARCHAR},
+			</if>
+			<if test="verifyquestion != null">
+				#{verifyquestion,jdbcType=VARCHAR},
+			</if>
+			<if test="verifyanswer != null">
+				#{verifyanswer,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="grade != null">
+				#{grade},
+			</if>
+			<if test="major != null">
+				#{major},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.hnzxl.exam.system.model.User">
+		update user
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="gender != null">
+				gender = #{gender,jdbcType=SMALLINT},
+			</if>
+			<if test="username != null">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="permission != null">
+				permission = #{permission,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				age = #{age,jdbcType=INTEGER},
+			</if>
+			<if test="idnumber != null">
+				idnumber = #{idnumber,jdbcType=VARCHAR},
+			</if>
+			<if test="identity != null">
+				identity = #{identity,jdbcType=VARCHAR},
+			</if>
+			<if test="mobilenumber != null">
+				mobilenumber = #{mobilenumber,jdbcType=VARCHAR},
+			</if>
+			<if test="area != null">
+				area = #{area,jdbcType=VARCHAR},
+			</if>
+			<if test="school != null">
+				school = #{school,jdbcType=VARCHAR},
+			</if>
+			<if test="classname != null">
+				classname = #{classname,jdbcType=VARCHAR},
+			</if>
+			<if test="verifyquestion != null">
+				verifyquestion = #{verifyquestion,jdbcType=VARCHAR},
+			</if>
+			<if test="verifyanswer != null">
+				verifyanswer = #{verifyanswer,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			
+			<if test="grade != null">
+				grade = #{grade},
+			</if>
+			<if test="major != null">
+				major = #{major},
+			</if>
+			<if test="wxOpenid != null">
+				wx_Openid = #{wxOpenid},
+			</if>
+			 
+		</set>
+		where userid = #{userid,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.hnzxl.exam.system.model.User">
+		update user
+		set name = #{name,jdbcType=VARCHAR},
+		gender =
+		#{gender,jdbcType=SMALLINT},
+		username = #{username,jdbcType=VARCHAR},
+		permission = #{permission,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		age = #{age,jdbcType=INTEGER},
+		idnumber = #{idnumber,jdbcType=VARCHAR},
+		identity = #{identity,jdbcType=VARCHAR},
+		mobilenumber = #{mobilenumber,jdbcType=VARCHAR},
+		area = #{area,jdbcType=VARCHAR},
+		school = #{school,jdbcType=VARCHAR},
+		classname = #{classname,jdbcType=VARCHAR},
+		verifyquestion = #{verifyquestion,jdbcType=VARCHAR},
+		verifyanswer = #{verifyanswer,jdbcType=VARCHAR},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		wx_Openid = #{wxOpenid}
+		where userid =
+		#{userid,jdbcType=VARCHAR}
+	</update>
+</mapper>

@@ -1,0 +1,41 @@
+@charset "utf-8";
+/* CSS Document */
+
+.tishi-title{
+ 	margin:0 50px;
+    text-align: center;
+    height:44px;
+    line-height: 44px;
+    font-size:16px;
+	}
+.tishi-header{
+	height: 55px;
+	width: 100%;
+	background: #fafafa;
+}
+.tishi-head{
+	background: #fff;
+	height: 45px;
+	line-height: 45px;
+}
+.header-close{
+	height: 45px;
+	width: 40px;
+	float: right;
+}
+.header-close img{
+	margin-top: 13px;
+	height: 20px;
+	height: 20px;
+}
+.tishi-jiao{
+	text-align: center;
+	font-size: 30px;
+	color: #ff0000;
+	line-height: 120px;
+}
+.tishi-detail{
+	display: block;
+	padding:0 10px;
+	text-align: center;
+}

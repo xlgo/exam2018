@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.hnzxl.exam.project.dao.ExaminationQuestionMapper">
+	<resultMap id="BaseResultMap" type="cn.hnzxl.exam.project.model.ExaminationQuestion">
+		<id column="examination_question_id" property="examinationQuestionId" jdbcType="VARCHAR" />
+		<result column="examination_question_examination_id" property="examinationQuestionExaminationId" jdbcType="VARCHAR" />
+		<result column="examination_question_headline_id" property="examinationQuestionHeadlineId" jdbcType="VARCHAR" />
+		<result column="examination_question_question_id" property="examinationQuestionQuestionId" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		examination_question_id, examination_question_examination_id, examination_question_headline_id,
+		examination_question_question_id
+	</sql>
+
+	<sql id="Base_Dynamic_Where">
+		<where>
+			<if test="examinationQuestionExaminationId != null">
+				AND examination_question_examination_id = #{examinationQuestionExaminationId,jdbcType=VARCHAR}
+			</if>
+			<if test="examinationQuestionHeadlineId != null">
+				AND examination_question_headline_id = #{examinationQuestionHeadlineId,jdbcType=VARCHAR}
+			</if>
+			<if test="examinationQuestionQuestionId != null">
+				AND examination_question_question_id = #{examinationQuestionQuestionId,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
+	<select id="selectAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from examination_question
+		<include refid="Base_Dynamic_Where" />
+		<if test="sortField != null">
+			order by ${sortField} ${sortOrder}
+		</if>
+		<if test="sortField == null">
+			order by examination_question_examination_id desc
+		</if>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from examination_question
+		where examination_question_id = #{examinationQuestionId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from examination_question
+		where examination_question_id =
+		#{examinationQuestionId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="cn.hnzxl.exam.project.model.ExaminationQuestion">
+		insert into examination_question (examination_question_id,
+		examination_question_examination_id,
+		examination_question_headline_id, examination_question_question_id
+		)
+		values
+		(#{examinationQuestionId,jdbcType=VARCHAR}, #{examinationQuestionExaminationId,jdbcType=VARCHAR},
+		#{examinationQuestionHeadlineId,jdbcType=VARCHAR}, #{examinationQuestionQuestionId,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="cn.hnzxl.exam.project.model.ExaminationQuestion">
+		insert into examination_question
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="examinationQuestionId != null">
+				examination_question_id,
+			</if>
+			<if test="examinationQuestionExaminationId != null">
+				examination_question_examination_id,
+			</if>
+			<if test="examinationQuestionHeadlineId != null">
+				examination_question_headline_id,
+			</if>
+			<if test="examinationQuestionQuestionId != null">
+				examination_question_question_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="examinationQuestionId != null">
+				#{examinationQuestionId,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationQuestionExaminationId != null">
+				#{examinationQuestionExaminationId,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationQuestionHeadlineId != null">
+				#{examinationQuestionHeadlineId,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationQuestionQuestionId != null">
+				#{examinationQuestionQuestionId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.hnzxl.exam.project.model.ExaminationQuestion">
+		update examination_question
+		<set>
+			<if test="examinationQuestionExaminationId != null">
+				examination_question_examination_id = #{examinationQuestionExaminationId,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationQuestionHeadlineId != null">
+				examination_question_headline_id = #{examinationQuestionHeadlineId,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationQuestionQuestionId != null">
+				examination_question_question_id = #{examinationQuestionQuestionId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where examination_question_id = #{examinationQuestionId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.hnzxl.exam.project.model.ExaminationQuestion">
+		update examination_question
+		set examination_question_examination_id
+		= #{examinationQuestionExaminationId,jdbcType=VARCHAR},
+		examination_question_headline_id =
+		#{examinationQuestionHeadlineId,jdbcType=VARCHAR},
+		examination_question_question_id =
+		#{examinationQuestionQuestionId,jdbcType=VARCHAR}
+		where examination_question_id =
+		#{examinationQuestionId,jdbcType=VARCHAR}
+	</update>
+</mapper>

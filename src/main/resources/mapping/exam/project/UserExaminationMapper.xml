@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.hnzxl.exam.project.dao.UserExaminationMapper">
+	<resultMap id="BaseResultMap" type="cn.hnzxl.exam.project.model.UserExamination">
+		<id column="user_examination_id" property="userExaminationId" jdbcType="VARCHAR" />
+		<result column="user_examination_userid" property="userExaminationUserid" jdbcType="VARCHAR" />
+		<result column="user_examination_examination_id" property="userExaminationExaminationId" jdbcType="VARCHAR" />
+		<result column="user_examination_examination_name" property="userExaminationExaminationName" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="user_examination_ip" property="userExaminationIp" jdbcType="VARCHAR" />
+		<result column="user_examination_submit_time" property="userExaminationSubmitTime" jdbcType="TIMESTAMP" />
+		<result column="user_examination_time_length" property="userExaminationTimeLength" jdbcType="DOUBLE" />
+		<result column="user_examination_score" property="userExaminationScore" jdbcType="INTEGER" />
+		<result column="user_examination_borwseinfo" property="userExaminationBorwseinfo" jdbcType="VARCHAR" />
+		<result column="user_examination_systeminfo" property="userExaminationSysteminfo" jdbcType="VARCHAR" />
+		<result column="user_examination_status" property="userExaminationStatus" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		user_examination_id, user_examination_userid, user_examination_examination_id, create_time,
+		user_examination_ip, user_examination_submit_time, user_examination_time_length,
+		user_examination_score,
+		user_examination_borwseinfo, user_examination_systeminfo,
+		user_examination_status
+	</sql>
+
+	<sql id="Base_Dynamic_Where">
+		<where>
+			AND user_examination_examination_id = examination_id
+			<if test="userExaminationUserid != null">
+				AND user_examination_userid = #{userExaminationUserid,jdbcType=VARCHAR}
+			</if>
+			<if test="userExaminationExaminationId != null">
+				AND user_examination_examination_id = #{userExaminationExaminationId,jdbcType=VARCHAR}
+			</if>
+			<if test="createTime != null">
+				AND create_time = #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userExaminationIp != null">
+				AND user_examination_ip = #{userExaminationIp,jdbcType=VARCHAR}
+			</if>
+			<if test="userExaminationSubmitTime != null">
+				AND user_examination_submit_time = #{userExaminationSubmitTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userExaminationTimeLength != null">
+				AND user_examination_time_length = #{userExaminationTimeLength,jdbcType=DOUBLE}
+			</if>
+			<if test="userExaminationScore != null">
+				AND user_examination_score = #{userExaminationScore,jdbcType=INTEGER}
+			</if>
+			<if test="userExaminationBorwseinfo != null">
+				AND user_examination_borwseinfo = #{userExaminationBorwseinfo,jdbcType=VARCHAR}
+			</if>
+			<if test="userExaminationSysteminfo != null">
+				AND user_examination_systeminfo = #{userExaminationSysteminfo,jdbcType=VARCHAR}
+			</if>
+			<if test="userExaminationStatus != null">
+				AND user_examination_status = #{userExaminationStatus,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
+	<select id="selectAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />,examination_subject user_examination_examination_name
+		from user_examination,examination
+		<include refid="Base_Dynamic_Where" />
+		<if test="sortField != null">
+			order by ${sortField} ${sortOrder}
+		</if>
+		<if test="sortField == null">
+			order by create_time desc
+		</if>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from user_examination
+		where user_examination_id = #{userExaminationId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from user_examination
+		where user_examination_id =
+		#{userExaminationId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="cn.hnzxl.exam.project.model.UserExamination">
+		insert into user_examination (user_examination_id, user_examination_userid,
+		user_examination_examination_id, create_time,
+		user_examination_ip, user_examination_submit_time,
+		user_examination_time_length, user_examination_score,
+		user_examination_borwseinfo, user_examination_systeminfo,
+		user_examination_status)
+		values (#{userExaminationId,jdbcType=VARCHAR}, #{userExaminationUserid,jdbcType=VARCHAR},
+		#{userExaminationExaminationId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{userExaminationIp,jdbcType=VARCHAR}, #{userExaminationSubmitTime,jdbcType=TIMESTAMP},
+		#{userExaminationTimeLength,jdbcType=DOUBLE}, #{userExaminationScore,jdbcType=INTEGER},
+		#{userExaminationBorwseinfo,jdbcType=VARCHAR}, #{userExaminationSysteminfo,jdbcType=VARCHAR},
+		#{userExaminationStatus,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="cn.hnzxl.exam.project.model.UserExamination">
+		insert into user_examination
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userExaminationId != null">
+				user_examination_id,
+			</if>
+			<if test="userExaminationUserid != null">
+				user_examination_userid,
+			</if>
+			<if test="userExaminationExaminationId != null">
+				user_examination_examination_id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="userExaminationIp != null">
+				user_examination_ip,
+			</if>
+			<if test="userExaminationSubmitTime != null">
+				user_examination_submit_time,
+			</if>
+			<if test="userExaminationTimeLength != null">
+				user_examination_time_length,
+			</if>
+			<if test="userExaminationScore != null">
+				user_examination_score,
+			</if>
+			<if test="userExaminationBorwseinfo != null">
+				user_examination_borwseinfo,
+			</if>
+			<if test="userExaminationSysteminfo != null">
+				user_examination_systeminfo,
+			</if>
+			<if test="userExaminationStatus != null">
+				user_examination_status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userExaminationId != null">
+				#{userExaminationId,jdbcType=VARCHAR},
+			</if>
+			<if test="userExaminationUserid != null">
+				#{userExaminationUserid,jdbcType=VARCHAR},
+			</if>
+			<if test="userExaminationExaminationId != null">
+				#{userExaminationExaminationId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userExaminationIp != null">
+				#{userExaminationIp,jdbcType=VARCHAR},
+			</if>
+			<if test="userExaminationSubmitTime != null">
+				#{userExaminationSubmitTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userExaminationTimeLength != null">
+				#{userExaminationTimeLength,jdbcType=DOUBLE},
+			</if>
+			<if test="userExaminationScore != null">
+				#{userExaminationScore,jdbcType=INTEGER},
+			</if>
+			<if test="userExaminationBorwseinfo != null">
+				#{userExaminationBorwseinfo,jdbcType=VARCHAR},
+			</if>
+			<if test="userExaminationSysteminfo != null">
+				#{userExaminationSysteminfo,jdbcType=VARCHAR},
+			</if>
+			<if test="userExaminationStatus != null">
+				#{userExaminationStatus,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.hnzxl.exam.project.model.UserExamination">
+		update user_examination
+		<set>
+			<if test="userExaminationUserid != null">
+				user_examination_userid = #{userExaminationUserid,jdbcType=VARCHAR},
+			</if>
+			<if test="userExaminationExaminationId != null">
+				user_examination_examination_id = #{userExaminationExaminationId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userExaminationIp != null">
+				user_examination_ip = #{userExaminationIp,jdbcType=VARCHAR},
+			</if>
+			<if test="userExaminationSubmitTime != null">
+				user_examination_submit_time = #{userExaminationSubmitTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userExaminationTimeLength != null">
+				user_examination_time_length = #{userExaminationTimeLength,jdbcType=DOUBLE},
+			</if>
+			<if test="userExaminationScore != null">
+				user_examination_score = #{userExaminationScore,jdbcType=INTEGER},
+			</if>
+			<if test="userExaminationBorwseinfo != null">
+				user_examination_borwseinfo = #{userExaminationBorwseinfo,jdbcType=VARCHAR},
+			</if>
+			<if test="userExaminationSysteminfo != null">
+				user_examination_systeminfo = #{userExaminationSysteminfo,jdbcType=VARCHAR},
+			</if>
+			<if test="userExaminationStatus != null">
+				user_examination_status = #{userExaminationStatus,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where user_examination_id = #{userExaminationId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.hnzxl.exam.project.model.UserExamination">
+		update user_examination
+		set user_examination_userid =
+		#{userExaminationUserid,jdbcType=VARCHAR},
+		user_examination_examination_id =
+		#{userExaminationExaminationId,jdbcType=VARCHAR},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		user_examination_ip =
+		#{userExaminationIp,jdbcType=VARCHAR},
+		user_examination_submit_time = #{userExaminationSubmitTime,jdbcType=TIMESTAMP},
+		user_examination_time_length = #{userExaminationTimeLength,jdbcType=DOUBLE},
+		user_examination_score =
+		#{userExaminationScore,jdbcType=INTEGER},
+		user_examination_borwseinfo = #{userExaminationBorwseinfo,jdbcType=VARCHAR},
+		user_examination_systeminfo = #{userExaminationSysteminfo,jdbcType=VARCHAR},
+		user_examination_status =
+		#{userExaminationStatus,jdbcType=VARCHAR}
+		where user_examination_id = #{userExaminationId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 
+	排名查询
+	 -->
+
+	<select id="selectRanking" resultType="java.lang.Integer" parameterType="cn.hnzxl.exam.project.model.UserExamination">
+		select count(1)+1 from user_examination where
+			 user_examination_status=1 and user_examination_score >=(
+			select user_examination_score from  user_examination where  user_examination_userid=#{userExaminationUserid} and user_examination_examination_id = #{userExaminationExaminationId}
+			) and user_examination_examination_id = #{userExaminationExaminationId}
+	</select>
+	
+	<!-- 
+		参赛人数统计
+	 -->
+	<select id="selectEnterCount" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT
+			t2.examination_subject examSubject,
+			t2.examination_start_time startTime,
+			Count(t1.user_examination_userid) count
+		FROM
+			user_examination t1,
+			examination t2
+		WHERE
+			t1.user_examination_examination_id = t2.examination_id
+		GROUP BY
+			t1.user_examination_examination_id
+	</select>
+	
+	<!-- 
+		查询奖励情况
+	 -->
+	<select id="selectAward" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT
+			t1.user_examination_id userExaminationId,
+			t2.userid,
+			t2.`name`,
+			t1.user_examination_score userExaminationScore,
+			t1.user_examination_time_length userExaminationTimeLength,
+			t1.user_examination_systeminfo awardStatus,
+			t2.mobilenumber,
+			t2.idnumber
+		FROM
+			user_examination t1,
+			`user` t2
+		WHERE
+			t1.user_examination_userid = t2.userid
+		AND t1.user_examination_status = 1
+		AND t1.user_examination_examination_id = #{userExaminationExaminationId,jdbcType=VARCHAR}
+		ORDER BY
+			t1.user_examination_score DESC,
+			t1.user_examination_time_length
+		LIMIT ${limit}
+
+	</select>
+	
+	<!-- 
+		学校参与人数统计
+	 -->
+	<select id="selectSchoolCount" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT
+			t2.school,
+			Count(t1.user_examination_userid) count,
+			SUM(t1.user_examination_score) sumScore
+		FROM
+			user_examination AS t1,
+			`user` AS t2
+		WHERE
+			t1.user_examination_userid = t2.userid
+		<if test="@Ognl@isNotEmpty(userExaminationExaminationId)">
+			AND t1.user_examination_examination_id =  #{userExaminationExaminationId,jdbcType=VARCHAR}
+		</if>
+		GROUP BY
+			t2.school
+		ORDER BY
+			sumScore DESC,count
+		LIMIT ${limit}
+	
+	</select>
+	
+	<!-- 分数统计 -->
+		<select id="selectScoreCount" resultType="java.util.Map" parameterType="java.util.Map">
+			SELECT *
+			FROM
+			user_examination ue left join `user` u on ue.user_examination_userid = u.userid 
+			<where>
+				<if test="@Ognl@isNotEmpty(userExaminationExaminationId)">
+					AND ue.user_examination_examination_id =  #{userExaminationExaminationId}
+				</if>
+				<if test="school!=null">
+					AND u.school like #{school}
+				</if>
+				<if test="systeminfo!=null">
+					AND ue.user_examination_systeminfo = #{systeminfo}
+				</if>
+			</where>
+			order by ue.user_examination_score desc,user_examination_time_length
+			LIMIT ${limit}
+	</select>
+</mapper>

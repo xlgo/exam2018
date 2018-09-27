@@ -1,0 +1,34 @@
+@charset "utf-8";
+/* CSS Document */
+html,body,div,p{ padding:0; margin:0; border:0;}
+ul,li{list-style:none;}
+body{background:#fff url(images/loginBody.jpg) repeat-x; font-size:14px;font-family:simSun,arial;font-size:12px;color:#4d4d4d;}
+
+.loginWraper{width:1003px; margin:0 auto; }
+
+.loginTop{height:135px; background:url(images/loginTop.jpg) repeat-x;text-align:center;position:relative;}
+.loginTop img{ margin:45px 0 0;}
+.myTips{position:absolute;top:10px;right:40px;}
+.myTips a{color:#cae8ff;margin:0 6px;text-decoration:none;}
+
+.loginMain{height:437px;}
+.loginMainLeft{ background:url(images/loginMainLeft.jpg) no-repeat; width:329px; height:437px; float:left;}
+.loginMainCenter{ background:url(images/loginMainCenter.jpg) no-repeat; width:346px; height:437px; float:left;}
+.loginMainRight{ background:url(images/loginMainRight.jpg) no-repeat; width:328px; height:437px; float:left;}
+
+.loginForm{width:350px;padding-top:20px;}
+.loginForm li{line-height:45px; text-align:left;}
+.loginForm li label{width:60px;display:inline-block; font-size:14px;}
+.loginForm li .txt1{ width:208px; height:26px; line-height:26px; overflow:hidden; padding-left:5px; border:1px solid #d9d9d9;border-top:1px solid #d6d6d6;}
+.loginForm li.saveInfo{position:relative; top:-5px; padding-left:57px;}
+.loginForm li.saveInfo input{position:relative; top:2px;}
+.loginForm li .loginBtn{background:url(images/loginBtn.gif) no-repeat; width:102px; height:32px; border:none; cursor:pointer;}
+
+.loginBtn{background:url(images/loginBtn.gif) no-repeat; width:101px; height:29px; border:0; cursor:pointer; margin:0 0 0 60px;}
+
+.bottom{height:26px; text-align:center; line-height:26px; color:#656769; font-family: Arial; }
+
+.loginForm li .txtsmall{width:100px;}
+.yzm{position:relative;top:8px;*top:5px;margin-left:3px;}
+
+.exam{height:600px;width:980px;margin:0 auto;}

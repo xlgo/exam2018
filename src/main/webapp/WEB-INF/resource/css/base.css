@@ -1,0 +1,19 @@
+table>tbody>tr.danger{
+	background-color: #f2dede;
+}
+
+table>tbody>tr.warning{
+	background-color: #fcf8e3;
+}
+
+table>tbody>tr.info{
+	background-color: #d9edf7;
+}
+
+table>tbody>tr.success{
+	background-color: #dff0d8;
+}
+
+.grid .gridTbody .selected{
+	background-color: #f5f5f5;
+}

@@ -1,0 +1,13 @@
+body {
+font: normal 100% "微软雅黑",Helvetica, Arial, sans-serif;
+}
+.tip{margin:10px;padding:20px;}
+.tip img{margin:0 auto;}
+.tip p{font-size: 14px;margin:20px 0;}
+.tip p.textCenter{text-align: center;}
+
+.btn{background:#7787A9;color:#fff;padding:12px 25px;font-size:14px;text-align: center;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;}
+.btn:hover{text-decoration: none;}
+
+
+

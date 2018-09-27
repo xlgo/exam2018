@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.hnzxl.exam.project.dao.UserQuestionMapper">
+	<resultMap id="BaseResultMap" type="cn.hnzxl.exam.project.model.UserQuestion">
+		<id column="user_question_id" property="userQuestionId" jdbcType="VARCHAR" />
+		<result column="user_question_examination_id" property="userQuestionExaminationId" jdbcType="VARCHAR" />
+		<result column="user_question_headline_id" property="userQuestionHeadlineId" jdbcType="VARCHAR" />
+		<result column="user_question_userid" property="userQuestionUserid" jdbcType="VARCHAR" />
+		<result column="user_question_question_id" property="userQuestionQuestionId" jdbcType="VARCHAR" />
+		<result column="user_question_score" property="userQuestionScore" jdbcType="INTEGER" />
+		<result column="user_question_right_answer" property="userQuestionRightAnswer" jdbcType="VARCHAR" />
+		<result column="user_question_user_answer" property="userQuestionUserAnswer" jdbcType="VARCHAR" />
+		<result column="user_question_sort" property="userQuestionSort" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		user_question_id, user_question_examination_id, user_question_headline_id, user_question_userid,
+		user_question_question_id, user_question_score, user_question_right_answer, user_question_user_answer
+	</sql>
+
+	<sql id="Base_Dynamic_Where">
+		<where>
+			<if test="userQuestionExaminationId != null">
+				AND user_question_examination_id = #{userQuestionExaminationId,jdbcType=VARCHAR}
+			</if>
+			<if test="userQuestionHeadlineId != null">
+				AND user_question_headline_id = #{userQuestionHeadlineId,jdbcType=VARCHAR}
+			</if>
+			<if test="userQuestionUserid != null">
+				AND user_question_userid = #{userQuestionUserid,jdbcType=VARCHAR}
+			</if>
+			<if test="userQuestionQuestionId != null">
+				AND user_question_question_id = #{userQuestionQuestionId,jdbcType=VARCHAR}
+			</if>
+			<if test="userQuestionScore != null">
+				AND user_question_score = #{userQuestionScore,jdbcType=INTEGER}
+			</if>
+			<if test="userQuestionRightAnswer != null">
+				AND user_question_right_answer = #{userQuestionRightAnswer,jdbcType=VARCHAR}
+			</if>
+			<if test="userQuestionUserAnswer != null">
+				AND user_question_user_answer = #{userQuestionUserAnswer,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
+	<select id="selectAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from user_question
+		<include refid="Base_Dynamic_Where" />
+		<if test="sortField != null">
+			order by ${sortField} ${sortOrder}
+		</if>
+		<if test="sortField == null">
+			order by user_question_sort asc
+		</if>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from user_question
+		where user_question_id = #{userQuestionId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from user_question
+		where user_question_id =
+		#{userQuestionId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertBatch" >
+		insert into user_question (user_question_id, user_question_examination_id,
+		user_question_headline_id, user_question_userid,
+		user_question_question_id, user_question_score,
+		user_question_right_answer, user_question_user_answer,user_question_sort
+		)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.userQuestionId,jdbcType=VARCHAR},
+			#{item.userQuestionExaminationId,jdbcType=VARCHAR},
+			#{item.userQuestionHeadlineId,jdbcType=VARCHAR},
+			#{item.userQuestionUserid,jdbcType=VARCHAR},
+			#{item.userQuestionQuestionId,jdbcType=VARCHAR},
+			#{item.userQuestionScore,jdbcType=INTEGER},
+			#{item.userQuestionRightAnswer,jdbcType=VARCHAR},
+			#{item.userQuestionUserAnswer,jdbcType=VARCHAR},
+			#{item.userQuestionSort,jdbcType=INTEGER}
+			)
+		</foreach>
+		 
+	</insert>
+	<insert id="insert" parameterType="cn.hnzxl.exam.project.model.UserQuestion">
+		insert into user_question (user_question_id, user_question_examination_id,
+		user_question_headline_id, user_question_userid,
+		user_question_question_id, user_question_score,
+		user_question_right_answer, user_question_user_answer,user_question_sort
+		)
+		values (#{userQuestionId,jdbcType=VARCHAR},
+		#{userQuestionExaminationId,jdbcType=VARCHAR},
+		#{userQuestionHeadlineId,jdbcType=VARCHAR},
+		#{userQuestionUserid,jdbcType=VARCHAR},
+		#{userQuestionQuestionId,jdbcType=VARCHAR},
+		#{userQuestionScore,jdbcType=INTEGER},
+		#{userQuestionRightAnswer,jdbcType=VARCHAR},
+		#{userQuestionUserAnswer,jdbcType=VARCHAR},
+		#{userQuestionSort,jdbcType=INTEGER}
+		)
+	</insert>
+	
+	<insert id="insertSelective" parameterType="cn.hnzxl.exam.project.model.UserQuestion">
+		insert into user_question
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userQuestionId != null">
+				user_question_id,
+			</if>
+			<if test="userQuestionExaminationId != null">
+				user_question_examination_id,
+			</if>
+			<if test="userQuestionHeadlineId != null">
+				user_question_headline_id,
+			</if>
+			<if test="userQuestionUserid != null">
+				user_question_userid,
+			</if>
+			<if test="userQuestionQuestionId != null">
+				user_question_question_id,
+			</if>
+			<if test="userQuestionScore != null">
+				user_question_score,
+			</if>
+			<if test="userQuestionRightAnswer != null">
+				user_question_right_answer,
+			</if>
+			<if test="userQuestionUserAnswer != null">
+				user_question_user_answer,
+			</if>
+			<if test="userQuestionSort != null">
+				user_question_sort,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userQuestionId != null">
+				#{userQuestionId,jdbcType=VARCHAR},
+			</if>
+			<if test="userQuestionExaminationId != null">
+				#{userQuestionExaminationId,jdbcType=VARCHAR},
+			</if>
+			<if test="userQuestionHeadlineId != null">
+				#{userQuestionHeadlineId,jdbcType=VARCHAR},
+			</if>
+			<if test="userQuestionUserid != null">
+				#{userQuestionUserid,jdbcType=VARCHAR},
+			</if>
+			<if test="userQuestionQuestionId != null">
+				#{userQuestionQuestionId,jdbcType=VARCHAR},
+			</if>
+			<if test="userQuestionScore != null">
+				#{userQuestionScore,jdbcType=INTEGER},
+			</if>
+			<if test="userQuestionRightAnswer != null">
+				#{userQuestionRightAnswer,jdbcType=VARCHAR},
+			</if>
+			<if test="userQuestionUserAnswer != null">
+				#{userQuestionUserAnswer,jdbcType=VARCHAR},
+			</if>
+			<if test="userQuestionSort != null">
+				#{userQuestionSort,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.hnzxl.exam.project.model.UserQuestion">
+		update user_question
+		<set>
+			<if test="userQuestionExaminationId != null">
+				user_question_examination_id = #{userQuestionExaminationId,jdbcType=VARCHAR},
+			</if>
+			<if test="userQuestionHeadlineId != null">
+				user_question_headline_id = #{userQuestionHeadlineId,jdbcType=VARCHAR},
+			</if>
+			<if test="userQuestionUserid != null">
+				user_question_userid = #{userQuestionUserid,jdbcType=VARCHAR},
+			</if>
+			<if test="userQuestionQuestionId != null">
+				user_question_question_id = #{userQuestionQuestionId,jdbcType=VARCHAR},
+			</if>
+			<if test="userQuestionScore != null">
+				user_question_score = #{userQuestionScore,jdbcType=INTEGER},
+			</if>
+			<if test="userQuestionRightAnswer != null">
+				user_question_right_answer = #{userQuestionRightAnswer,jdbcType=VARCHAR},
+			</if>
+			<if test="userQuestionUserAnswer != null">
+				user_question_user_answer = #{userQuestionUserAnswer,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where user_question_id = #{userQuestionId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.hnzxl.exam.project.model.UserQuestion">
+		update user_question
+		set user_question_examination_id =
+		#{userQuestionExaminationId,jdbcType=VARCHAR},
+		user_question_headline_id = #{userQuestionHeadlineId,jdbcType=VARCHAR},
+		user_question_userid = #{userQuestionUserid,jdbcType=VARCHAR},
+		user_question_question_id =
+		#{userQuestionQuestionId,jdbcType=VARCHAR},
+		user_question_score = #{userQuestionScore,jdbcType=INTEGER},
+		user_question_right_answer = #{userQuestionRightAnswer,jdbcType=VARCHAR},
+		user_question_user_answer =
+		#{userQuestionUserAnswer,jdbcType=VARCHAR}
+		where user_question_id = #{userQuestionId,jdbcType=VARCHAR}
+	</update>
+	<!-- 
+	更新问题答案
+	 -->
+	<update id="updateUserRightAnswer" parameterType="cn.hnzxl.exam.project.model.UserQuestion">
+		update user_question
+		set 
+		user_question_user_answer = #{userQuestionUserAnswer,jdbcType=VARCHAR}
+		where user_question_examination_id = #{userQuestionExaminationId,jdbcType=VARCHAR}
+		AND user_question_userid = #{userQuestionUserid,jdbcType=VARCHAR}
+		AND user_question_question_id = #{userQuestionQuestionId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateUserRightAnswer2" >
+		<foreach collection="list" item="item" separator=";">
+			update user_question
+			set 
+			user_question_user_answer = #{item.userQuestionUserAnswer,jdbcType=VARCHAR}
+			where user_question_examination_id = #{item.userQuestionExaminationId,jdbcType=VARCHAR}
+			AND user_question_userid = #{item.userQuestionUserid,jdbcType=VARCHAR}
+			AND user_question_question_id = #{item.userQuestionQuestionId,jdbcType=VARCHAR}
+		</foreach>
+	</update>
+	
+	
+	<!-- 
+	获取用户分数
+	 -->
+	 <select id="selectUserScore" resultType="java.lang.Integer" parameterType="cn.hnzxl.exam.project.model.UserQuestion">
+		SELECT Sum(user_question.user_question_score)
+		FROM user_question
+		WHERE user_question.user_question_right_answer = user_question.user_question_user_answer
+			AND user_question_examination_id = #{userQuestionExaminationId,jdbcType=VARCHAR}
+			AND user_question_userid = #{userQuestionUserid,jdbcType=VARCHAR}
+	</select>
+	<!-- 
+		前10答对排名
+	 -->
+	<select id="selectRightSort" resultType="java.util.Map" parameterType="cn.hnzxl.exam.project.model.UserQuestion">
+		SELECT
+			t2.question_type type,
+			t1.user_question_question_id,
+			t2.question_subject questionSubject,
+			count(*) count
+		FROM
+			user_question t1,
+			question t2
+		WHERE
+			t1.user_question_question_id = t2.question_id
+		AND t1.user_question_right_answer = t1.user_question_user_answer
+		GROUP BY
+			t1.user_question_question_id
+		ORDER BY
+			count DESC
+		LIMIT 10
+	</select>
+	
+	<!-- 
+		前10答错排名
+	 -->
+	<select id="selectErrorSort" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT
+			t2.question_type type,
+			t1.user_question_question_id,
+			t2.question_subject questionSubject,
+			count(*) count
+		FROM
+			user_question t1,
+			question t2
+		WHERE
+			t1.user_question_question_id = t2.question_id
+		AND t1.user_question_right_answer != t1.user_question_user_answer
+		GROUP BY
+			t1.user_question_question_id
+		ORDER BY
+			count DESC
+		LIMIT 10
+	</select>
+</mapper>
