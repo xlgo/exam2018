@@ -87,6 +87,7 @@ public class LoginAndLogOutController {
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
 		Subject subject = SecurityUtils.getSubject();
 		subject.logout();
+
 	    return new ModelAndView("redirect:login2");
 	}
 	

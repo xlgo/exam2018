@@ -22,7 +22,7 @@
     <a href="<c:url value="/m/startExam"/>"><div class="index-botton " >开始答题</div></a>
     <a href="<c:url value="/m/userExamInfo"/>"><div class="index-botton ">成绩查询</div></a>
     <a href="<c:url value="/m/resetPassword"/>"><div class="index-botton ">修改密码</div></a>
-    <a href="<c:url value="/logout"/>"><div class="index-botton ">退出系统</div></a>
+    <a href="<c:url value="/m/logout"/>"><div class="index-botton ">退出系统</div></a>
 </div>
 
 

@@ -42,6 +42,15 @@ public class UserService extends BaseService<User, String> {
 		return users.get(0);
 	}
 	
+	public User selectByWxOpenid(String wxOpenid){
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("wxOpenid", wxOpenid);
+		List<User>  users  =  userMapper.selectAll(params);
+		if(users == null || users.size() ==0){
+			return null;
+		}
+		return users.get(0);
+	}
 	/**
 	 * 插入的时候对用户密码进行加密
 	 */
