@@ -115,7 +115,12 @@ public class MobileExamController {
 			case "CLICK"://菜单点击
 				switch (message.getEventKey()) {
 				case "start_exam":
-					content = message.getFromUserName();
+					String url = WeiXinUtil.hostName+"/m/login?openId="+message.getFromUserName();
+					url+="&signature="+DigestUtils.md5Hex(message.getFromUserName()+WeiXinUtil.appId);
+					content="<a href='"+url+"'>开始答题</a>";
+					break;
+				case "good":
+					content="谢谢支持，我们会更加努力！";
 					break;
 				default:
 					content = "未定义菜单功能！";
@@ -128,11 +133,11 @@ public class MobileExamController {
 			}
 			
 		}else if(MsgType.text.name().equals(msgType)){
-			if(StringUtils.contains(message.getContent(), "考试")){
+			if(StringUtils.contains(message.getContent(), "答题") || StringUtils.contains(message.getContent(), "考试")){
 				//String userInfo = WeiXinUtil.userInfo(message.getFromUserName());
 				String url = WeiXinUtil.hostName+"/m/login?openId="+message.getFromUserName();
 				url+="&signature="+DigestUtils.md5Hex(message.getFromUserName()+WeiXinUtil.appId);
-				content="<a href='"+url+"'>开始考试</a>";
+				content="<a href='"+url+"'>开始答题</a>";
 			}else{
 				content=message.getContent();
 			}
@@ -232,7 +237,7 @@ public class MobileExamController {
 			
 			try {
 				if(sessOpenId==null){
-					throw new AccountException("参数错误，请关注公众号后通过最新消息进入开始考试！"); 
+					throw new AccountException("参数错误，请关注公众号后通过最新消息进入开始答题！"); 
 				}
 				
 				String md5Password = MD5Util.MD5(username + password);
@@ -251,7 +256,7 @@ public class MobileExamController {
 					updUser.setWxOpenid(sessOpenId);
 					userService.updateByPrimaryKeySelective(updUser);
 				}else if(!user.getWxOpenid().equals(sessOpenId)){
-					throw new AccountException("请使用该用户注册或首次登陆的微信进行考试！");
+					throw new AccountException("请使用该用户注册或首次登陆的微信进行答题！");
 				}
 				//String identity = user.getIdentity();
 			} catch (AccountException e) {
