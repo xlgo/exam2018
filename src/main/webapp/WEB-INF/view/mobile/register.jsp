@@ -25,7 +25,7 @@
 		});
 		$(".login-tijiao").click(function(){
 			$("form").submit();
-		});
+		}); 
 		//加载学院信息
 		$.get("<c:url value="/resource/data/school.json"/>",function(data){
 			schoolInfo= JSON.parse(data);
