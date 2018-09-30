@@ -57,6 +57,7 @@
 <div class="common-wrapper">
 	<div class="login-index">
 		<form id="login-form" action="<c:url value="/m/login"/>" method="post" >
+		<input type="hidden" class="openId" value="${openId}">
     	<div class="login-yong">
         	<div class="login-biao">
             	<img src="<c:url value="/resource/mobile/image/user.jpg"/>" class="login-tu" />

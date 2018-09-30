@@ -41,6 +41,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		<property name="filterChainDefinitions">
 			<value>
 				/ =anon
+				/favicon.ico =anon
 				/gt/** = anon
 				/resource/** = anon
 				/login = anon

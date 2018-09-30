@@ -5,52 +5,107 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="xml")
 public class MPMessage {
-	@XmlElement
-	private String ToUserName;
-	@XmlElement
-	private String FromUserName;
-	@XmlElement
-	private String CreateTime;
-	@XmlElement
-	private String MsgType; //这里有个空格的
-	@XmlElement
-	private String Content; 
-	@XmlElement
-	private String MsgId;
+	//开发者微信号
+	private String toUserName;
+	
+	//发送方帐号（一个OpenID）
+	private String fromUserName;
+	
+	//消息创建时间 （整型）
+	private String createTime;
+	
+	//消息类型(event,text,image,voice,video,music,news)
+	private String msgType; //这里有个空格的
+	
+	
+	private String content;
+	
+	private String msgId;
+	//subscribe(订阅)、unsubscribe(取消订阅),CLICK(菜单单击)
+	
+	private String event;
+	//事件KEY值，qrscene_为前缀，后面为二维码的参数值
+	//事件KEY值，与自定义菜单接口中KEY值对应
+	
+	private String eventKey;
+	//二维码的ticket，可用来换取二维码图片
+	//事件KEY值，是一个32位无符号整数，即创建二维码时的二维码scene_id
+	private String ticket;
+	
+	private String mediaId;
+	
+	@XmlElement(name="ToUserName")
 	public String getToUserName() {
-		return ToUserName;
+		return toUserName;
 	}
 	public void setToUserName(String toUserName) {
-		ToUserName = toUserName;
+		this.toUserName = toUserName;
 	}
+	
+	@XmlElement(name="FromUserName")
 	public String getFromUserName() {
-		return FromUserName;
+		return fromUserName;
 	}
 	public void setFromUserName(String fromUserName) {
-		FromUserName = fromUserName;
+		this.fromUserName = fromUserName;
 	}
+	@XmlElement(name="CreateTime")
 	public String getCreateTime() {
-		return CreateTime;
+		return createTime;
 	}
 	public void setCreateTime(String createTime) {
-		CreateTime = createTime;
+		this.createTime = createTime;
 	}
+	@XmlElement(name="MsgType")
 	public String getMsgType() {
-		return MsgType;
+		return msgType;
 	}
 	public void setMsgType(String msgType) {
-		MsgType = msgType;
+		this.msgType = msgType;
 	}
+	
+	@XmlElement(name="Content")
 	public String getContent() {
-		return Content;
+		return content;
 	}
 	public void setContent(String content) {
-		Content = content;
+		this.content = content;
 	}
+	
+	@XmlElement(name="MsgId")
 	public String getMsgId() {
-		return MsgId;
+		return msgId;
 	}
 	public void setMsgId(String msgId) {
-		MsgId = msgId;
+		this.msgId = msgId;
 	}
+	@XmlElement(name="Event")
+	public String getEvent() {
+		return event;
+	}
+	public void setEvent(String event) {
+		this.event = event;
+	}
+	@XmlElement(name="EventKey")
+	public String getEventKey() {
+		return eventKey;
+	}
+	public void setEventKey(String eventKey) {
+		this.eventKey = eventKey;
+	}
+	@XmlElement(name="Ticket")
+	public String getTicket() {
+		return ticket;
+	}
+	public void setTicket(String ticket) {
+		this.ticket = ticket;
+	}
+	@XmlElement(name="MediaId")
+	public String getMediaId() {
+		return mediaId;
+	}
+	public void setMediaId(String mediaId) {
+		this.mediaId = mediaId;
+	}
+	
 }

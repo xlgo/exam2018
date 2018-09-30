@@ -27,7 +27,7 @@ public class SessionUtil {
 	public static Object getAttribute(String attr){
 		return getSession().getAttribute(attr);
 	}
-	public static void setAttribute(String attr,String value){
+	public static void setAttribute(String attr,Object value){
 		getSession().setAttribute(attr,value);
 	}
 	public static String getIpAddr(HttpServletRequest request){
