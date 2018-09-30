@@ -144,7 +144,7 @@
         
         <li><span>所属学校：</span><input type="text"  id="school" name="school"  value="${user.school }"  placeholder="请输入所属学校"/></li>
         
-        <li><span>所属校区：</span><input type="text"  id="area" name="area"  value="${user.area }"  placeholder="请输入所属校区"/></li>
+        <li><span>所属院校：</span><input type="text"  id="area" name="area"  value="${user.area }"  placeholder="请输入所属院校"/></li>
         <li><span>专业：</span><input type="text" id="major"  name="major"  value="${user.major }"  placeholder="请输入您的专业" /></li>
         <li><span>所在年级：</span>
             <div class="register-nian-right">

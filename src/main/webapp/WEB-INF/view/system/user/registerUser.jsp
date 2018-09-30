@@ -178,9 +178,9 @@
 					<td></td>
 				</tr>
 				<tr>
-					<td class="textRight">所属校区</td>
+					<td class="textRight">所属院校</td>
 					<td>
-						<input type="text"  id="area" name="area"  class="normalInput"  value="${user.area }"  placeholder="请输入所属校区"/>
+						<input type="text"  id="area" name="area"  class="normalInput"  value="${user.area }"  placeholder="请输入所属院校"/>
 					</td>
 					<td></td>
 				</tr>
