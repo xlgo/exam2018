@@ -14,8 +14,8 @@
 
 
 <div class="index-head">
-    <p class="index-one">第五届河南省</p>
-    <p class="index-two">大学生宗教知识网络竞赛</p>
+    <p class="index-one">河南省第二届大学生</p>
+    <p class="index-two">反邪教警示教育知识竞赛</p>
     <img src="<c:url value="/resource/mobile/image/toubei.png"/>" alt="" />
  </div>
 <div class="index-nei">
