@@ -62,13 +62,13 @@
         	<div class="login-biao">
             	<img src="<c:url value="/resource/mobile/image/user.jpg"/>" class="login-tu" />
             </div>
-        	<input placeholder="请输入用户名"  name="username"  type="text" class="shuru">
+        	<input placeholder="请输入您的用户名"  name="username"  type="text" class="shuru">
         </div>
     	<div class="login-mi">
             <div class="login-biao">
                 <img src="<c:url value="/resource/mobile/image/password.jpg"/>" class="login-tu" />
             </div>
-            <input placeholder="请输入密码"  name="password"  type="password" class="shuru">
+            <input placeholder="请输入您的密码"  name="password"  type="password" class="shuru">
         </div>
         <div class="login-ji">
         	<label><input type="checkbox"  id="remember" name="remember" />记住密码</label>
