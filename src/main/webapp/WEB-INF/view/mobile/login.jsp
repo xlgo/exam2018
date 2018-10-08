@@ -62,7 +62,7 @@
         	<div class="login-biao">
             	<img src="<c:url value="/resource/mobile/image/user.jpg"/>" class="login-tu" />
             </div>
-        	<input placeholder="请输入用户名"  name="username"  type="text" class="shuru">
+        	<input placeholder="请输入账号"  name="username"  type="text" class="shuru">
         </div>
     	<div class="login-mi">
             <div class="login-biao">
