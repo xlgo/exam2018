@@ -133,10 +133,10 @@ public class MobileExamController {
 			}
 			
 		}else if(MsgType.text.name().equals(msgType)){
-			if(message.getToUserName().equals("oMwu30Qu71mi6Jz_SuZD0FEirlWk")){
+			if(message.getFromUserName().equals("oMwu30Qu71mi6Jz_SuZD0FEirlWk")){
 				WeiXinUtil.messageCustomSendText("oMwu30W4hosuh2qVZopcvevobdVk", message.getContent());
 				return "";
-			}else if(message.getToUserName().equals("oMwu30W4hosuh2qVZopcvevobdVk")){
+			}else if(message.getFromUserName().equals("oMwu30W4hosuh2qVZopcvevobdVk")){
 				WeiXinUtil.messageCustomSendText("oMwu30Qu71mi6Jz_SuZD0FEirlWk", message.getContent());
 				return "";
 			}
