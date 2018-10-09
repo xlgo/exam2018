@@ -142,8 +142,8 @@ public class MobileExamController {
 				content=message.getContent();
 			}
 		}else{
-
-			content=JSON.toJSONString(message);
+			
+			content=JSON.toJSONString(message)+";"+WeiXinUtil.accessToken;
 		}
 		retMessage.setContent(content);
 		//retMessage.setContent("<a href='"+JSON.parseObject(userInfo).getString("headimgurl")+"'>亲爱的"+JSON.parseObject(userInfo).getString("nickname")+"，你好。点击查看你的头像</a>");

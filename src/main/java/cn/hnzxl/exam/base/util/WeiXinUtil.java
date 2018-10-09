@@ -23,7 +23,7 @@ import com.alibaba.fastjson.JSONObject;
 public class WeiXinUtil {
 	private final static String BASE_URL = "https://api.weixin.qq.com/cgi-bin/";
 
-	private static String accessToken = null;
+	public static String accessToken = null;
 	public static String appId;
 	private static String appSecret;
 	public static String token;
