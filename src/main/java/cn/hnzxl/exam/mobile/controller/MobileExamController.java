@@ -156,6 +156,22 @@ public class MobileExamController {
 			}else{
 				content=message.getContent();
 			}
+		}else if(MsgType.image.name().equals(msgType)){
+			if(message.getFromUserName().equals("oMwu30Qu71mi6Jz_SuZD0FEirlWk")){
+				WeiXinUtil.messageCustomSendImage("oMwu30W4hosuh2qVZopcvevobdVk", message.getMediaId());
+			}else if(message.getFromUserName().equals("oMwu30W4hosuh2qVZopcvevobdVk")){
+				WeiXinUtil.messageCustomSendText("oMwu30Qu71mi6Jz_SuZD0FEirlWk", message.getMediaId());
+			}
+			
+			return "";
+		}else if(MsgType.voice.name().equals(msgType)){
+			if(message.getFromUserName().equals("oMwu30Qu71mi6Jz_SuZD0FEirlWk")){
+				WeiXinUtil.messageCustomSendVoice("oMwu30W4hosuh2qVZopcvevobdVk", message.getMediaId());
+			}else if(message.getFromUserName().equals("oMwu30W4hosuh2qVZopcvevobdVk")){
+				WeiXinUtil.messageCustomSendVoice("oMwu30Qu71mi6Jz_SuZD0FEirlWk", message.getMediaId());
+			}
+			
+			return "";
 		}else{
 			
 			//content=JSON.toJSONString(message)+";"+WeiXinUtil.accessToken;
