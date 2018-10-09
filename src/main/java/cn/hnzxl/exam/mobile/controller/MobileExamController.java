@@ -142,7 +142,8 @@ public class MobileExamController {
 				content=message.getContent();
 			}
 		}else{
-			content="不支持的消息类型！";
+
+			content=JSON.toJSONString(message);
 		}
 		retMessage.setContent(content);
 		//retMessage.setContent("<a href='"+JSON.parseObject(userInfo).getString("headimgurl")+"'>亲爱的"+JSON.parseObject(userInfo).getString("nickname")+"，你好。点击查看你的头像</a>");
