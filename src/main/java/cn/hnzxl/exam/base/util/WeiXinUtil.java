@@ -135,7 +135,7 @@ public class WeiXinUtil {
 		
 		map.put("text", inn);
 		
-		return HttpClientUtil.post(BASE_URL+"message/custom/send?access_token="+accessToken,map);
+		return HttpClientUtil.post(BASE_URL+"message/custom/send?access_token="+accessToken,JSON.toJSONString(map));
 	}
 	
 	/**
@@ -154,7 +154,7 @@ public class WeiXinUtil {
 		
 		map.put("image", inn);
 		
-		return HttpClientUtil.post(BASE_URL+"message/custom/send?access_token="+accessToken,map);
+		return HttpClientUtil.post(BASE_URL+"message/custom/send?access_token="+accessToken,JSON.toJSONString(map));
 	}
 	
 	/**
@@ -173,7 +173,7 @@ public class WeiXinUtil {
 		
 		map.put("voice", inn);
 		
-		return HttpClientUtil.post(BASE_URL+"message/custom/send?access_token="+accessToken,map);
+		return HttpClientUtil.post(BASE_URL+"message/custom/send?access_token="+accessToken,JSON.toJSONString(map));
 	}
 	
 	/**
@@ -198,7 +198,7 @@ public class WeiXinUtil {
 		
 		map.put("video", inn);
 		
-		return HttpClientUtil.post(BASE_URL+"message/custom/send?access_token="+accessToken,map);
+		return HttpClientUtil.post(BASE_URL+"message/custom/send?access_token="+accessToken,JSON.toJSONString(map));
 	}
 	
 	/**
@@ -225,7 +225,7 @@ public class WeiXinUtil {
 		
 		map.put("music", inn);
 		
-		return HttpClientUtil.post(BASE_URL+"message/custom/send?access_token="+accessToken,map);
+		return HttpClientUtil.post(BASE_URL+"message/custom/send?access_token="+accessToken,JSON.toJSONString(map));
 	}
 	/**
 	 * 验证签名是否正确
