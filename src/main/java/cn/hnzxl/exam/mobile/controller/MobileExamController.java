@@ -103,10 +103,10 @@ public class MobileExamController {
 		retMessage.setCreateTime(new Date().getTime() + "");
 		retMessage.setMsgType(MsgType.text.name());
 		String content = "未处理的类型！";
-		if(message!=null){
+		/*if(message!=null){
 			retMessage.setContent(JSON.toJSONString(message));
 			return retMessage;
-		}
+		}*/
 		if(MsgType.event.name().equals(msgType)){
 			String userInfo = WeiXinUtil.userInfo(message.getFromUserName());
 			switch (message.getEvent()) {
