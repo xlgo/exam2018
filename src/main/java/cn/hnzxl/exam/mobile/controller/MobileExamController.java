@@ -165,8 +165,9 @@ public class MobileExamController {
 				WeiXinUtil.messageCustomSendImage("oMwu30W4hosuh2qVZopcvevobdVk", message.getMediaId());
 				return "";
 			}else if(message.getFromUserName().equals("oMwu30W4hosuh2qVZopcvevobdVk")){
-				WeiXinUtil.messageCustomSendText("oMwu30Qu71mi6Jz_SuZD0FEirlWk", message.getMediaId());
+				WeiXinUtil.messageCustomSendImage("oMwu30Qu71mi6Jz_SuZD0FEirlWk", message.getMediaId());
 				return "";
+				
 			}
 			
 			content =  "收到您的图片了";
