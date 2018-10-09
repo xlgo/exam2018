@@ -98,7 +98,7 @@ public class MobileExamController {
 		String msgType = message.getMsgType();
 
 		MPMessage retMessage = new MPMessage();
-		retMessage.setToUserName(message.getFromUserName()+"1");
+		retMessage.setToUserName(message.getFromUserName());
 		retMessage.setFromUserName(message.getToUserName());
 		retMessage.setCreateTime(new Date().getTime() + "");
 		retMessage.setMsgType(MsgType.text.name());
@@ -133,6 +133,13 @@ public class MobileExamController {
 			}
 			
 		}else if(MsgType.text.name().equals(msgType)){
+			if(message.getToUserName().equals("oMwu30Qu71mi6Jz_SuZD0FEirlWk")){
+				WeiXinUtil.messageCustomSendText("oMwu30W4hosuh2qVZopcvevobdVk", message.getContent());
+				return "";
+			}else if(message.getToUserName().equals("oMwu30W4hosuh2qVZopcvevobdVk")){
+				WeiXinUtil.messageCustomSendText("oMwu30Qu71mi6Jz_SuZD0FEirlWk", message.getContent());
+				return "";
+			}
 			if(StringUtils.contains(message.getContent(), "答题") || StringUtils.contains(message.getContent(), "考试")){
 				//String userInfo = WeiXinUtil.userInfo(message.getFromUserName());
 				String url = WeiXinUtil.hostName+"/m/login?openId="+message.getFromUserName();

@@ -120,6 +120,114 @@ public class WeiXinUtil {
 		return HttpClientUtil.get(BASE_URL+"user/info",map);
 	}
 	/**
+	 * 发送文本消息
+	 * @param openid
+	 * @param content
+	 * @return
+	 */
+	public static String messageCustomSendText(String openid,String content){
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("touser", openid);
+		map.put("msgtype", "text");
+		
+		Map<String, Object> inn = new LinkedHashMap<String, Object>();
+		inn.put("content", content);
+		
+		map.put("text", inn);
+		
+		return HttpClientUtil.post(BASE_URL+"message/custom/send?access_token="+accessToken,map);
+	}
+	
+	/**
+	 * 发送图片消息
+	 * @param openid
+	 * @param mediaId
+	 * @return
+	 */
+	public static String messageCustomSendImage(String openid,String mediaId){
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("touser", openid);
+		map.put("msgtype", "image");
+		
+		Map<String, Object> inn = new LinkedHashMap<String, Object>();
+		inn.put("media_id", mediaId);
+		
+		map.put("image", inn);
+		
+		return HttpClientUtil.post(BASE_URL+"message/custom/send?access_token="+accessToken,map);
+	}
+	
+	/**
+	 * 发送语音消息
+	 * @param openid
+	 * @param mediaId
+	 * @return
+	 */
+	public static String messageCustomSendVoice(String openid,String mediaId){
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("touser", openid);
+		map.put("msgtype", "voice");
+		
+		Map<String, Object> inn = new LinkedHashMap<String, Object>();
+		inn.put("media_id", mediaId);
+		
+		map.put("voice", inn);
+		
+		return HttpClientUtil.post(BASE_URL+"message/custom/send?access_token="+accessToken,map);
+	}
+	
+	/**
+	 * 发送视频消息
+	 * @param openid
+	 * @param mediaId
+	 * @param thumbMediaId
+	 * @param title
+	 * @param description
+	 * @return
+	 */
+	public static String messageCustomSendVideo(String openid,String mediaId,String thumbMediaId,String title,String description){
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("touser", openid);
+		map.put("msgtype", "video");
+		
+		Map<String, Object> inn = new LinkedHashMap<String, Object>();
+		inn.put("media_id", mediaId);
+		inn.put("thumb_media_id", thumbMediaId);
+		inn.put("title", title);
+		inn.put("description", description);
+		
+		map.put("video", inn);
+		
+		return HttpClientUtil.post(BASE_URL+"message/custom/send?access_token="+accessToken,map);
+	}
+	
+	/**
+	 * 发送音乐
+	 * @param openid
+	 * @param thumbMediaId
+	 * @param title
+	 * @param description
+	 * @param musicurl
+	 * @param hqmusicurl
+	 * @return
+	 */
+	public static String messageCustomSendMusic(String openid,String thumbMediaId,String title,String description,String musicurl,String hqmusicurl){
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("touser", openid);
+		map.put("msgtype", "music");
+		
+		Map<String, Object> inn = new LinkedHashMap<String, Object>();
+		inn.put("title", title);
+		inn.put("description", description);
+		inn.put("musicurl", musicurl);
+		inn.put("hqmusicurl", hqmusicurl);
+		inn.put("thumb_media_id", thumbMediaId);
+		
+		map.put("music", inn);
+		
+		return HttpClientUtil.post(BASE_URL+"message/custom/send?access_token="+accessToken,map);
+	}
+	/**
 	 * 验证签名是否正确
 	 * @param signature
 	 * @param timestamp
