@@ -143,7 +143,8 @@ public class MobileExamController {
 			}
 		}else{
 			
-			content=JSON.toJSONString(message)+";"+WeiXinUtil.accessToken;
+			//content=JSON.toJSONString(message)+";"+WeiXinUtil.accessToken;
+			content="";
 		}
 		retMessage.setContent(content);
 		//retMessage.setContent("<a href='"+JSON.parseObject(userInfo).getString("headimgurl")+"'>亲爱的"+JSON.parseObject(userInfo).getString("nickname")+"，你好。点击查看你的头像</a>");
