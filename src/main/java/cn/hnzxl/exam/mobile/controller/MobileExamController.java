@@ -187,8 +187,7 @@ public class MobileExamController {
 			content =  "收到您的语音了";
 		}else{
 			
-			//content=JSON.toJSONString(message)+";"+WeiXinUtil.accessToken;
-			content="success";
+			content=JSON.toJSONString(message);
 		}
 		retMessage.setContent(content);
 		//retMessage.setContent("<a href='"+JSON.parseObject(userInfo).getString("headimgurl")+"'>亲爱的"+JSON.parseObject(userInfo).getString("nickname")+"，你好。点击查看你的头像</a>");
