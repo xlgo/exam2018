@@ -96,13 +96,17 @@ public class MobileExamController {
 	@ResponseBody
 	public Object tokenPost(HttpServletRequest request, @RequestBody MPMessage message) throws IOException {
 		String msgType = message.getMsgType();
-
+		
 		MPMessage retMessage = new MPMessage();
 		retMessage.setToUserName(message.getFromUserName());
 		retMessage.setFromUserName(message.getToUserName());
 		retMessage.setCreateTime(new Date().getTime() + "");
 		retMessage.setMsgType(MsgType.text.name());
 		String content = "未处理的类型！";
+		if(message!=null){
+			retMessage.setContent(JSON.toJSONString(message));
+			return retMessage;
+		}
 		if(MsgType.event.name().equals(msgType)){
 			String userInfo = WeiXinUtil.userInfo(message.getFromUserName());
 			switch (message.getEvent()) {
