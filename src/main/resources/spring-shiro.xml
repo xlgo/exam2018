@@ -53,7 +53,8 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 				/system/user/saveRegister = anon
 				/system/user/hasUse = anon
 				/system/user/registerSuccess = anon
-				
+				/**/*.txt = anon
+
 				/m/login = anon
 				/m/valid = anon
 				/m/doValid = anon
