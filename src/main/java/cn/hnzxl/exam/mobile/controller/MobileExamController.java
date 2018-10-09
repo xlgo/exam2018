@@ -94,7 +94,7 @@ public class MobileExamController {
 
 	@RequestMapping(value = "token", method = RequestMethod.POST)
 	@ResponseBody
-	public MPMessage tokenPost(HttpServletRequest request, @RequestBody MPMessage message) throws IOException {
+	public Object tokenPost(HttpServletRequest request, @RequestBody MPMessage message) throws IOException {
 		String msgType = message.getMsgType();
 
 		MPMessage retMessage = new MPMessage();
@@ -138,13 +138,19 @@ public class MobileExamController {
 				String url = WeiXinUtil.hostName+"/m/login?openId="+message.getFromUserName();
 				url+="&signature="+DigestUtils.md5Hex(message.getFromUserName()+WeiXinUtil.appId);
 				content="<a href='"+url+"'>开始答题</a>";
+			}else if(StringUtils.containsIgnoreCase(message.getContent(), "success")){
+				return message.getContent();
+			}else if(StringUtils.containsIgnoreCase(message.getContent(), "empty")){
+				return "";
+			}else if(StringUtils.containsIgnoreCase(message.getContent(), "null")){
+				return null;
 			}else{
 				content=message.getContent();
 			}
 		}else{
 			
 			//content=JSON.toJSONString(message)+";"+WeiXinUtil.accessToken;
-			content="";
+			content="success";
 		}
 		retMessage.setContent(content);
 		//retMessage.setContent("<a href='"+JSON.parseObject(userInfo).getString("headimgurl")+"'>亲爱的"+JSON.parseObject(userInfo).getString("nickname")+"，你好。点击查看你的头像</a>");
