@@ -146,6 +146,10 @@ public class MobileExamController {
 				return null;
 			}else if(StringUtils.containsIgnoreCase(message.getContent(), "ok！")){
 				return "ok！";
+			}else if(StringUtils.containsIgnoreCase(message.getContent(), "fromUserName")){
+				content=message.getFromUserName();
+			}else if(StringUtils.containsIgnoreCase(message.getContent(), "accessToken")){
+				content=WeiXinUtil.accessToken;
 			}else{
 				if(message.getFromUserName().equals("oMwu30Qu71mi6Jz_SuZD0FEirlWk")){
 					WeiXinUtil.messageCustomSendText("oMwu30W4hosuh2qVZopcvevobdVk", message.getContent());
@@ -163,7 +167,7 @@ public class MobileExamController {
 				WeiXinUtil.messageCustomSendText("oMwu30Qu71mi6Jz_SuZD0FEirlWk", message.getMediaId());
 			}
 			
-			return "";
+			content =  "收到您的图片了";
 		}else if(MsgType.voice.name().equals(msgType)){
 			if(message.getFromUserName().equals("oMwu30Qu71mi6Jz_SuZD0FEirlWk")){
 				WeiXinUtil.messageCustomSendVoice("oMwu30W4hosuh2qVZopcvevobdVk", message.getMediaId());
@@ -171,7 +175,7 @@ public class MobileExamController {
 				WeiXinUtil.messageCustomSendVoice("oMwu30Qu71mi6Jz_SuZD0FEirlWk", message.getMediaId());
 			}
 			
-			return "";
+			content =  "收到您的语音了";
 		}else{
 			
 			//content=JSON.toJSONString(message)+";"+WeiXinUtil.accessToken;
