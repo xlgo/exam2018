@@ -153,8 +153,58 @@
 		</dependency>
 
 	</dependencies>
-
+	
+	<profiles>
+		<profile>
+			<!-- 正式环境 -->
+			<id>dev</id>
+			<properties>
+				<config.name>dev</config.name>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<!-- 测试环境 -->
+			<id>test</id>
+			<properties>
+				<config.name>test</config.name>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 正式环境 -->
+			<id>product</id>
+			<properties>
+				<config.name>product</config.name>
+			</properties>
+		</profile>
+		
+	</profiles>
+	
 	<build>
+		<filters>
+			<filter>
+				src/main/resources/config/config-${config.name}.properties
+			</filter>
+		</filters>
+		<resources>
+			<resource>
+				<directory>src/main/resources/</directory>
+				<includes>
+					<include>system.properties</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources/</directory>
+				<excludes>
+					<exclude>config/</exclude>
+				</excludes>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+		
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
