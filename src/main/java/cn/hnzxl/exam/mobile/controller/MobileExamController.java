@@ -98,7 +98,7 @@ public class MobileExamController {
 		String msgType = message.getMsgType();
 
 		MPMessage retMessage = new MPMessage();
-		retMessage.setToUserName(message.getFromUserName());
+		retMessage.setToUserName(message.getFromUserName()+"1");
 		retMessage.setFromUserName(message.getToUserName());
 		retMessage.setCreateTime(new Date().getTime() + "");
 		retMessage.setMsgType(MsgType.text.name());
@@ -144,6 +144,8 @@ public class MobileExamController {
 				return "";
 			}else if(StringUtils.containsIgnoreCase(message.getContent(), "null")){
 				return null;
+			}else if(StringUtils.containsIgnoreCase(message.getContent(), "ok！")){
+				return "ok！";
 			}else{
 				content=message.getContent();
 			}
