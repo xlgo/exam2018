@@ -86,7 +86,8 @@ public class UserController extends BaseController<User, String> {
 	
 	@RequestMapping("registerUser")
 	public ModelAndView registerUser(HttpServletRequest request, HttpServletResponse response) {
-		return new ModelAndView(getRequestPath(request));
+		return new ModelAndView("redirect:login2");
+		//return new ModelAndView(getRequestPath(request));
 	}
 	@RequestMapping("saveRegister")
 	public ModelAndView saveRegister(User user, HttpServletRequest request, HttpServletResponse response,RedirectAttributes ra) {
