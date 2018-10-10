@@ -194,6 +194,7 @@
 				<directory>src/main/resources/</directory>
 				<includes>
 					<include>system.properties</include>
+					<include>log4j.properties</include>
 				</includes>
 				<filtering>true</filtering>
 			</resource>
