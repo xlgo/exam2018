@@ -1,5 +1,8 @@
 package cn.hnzxl.exam.base.util;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -7,12 +10,14 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.InitBinder;
 
 import com.alibaba.fastjson.JSON;
@@ -28,6 +33,8 @@ public class WeiXinUtil {
 	private static String appSecret;
 	public static String token;
 	public static String hostName;
+	private static String menu;
+	
 	@Value("${weixin.appID}")
 	public void setAppID(String appID) {
 		this.appId = appID;
@@ -45,9 +52,18 @@ public class WeiXinUtil {
 	public void setHostName(String hostName) {
 		this.hostName = hostName;
 	}
-
+	
 	@PostConstruct
 	public void initMenu(){
+		try {
+			File menuFile = ResourceUtils.getFile("classpath:menu.json");
+			menu = FileUtils.readFileToString(menuFile);
+			System.out.println(menu);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Scheduled(fixedDelay = 3600*1000)
@@ -55,7 +71,7 @@ public class WeiXinUtil {
 		if(accessToken==null){
 			accessToken = genToken();
 			menuDelete();
-			JSONObject menu = new JSONObject();
+			/*JSONObject menu = new JSONObject();
 			JSONArray menuItem = new JSONArray();
 			
 			JSONObject menuItem1 = new JSONObject();
@@ -73,9 +89,9 @@ public class WeiXinUtil {
 			menuItem.add(menuItem2);
 			
 			
-			menu.put("button", menuItem);
+			menu.put("button", menuItem);*/
 			
-			menuCreate(menu.toJSONString());
+			menuCreate(menu);
 		}else{
 			accessToken = genToken();
 		}

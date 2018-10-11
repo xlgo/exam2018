@@ -126,6 +126,9 @@ public class MobileExamController {
 				case "good":
 					content="谢谢支持，我们会更加努力！";
 					break;
+				case "lxwm-swhz":
+					content="上午合作请联系QQ:3001496102";
+					break;
 				default:
 					content = "未定义菜单功能！";
 					break;
