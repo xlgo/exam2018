@@ -216,8 +216,24 @@ public class MobileExamController {
 				}
 			}
 			if(signature.equals(DigestUtils.md5Hex(openId+WeiXinUtil.appId))){
+				if (!subject.isAuthenticated()) {
+					subject.logout();
+					SessionUtil.setAttribute("openId", request.getParameter("openId"));
+					SessionUtil.setAttribute("signature", request.getParameter("signature"));
+					User user = userService.selectByWxOpenid(openId);
+					if(user==null){
+						try {
+							response.sendRedirect("/m/login");
+							return null;
+						} catch (IOException e) {
+						}
+					}
+					UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
+					subject.login(token);
+				//	return new ModelAndView("redirect:/m/index");
+				}
 				SessionUtil.setAttribute("openId", request.getParameter("openId"));
-				//SessionUtil.setAttribute("signature", request.getParameter("signature"));
+				return new ModelAndView("redirect:/m/index");
 			}else{
 				try {
 					response.sendRedirect("/m/login");
