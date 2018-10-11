@@ -38,7 +38,7 @@ public class LoginAndLogOutController {
 	@RequestMapping("/login2")
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
 		String userAgent = request.getHeader("user-agent");
-		if(userAgent.indexOf("MicroMessenger")!=-1){
+		if(userAgent.indexOf("Mobile")!=-1){
 			return new ModelAndView("redirect:/m/login");
 		}
 		String username = request.getParameter("username");
@@ -94,7 +94,7 @@ public class LoginAndLogOutController {
 	@RequestMapping("/index")
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
 		String userAgent = request.getHeader("user-agent");
-		if(userAgent.indexOf("MicroMessenger")!=-1){
+		if(userAgent.indexOf("Mobile")!=-1){
 			return new ModelAndView("redirect:/m/index");
 		}
 		Subject subject = SecurityUtils.getSubject();
@@ -119,7 +119,7 @@ public class LoginAndLogOutController {
 	@RequestMapping("/index2")
 	public ModelAndView index2(HttpServletRequest request, HttpServletResponse response) {
 		String userAgent = request.getHeader("user-agent");
-		if(userAgent.indexOf("MicroMessenger")!=-1){
+		if(userAgent.indexOf("Mobile")!=-1){
 			SessionUtil.setAttribute("ms_flag", "xlgg");
 			return new ModelAndView("redirect:/m/login");
 		}

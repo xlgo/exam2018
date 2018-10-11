@@ -200,7 +200,7 @@ public class MobileExamController {
 	@RequestMapping("/login")
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
 		String userAgent = request.getHeader("user-agent");
-		if (userAgent.indexOf("MicroMessenger") == -1) {
+		if (userAgent.indexOf("Mobile") == -1) {
 			return new ModelAndView("redirect:/index2");
 		}
 		String openId = request.getParameter("openId");
@@ -323,7 +323,7 @@ public class MobileExamController {
 	@RequestMapping("/index")
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
 		String userAgent = request.getHeader("user-agent");
-		if (userAgent.indexOf("MicroMessenger") == -1) {
+		if (userAgent.indexOf("Mobile") == -1) {
 			return new ModelAndView("redirect:/index");
 		}
 		return new ModelAndView("/mobile/index");
@@ -332,7 +332,7 @@ public class MobileExamController {
 	@RequestMapping("/valid")
 	public ModelAndView valid(HttpServletRequest request, HttpServletResponse response) {
 		String userAgent = request.getHeader("user-agent");
-		if (userAgent.indexOf("MicroMessenger") != -1) {
+		if (userAgent.indexOf("Mobile") != -1) {
 			return new ModelAndView("/mobile/valid");
 		}
 		return new ModelAndView("redirect:/index");
@@ -390,7 +390,7 @@ public class MobileExamController {
 	@RequestMapping("startExam")
 	public ModelAndView startExam(HttpServletRequest request, HttpServletResponse response) {
 		String userAgent = request.getHeader("user-agent");
-		if (userAgent.indexOf("MicroMessenger") == -1) {
+		if (userAgent.indexOf("Mobile") == -1) {
 			return new ModelAndView("redirect:/index");
 		}
 		Map<String, Object> userInfo = new HashMap<String, Object>();
