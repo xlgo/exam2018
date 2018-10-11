@@ -140,7 +140,7 @@ public class MobileExamController {
 			}
 			
 		}else if(MsgType.text.name().equals(msgType)){
-			if(StringUtils.contains(message.getContent(), "答题") || StringUtils.contains(message.getContent(), "考试")){
+			if(StringUtils.contains(message.getContent(), "答题") || StringUtils.contains(message.getContent(), "考试")|| StringUtils.contains(message.getContent(), "验证")){
 				//String userInfo = WeiXinUtil.userInfo(message.getFromUserName());
 				String url = WeiXinUtil.hostName+"/m/login?openId="+message.getFromUserName();
 				url+="&signature="+DigestUtils.md5Hex(message.getFromUserName()+WeiXinUtil.appId);
@@ -208,13 +208,28 @@ public class MobileExamController {
 		Subject subject = SecurityUtils.getSubject();
 		
 		if(StringUtils.isNotBlank(openId)){
+			if(StringUtils.isBlank(signature)){
+				try {
+					response.sendRedirect("/m/login");
+					return null;
+				} catch (IOException e) {
+				}
+			}
+			if(signature.equals(DigestUtils.md5Hex(openId+WeiXinUtil.appId))){
+				SessionUtil.setAttribute("openId", request.getParameter("openId"));
+				//SessionUtil.setAttribute("signature", request.getParameter("signature"));
+			}else{
+				try {
+					response.sendRedirect("/m/login");
+					return null;
+				} catch (IOException e) {
+				}
+			}
+			
 			if (!subject.isAuthenticated()) {
 				subject.logout();
 				User user = userService.selectByWxOpenid(openId);
 				if(user==null){
-					if(signature.equals(DigestUtils.md5Hex(openId+WeiXinUtil.appId))){
-						SessionUtil.setAttribute("openId", request.getParameter("openId"));
-					}
 					try {
 						response.sendRedirect("/m/login");
 						return null;
@@ -285,7 +300,7 @@ public class MobileExamController {
 			
 			try {
 				if(sessOpenId==null){
-					throw new AccountException("参数错误，请关注公众号后通过最新消息进入开始答题！"); 
+					return new ModelAndView("/mobile/loginError", "msg","10086");
 				}
 				
 				String md5Password = MD5Util.MD5(username + password);
