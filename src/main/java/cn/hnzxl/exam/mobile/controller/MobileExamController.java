@@ -327,7 +327,7 @@ public class MobileExamController {
 				if(StringUtils.isBlank(user.getWxOpenid())){
 					User hasExisOpenId = userService.selectByWxOpenid(sessOpenId);
 					if(hasExisOpenId!=null){
-						throw new AccountException("该微信账号已经关联系统其他账号，无法登陆！");
+						throw new AccountException("该微信账号已经关联系统账号("+hasExisOpenId.getUsername()+")，无法登陆！");
 					}
 					
 					User updUser = new User();
@@ -335,6 +335,7 @@ public class MobileExamController {
 					updUser.setWxOpenid(sessOpenId);
 					userService.updateByPrimaryKeySelective(updUser);
 				}else if(!user.getWxOpenid().equals(sessOpenId)){
+					//User hasExisOpenId = userService.selectByWxOpenid(sessOpenId);
 					throw new AccountException("请使用该用户注册或首次登陆的微信进行答题！");
 				}
 				//String identity = user.getIdentity();
@@ -619,7 +620,7 @@ public class MobileExamController {
 				
 				User hasExisOpenId = userService.selectByWxOpenid(openId);
 				if(hasExisOpenId!=null){
-					throw new Exception("该微信账号已经关联系统账号，无法注册！");
+					throw new Exception("该微信账号已经关联系统账号("+hasExisOpenId.getUsername()+")，无法注册！");
 				}
 				user.setWxOpenid(openId);
 			}
