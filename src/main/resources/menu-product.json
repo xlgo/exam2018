@@ -1,0 +1,58 @@
+{
+	"button": [{
+		"name": "精品课程",
+		"sub_button": [{
+			"type": "view",
+			"name": "四六级评分测试",
+			"url": "http://v6.beikaozu.com/h5/knowledgetest/knowledgepointtest.html?plat=koudai"
+		}, {
+			"type": "view",
+			"name": "四六级资料",
+			"url": "https://pan.baidu.com/s/1S073GEF1t7GqCOz0nQ-4dQ"
+		}, {
+			"type": "view",
+			"name": "四六级包过课程",
+			"url": "http://www.beikaozu.com/wx/cpr"
+		}, {
+			"type": "view",
+			"name": "英语考研课程",
+			"url": "http://www.beikaozu.com/wx/ztfus2/3/1/1/1"
+		}, {
+			"type": "view",
+			"name": "英语氢气球",
+			"url": "http://www.beikaozu.com/wx/ztfus2/1/0/0/1"
+		}]
+	}, {
+		"name": "大学生活",
+		"sub_button": [{
+			"type": "miniprogram",
+			"name": "口袋之恋",
+			"url": "https://h5.youzan.com/v2/home/va57e4u0?reft=1511853901631&spm=f48991877&sf=wx_sm&form=groupmessage",
+			"appid": "wxf2af03e8e47482e2",
+			"pagepath": "pages/home/dashboard/index"
+		}, {
+			"type": "view",
+			"name": "排忧解难",
+			"url": "https://jinshuju.net/f/2dZkb7"
+		}, {
+			"type": "view",
+			"name": "每日话题",
+			"url": "https://jinshuju.net/f/M1rzqk"
+		}, {
+			"type": "view",
+			"name": "口袋书屋",
+			"url": "http://m.geeboo.com/putoutside/index.html?accountId=824535&sid=s8883"
+		}]
+	}, {
+		"name": "联系我们",
+		"sub_button": [{
+			"type": "media_id",
+			"name": "转载授权",
+			"media_id": "QFV0vLRFxJAghRSJlk_KGz6pAi3PG4WMOlelWWmkPhE"
+		}, {
+			"type": "click",
+			"name": "商务合作",
+			"key": "lxwm-swhz"
+		}]
+	}]
+}

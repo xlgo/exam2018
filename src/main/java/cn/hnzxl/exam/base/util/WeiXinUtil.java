@@ -33,6 +33,8 @@ public class WeiXinUtil {
 	private static String appSecret;
 	public static String token;
 	public static String hostName;
+	public static String profile;
+	
 	private static String menu;
 	
 	@Value("${weixin.appID}")
@@ -53,12 +55,16 @@ public class WeiXinUtil {
 		this.hostName = hostName;
 	}
 	
+	@Value("${base.profile}")
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+	
 	@PostConstruct
 	public void initMenu(){
 		try {
-			File menuFile = ResourceUtils.getFile("classpath:menu.json");
+			File menuFile = ResourceUtils.getFile(String.format("classpath:menu-%s.json", profile));
 			menu = FileUtils.readFileToString(menuFile);
-			System.out.println(menu);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
