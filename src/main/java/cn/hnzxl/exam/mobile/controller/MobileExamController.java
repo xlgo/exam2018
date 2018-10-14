@@ -144,7 +144,7 @@ public class MobileExamController {
 				//String userInfo = WeiXinUtil.userInfo(message.getFromUserName());
 				String url = WeiXinUtil.hostName+"/m/login?openId="+message.getFromUserName();
 				url+="&signature="+DigestUtils.md5Hex(message.getFromUserName()+WeiXinUtil.appId);
-				content="<a href='"+url+"'>开始答题</a>";
+				content="<a href='"+url+"'>您已经通过身份唯一性验证，点击开始答题</a>";
 			}else if(StringUtils.containsIgnoreCase(message.getContent(), "success")){
 				return message.getContent();
 			}else if(StringUtils.containsIgnoreCase(message.getContent(), "empty")){
