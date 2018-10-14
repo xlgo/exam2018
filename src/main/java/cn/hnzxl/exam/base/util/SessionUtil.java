@@ -91,7 +91,7 @@ public class SessionUtil {
 		if(lastTimeMillis==null){
 			return;
 		}
-		if(currentTimeMillis-lastTimeMillis<rate){
+		if(currentTimeMillis-lastTimeMillis>rate){
 			throw new RuntimeException("发送频率过快");
 		}
 	}
