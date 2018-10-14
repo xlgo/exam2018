@@ -64,7 +64,7 @@ public class WeiXinUtil {
 	public void initMenu(){
 		try {
 			File menuFile = ResourceUtils.getFile(String.format("classpath:menu-%s.json", profile));
-			menu = FileUtils.readFileToString(menuFile);
+			menu = FileUtils.readFileToString(menuFile,"UTF-8");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
