@@ -28,8 +28,8 @@
 			"type": "miniprogram",
 			"name": "口袋之恋",
 			"url": "https://h5.youzan.com/v2/home/va57e4u0?reft=1511853901631&spm=f48991877&sf=wx_sm&form=groupmessage",
-			"appid": "wxf2af03e8e47482e2",
-			"pagepath": "pages/home/dashboard/index"
+			"appid": "wx029d2decd55a29ce",
+			"pagepath": "pages/welcome/welcome"
 		}, {
 			"type": "view",
 			"name": "排忧解难",

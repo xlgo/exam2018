@@ -111,7 +111,7 @@ public class MobileExamController {
 			String userInfo = WeiXinUtil.userInfo(message.getFromUserName());
 			switch (message.getEvent()) {
 			case "subscribe"://订阅
-				content = "亲爱的"+JSON.parseObject(userInfo).getString("nickname")+"，欢迎订阅！";
+				content = "亲爱的"+JSON.parseObject(userInfo).getString("nickname")+"，欢迎来到大学生的聚集地，一个年轻人嗨玩的社交平台！";
 				break;
 			case "unsubscribe"://取消订阅
 				content = "取消订阅";
@@ -121,7 +121,7 @@ public class MobileExamController {
 				case "start_exam":
 					String url = WeiXinUtil.hostName+"/m/login?openId="+message.getFromUserName();
 					url+="&signature="+DigestUtils.md5Hex(message.getFromUserName()+WeiXinUtil.appId);
-					content="<a href='"+url+"'>开始答题</a>";
+					content="<a href='"+url+"'>您已经通过身份唯一性验证，点击开始答题</a>";
 					break;
 				case "good":
 					content="谢谢支持，我们会更加努力！";
