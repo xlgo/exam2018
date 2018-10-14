@@ -165,7 +165,8 @@ public class MobileExamController {
 					WeiXinUtil.messageCustomSendText("oMwu30Qu71mi6Jz_SuZD0FEirlWk", message.getContent());
 					return "";
 				}
-				content=message.getContent();
+				//content=message.getContent();
+				return "";
 			}
 		}else if(MsgType.image.name().equals(msgType)){
 			if(message.getFromUserName().equals("oMwu30Qu71mi6Jz_SuZD0FEirlWk")){
