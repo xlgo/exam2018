@@ -160,6 +160,9 @@
                 <label>
                 	<input type="radio" name="grade" class="register-nian"  value="4" ${user.grade==4?"checked":""}/><i class="register-ji">大四</i>
                 </label>
+                <label>
+                	<input type="radio" name="grade" class="register-nian"  value="5" ${user.grade==5?"checked":""}/><i class="register-ji">其它</i>
+                </label>
             </div>
             <div class="clear"></div>
         </li>
