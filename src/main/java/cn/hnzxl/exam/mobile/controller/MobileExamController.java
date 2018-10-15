@@ -108,10 +108,10 @@ public class MobileExamController {
 			return retMessage;
 		}*/
 		if(MsgType.event.name().equals(msgType)){
-			String userInfo = WeiXinUtil.userInfo(message.getFromUserName());
+			//String userInfo = WeiXinUtil.userInfo(message.getFromUserName());
 			switch (message.getEvent()) {
 			case "subscribe"://订阅
-				content = "亲爱的"+JSON.parseObject(userInfo).getString("nickname")+"，欢迎来到大学生的聚集地，一个年轻人嗨玩的社交平台！";
+				content = "亲爱的，欢迎来到大学生的聚集地，一个年轻人嗨玩的社交平台！";
 				break;
 			case "unsubscribe"://取消订阅
 				content = "取消订阅";
