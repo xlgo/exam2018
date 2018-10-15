@@ -53,7 +53,7 @@ public class UserQuestionService extends BaseService<UserQuestion, String> {
 	 * @return 
 	 */
 	public Map<String, Object> getExamInfo(Map<String,Object> userInfo) {
-		SessionUtil.rateLimit2(2*1000l);
+		SessionUtil.rateLimit2("examInfo",2*1000l);
 		Map<String, Object> res = new HashMap<String, Object>();
 		//获取能够参加的考试
 		Map<String,Object> examinationParam = new HashMap<String, Object>();

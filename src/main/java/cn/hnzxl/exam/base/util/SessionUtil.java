@@ -91,7 +91,7 @@ public class SessionUtil {
 			SessionUtil.getSession().setAttribute(rateKey,currentTimeMillis);
 			return;
 		}
-		if(currentTimeMillis-lastTimeMillis<rate){
+		if(currentTimeMillis-lastTimeMillis>rate){
 			throw new RuntimeException("发送频率过快");
 		}
 //		SessionUtil.getSession().setAttribute(rateKey,currentTimeMillis);
