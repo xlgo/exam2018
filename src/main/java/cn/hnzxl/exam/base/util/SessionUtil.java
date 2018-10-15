@@ -80,19 +80,20 @@ public class SessionUtil {
      * 方法级频率控制
      * @param rate 毫秒
      */
-	public static void rateLimit(Long rate) {
+	public static void rateLimit2(Long rate) {
 		StackTraceElement traceElement = Thread.currentThread().getStackTrace()[2];
-		rateLimit(traceElement.getClassName()+"."+traceElement.getMethodName(),rate);
+		rateLimit2(traceElement.getClassName()+"."+traceElement.getMethodName(),rate);
 	}
-	public static void rateLimit(String rateKey,Long rate) {
+	public static void rateLimit2(String rateKey,Long rate) {
 		Long lastTimeMillis = (Long)SessionUtil.getSession().getAttribute(rateKey);
 		long currentTimeMillis = System.currentTimeMillis();
-		SessionUtil.getSession().setAttribute(rateKey,currentTimeMillis);
 		if(lastTimeMillis==null){
+			SessionUtil.getSession().setAttribute(rateKey,currentTimeMillis);
 			return;
 		}
-		if(currentTimeMillis-lastTimeMillis>rate){
+		if(currentTimeMillis-lastTimeMillis<rate){
 			throw new RuntimeException("发送频率过快");
 		}
+//		SessionUtil.getSession().setAttribute(rateKey,currentTimeMillis);
 	}
 }
