@@ -97,7 +97,7 @@ public class WeiXinUtil {
 			
 			menu.put("button", menuItem);*/
 			
-			menuCreate(menu);
+			//menuCreate(menu);
 		}else{
 			accessToken = genToken();
 		}
