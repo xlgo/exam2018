@@ -49,6 +49,7 @@
 		}
 		//倒计时
 		function daojishi(){
+			//debugger;
 			//剩余时间；
 			var syTime= examinationTimeLength- parseInt((current-startTime)/60000)-1;
 			var sySS = 59-parseInt(((current-startTime)%60000)/1000);
@@ -60,9 +61,9 @@
 				
 			}
 			if(syTime <0){
-				if(!$("#submit").prop("disabled")){
+				if(!$("#submitBtn").prop("disabled")){
 					autoSubmit=true;
-					$("#submit").click();
+					$("#submitBtn").click();
 				}
 				return;
 			}
@@ -98,7 +99,7 @@
 		}
 		//答题完毕 提交
 		function checkForm(){
-			$("#submit").prop("disabled",true);
+			$("#submitBtn").prop("disabled",true);
 			if(autoSubmit){
 				heartbeat();
 				return true;
@@ -113,7 +114,7 @@
 					return true;
 				}else{					
 					$navItems.filter(":not(.cattsel)").get(0).click();
-					$("#submit").prop("disabled",false);
+					$("#submitBtn").prop("disabled",false);
 					return false;
 				}
 			}
