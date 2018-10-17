@@ -12,9 +12,9 @@
 <script type="text/javascript" src="<c:url value="/resource/js/jquery/jquery-1.7.2.js" />"></script>
 <script type="text/javascript">
 	function viewRanking(examId){
-		$.get('<c:url value="/project/userexamination/ranking?id="/>'+examId+"&_r="+Math.random(),function(data){
-			$("#"+examId).html(data);
-		});
+		//$.get('<c:url value="/project/userexamination/ranking?id="/>'+examId+"&_r="+Math.random(),function(data){
+			$("#"+examId).html("加载中...");
+		//});
 	}
 </script>
 </head>
