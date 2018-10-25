@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -189,8 +190,20 @@ public class UserQuestionService extends BaseService<UserQuestion, String> {
 	
 	
 	public void saveUserExam(String examinationId,Map<String, String[]> userQuestionInfo,String type){
-		List<UserQuestion> userQuestions = new ArrayList<UserQuestion>();
 		User currentUser =SessionUtil.getCurrentUser();
+		
+		Map<String,Object> userExaminationParam = new HashMap<String, Object>();
+		userExaminationParam.put("userExaminationUserid", currentUser.getUserid());
+		userExaminationParam.put("userExaminationExaminationId", examinationId);
+		
+		//更新用户试卷信息
+		UserExamination userExamination= userExaminationService.selectAll(userExaminationParam).get(0);
+		if(StringUtils.equals(userExamination.getUserExaminationStatus(),"1")){
+			return;
+		}
+		
+		List<UserQuestion> userQuestions = new ArrayList<UserQuestion>();
+		
 		for (String key : userQuestionInfo.keySet()) {
 			UserQuestion userQuestion = new UserQuestion();
 			userQuestion.setUserQuestionExaminationId(examinationId);
@@ -218,12 +231,7 @@ public class UserQuestionService extends BaseService<UserQuestion, String> {
 		sroreParam.setUserQuestionUserid(currentUser.getUserid());
 		Integer userScore = this.selectUserScore(sroreParam);
 		
-		Map<String,Object> userExaminationParam = new HashMap<String, Object>();
-		userExaminationParam.put("userExaminationUserid", currentUser.getUserid());
-		userExaminationParam.put("userExaminationExaminationId", examinationId);
 		
-		//更新用户试卷信息
-		UserExamination userExamination= userExaminationService.selectAll(userExaminationParam).get(0);
 		userExamination.setUserExaminationSubmitTime(new Date());
 		Long timeLength = userExamination.getUserExaminationSubmitTime().getTime()-userExamination.getCreateTime().getTime();
 		userExamination.setUserExaminationTimeLength((double)timeLength/60000);
