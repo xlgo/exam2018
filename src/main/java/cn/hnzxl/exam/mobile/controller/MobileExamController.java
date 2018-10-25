@@ -204,6 +204,11 @@ public class MobileExamController {
 		if (userAgent.indexOf("Mobile") == -1) {
 			return new ModelAndView("redirect:/index2");
 		}
+		System.out.println("out----------------");
+		/*synchronized (request.getRequestedSessionId().intern()) {
+			System.out.println("inn----------------");
+			System.out.println("stop----------");
+		}*/
 		String openId = request.getParameter("openId");
 		String signature = request.getParameter("signature");
 		Subject subject = SecurityUtils.getSubject();
@@ -430,7 +435,7 @@ public class MobileExamController {
 		userInfo.put("ip", SessionUtil.getIpAddr(request));
 		userInfo.put("userAgent", request.getHeader("User-Agent"));
 		Map<String, Object> examInfo;
-		synchronized (SessionUtil.getCurrentUser()) {
+		synchronized (SessionUtil.getCurrentUser().getUserid().intern()) {
 			examInfo = userQuestionService.getExamInfo(userInfo);
 		}
 		if (examInfo == null) {
