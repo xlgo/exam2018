@@ -429,7 +429,10 @@ public class MobileExamController {
 		Map<String, Object> userInfo = new HashMap<String, Object>();
 		userInfo.put("ip", SessionUtil.getIpAddr(request));
 		userInfo.put("userAgent", request.getHeader("User-Agent"));
-		Map<String, Object> examInfo = userQuestionService.getExamInfo(userInfo);
+		Map<String, Object> examInfo;
+		synchronized (SessionUtil.getCurrentUser()) {
+			examInfo = userQuestionService.getExamInfo(userInfo);
+		}
 		if (examInfo == null) {
 			return new ModelAndView("/mobile/failure");
 		}
