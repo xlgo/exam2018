@@ -317,7 +317,7 @@ public class MobileExamController {
 			
 			try {
 				if(sessOpenId==null){
-					return new ModelAndView("/mobile/loginError", "msg","10086");
+					//return new ModelAndView("/mobile/loginError", "msg","10086");
 				}
 				
 				String md5Password = MD5Util.MD5(username + password);
@@ -325,20 +325,20 @@ public class MobileExamController {
 				subject.login(token);
 				
 				User user = (User) subject.getSession().getAttribute("currentUser");
-				if(StringUtils.isBlank(user.getWxOpenid())){
+				//if(StringUtils.isBlank(user.getWxOpenid())){
 					User hasExisOpenId = userService.selectByWxOpenid(sessOpenId);
 					if(hasExisOpenId!=null){
-						throw new AccountException("该微信账号已经关联系统账号("+hasExisOpenId.getUsername()+")，无法登陆！");
+						//throw new AccountException("该微信账号已经关联系统账号("+hasExisOpenId.getUsername()+")，无法登陆！");
 					}
 					
 					User updUser = new User();
 					updUser.setUserid(user.getUserid());
 					updUser.setWxOpenid(sessOpenId);
 					userService.updateByPrimaryKeySelective(updUser);
-				}else if(!user.getWxOpenid().equals(sessOpenId)){
+				//}else if(!user.getWxOpenid().equals(sessOpenId)){
 					//User hasExisOpenId = userService.selectByWxOpenid(sessOpenId);
-					throw new AccountException("请使用该用户注册或首次登陆的微信进行答题！");
-				}
+					//throw new AccountException("请使用该用户注册或首次登陆的微信进行答题！");
+				//}
 				//String identity = user.getIdentity();
 			} catch (AccountException e) {
 				subject.logout();

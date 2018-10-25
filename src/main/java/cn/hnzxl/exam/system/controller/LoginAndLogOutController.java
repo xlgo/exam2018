@@ -60,7 +60,7 @@ public class LoginAndLogOutController {
 		    	if(!"1".equals(identity)){
 		    		subject.logout();
 		    		//throw new RuntimeException("请关注微信后进行登录！");
-		    		return new ModelAndView("redirect:/ewm");
+		    		//return new ModelAndView("redirect:/ewm");
 		    	}
 		    	
 		    	if(StringUtils.isEmpty(identity)){
