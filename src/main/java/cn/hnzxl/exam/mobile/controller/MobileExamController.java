@@ -289,6 +289,7 @@ public class MobileExamController {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		if (StringUtils.isBlank(username)) {
+			subject.logout();
 			return new ModelAndView("/mobile/login");
 		}
 		/*
@@ -318,28 +319,28 @@ public class MobileExamController {
 		log.info(username + "进行登录:info001");
 		//Subject subject = SecurityUtils.getSubject();
 		if (!subject.isAuthenticated()) {
-			String sessOpenId  = (String) SessionUtil.getAttribute("openId");
+			//String sessOpenId  = (String) SessionUtil.getAttribute("openId");
 			
 			try {
-				if(sessOpenId==null){
+				//if(sessOpenId==null){
 					//return new ModelAndView("/mobile/loginError", "msg","10086");
-				}
+				//}
 				
 				String md5Password = MD5Util.MD5(username + password);
 				UsernamePasswordToken token = new UsernamePasswordToken(username, md5Password);
 				subject.login(token);
 				
-				User user = (User) subject.getSession().getAttribute("currentUser");
+				//User user = (User) subject.getSession().getAttribute("currentUser");
 				//if(StringUtils.isBlank(user.getWxOpenid())){
-					User hasExisOpenId = userService.selectByWxOpenid(sessOpenId);
-					if(hasExisOpenId!=null){
+					//User hasExisOpenId = userService.selectByWxOpenid(sessOpenId);
+					//if(hasExisOpenId!=null){
 						//throw new AccountException("该微信账号已经关联系统账号("+hasExisOpenId.getUsername()+")，无法登陆！");
-					}
+					//}
 					
-					User updUser = new User();
-					updUser.setUserid(user.getUserid());
-					updUser.setWxOpenid(sessOpenId);
-					userService.updateByPrimaryKeySelective(updUser);
+					//User updUser = new User();
+					//updUser.setUserid(user.getUserid());
+					//updUser.setWxOpenid(sessOpenId);
+					//userService.updateByPrimaryKeySelective(updUser);
 				//}else if(!user.getWxOpenid().equals(sessOpenId)){
 					//User hasExisOpenId = userService.selectByWxOpenid(sessOpenId);
 					//throw new AccountException("请使用该用户注册或首次登陆的微信进行答题！");
