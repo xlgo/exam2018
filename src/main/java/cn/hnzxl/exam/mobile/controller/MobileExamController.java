@@ -204,7 +204,7 @@ public class MobileExamController {
 		if (userAgent.indexOf("Mobile") == -1) {
 			return new ModelAndView("redirect:/index2");
 		}
-		System.out.println("out----------------");
+		//System.out.println("out----------------");
 		/*synchronized (request.getRequestedSessionId().intern()) {
 			System.out.println("inn----------------");
 			System.out.println("stop----------");
