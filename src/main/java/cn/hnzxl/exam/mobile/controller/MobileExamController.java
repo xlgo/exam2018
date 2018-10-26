@@ -319,7 +319,7 @@ public class MobileExamController {
 		log.info(username + "进行登录:info001");
 		//Subject subject = SecurityUtils.getSubject();
 		if (!subject.isAuthenticated()) {
-			//String sessOpenId  = (String) SessionUtil.getAttribute("openId");
+			String sessOpenId  = (String) SessionUtil.getAttribute("openId");
 			
 			try {
 				//if(sessOpenId==null){
