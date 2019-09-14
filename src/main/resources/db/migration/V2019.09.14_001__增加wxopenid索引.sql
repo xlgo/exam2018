@@ -1,0 +1,1 @@
+CREATE INDEX user_wx_openid_idx USING BTREE ON `user` (wx_openid) ;

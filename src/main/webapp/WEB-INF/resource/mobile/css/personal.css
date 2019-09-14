@@ -1,0 +1,60 @@
+.bg{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: -1;
+	background: #eee;
+}
+.up{
+	display: flex;
+	padding: 2rem;
+	background: #409CFC;
+}
+.touxing{
+	width: 5rem;
+	margin-right: 2rem;
+}
+.touxing img{
+	width: 100%;
+}
+.text{
+	display: flex;
+	margin-top: 10px;
+	flex-direction: column;
+	color: #fff;
+}
+.down{
+	width: 100%;
+	margin-top: 5px;
+}
+.lists{
+	display: flex;
+	justify-content: space-between;
+	background: #fff;
+	padding: 0.5rem 2rem;
+	border-bottom: 1px solid #eee;
+}
+.options-left{
+	display: flex;
+}
+.password{
+	width: 2rem;
+	margin-right: 1.5rem;
+}
+.password img{
+	width: 100%;
+}
+.test{
+	display: flex;
+	align-items: center;
+}
+.page{
+	width: 0.7rem;
+	display: flex;
+	align-items: center;
+}
+.page img{
+	width: 100%;
+}

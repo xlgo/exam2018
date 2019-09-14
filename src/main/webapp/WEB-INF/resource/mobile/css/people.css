@@ -1,0 +1,110 @@
+.back{
+	height: 4rem;
+	width: 100%;
+	background: #409cfc;
+	color: #FFFFFF;
+	line-height: 4rem;
+	font-size: 2rem;
+	text-align: center;
+	position: relative;
+}
+.backtest{
+	position: absolute;
+	left: 10px;
+	font-size: 1.5rem;
+}
+.content{
+	width: 100%;
+	background: #fff;
+}
+.btns{
+	width: 100%;
+}
+.btnwrap{
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+.btns-chiz{
+	width:30%;
+	height: 3rem;
+	background: url(../image/btnbg.png) no-repeat;
+	background-size:100% 100%;
+	text-align: center;
+	color: #fff;
+	font-size: 0.9rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.2rem 0.3rem;
+	margin: 1rem 0;
+}
+.text{
+	width:90%;
+	margin: 0 auto;
+	margin-top: 2rem;
+}
+.text-title{
+	height:3rem;
+	background: #409cfc;
+	color: #FFFFFF;
+	display: flex;
+	justify-content: space-between;
+	line-height: 3rem;
+	padding: 0 5%;
+}
+.lists{
+	display: flex;
+	justify-content: space-between;
+	line-height: 4.5rem;
+	padding: 0 5%;
+	flex-direction: column;
+	margin-top: 1.25rem;
+}
+.list-left-tetxs{
+	display: flex;
+}
+.list-left-tetx{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+.ranking{
+	width: 2em;
+	text-align: center;
+}
+.ranking img{
+	width: 100%;
+}
+.heads{
+	width: 3rem;
+	margin: 0 1rem;
+}
+.heads img{
+	width: 100%;
+}
+.num{
+	color: #fdaa64;
+}
+.text-title-none{
+	display: flex;
+	justify-content: center;
+	height:3rem;
+	background: #409cfc;
+	color: #FFFFFF;
+	border-radius: 6px 6px 0 0 ;
+	line-height: 3rem;
+	padding: 0 5%;
+	border-bottom: 1px solid #fff;
+}
+.times{
+	width:1.5rem;
+	margin-right: 10px;
+}
+.times img{
+	width:100%;
+}
+.time{
+	display: flex;
+	font-size: 1.7rem;
+}

@@ -1,0 +1,52 @@
+.integralimg{
+	width: 100%;
+	position: relative;
+}
+.integralimg img{
+	width: 100%;
+}
+.integral{
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 4rem;
+	text-align: center;
+    font-size: 2rem;
+    color: #fff;
+}
+.detailed{
+	display: flex;
+	justify-content: space-around;
+	border-bottom: 1px solid #ccc;
+}
+.detailed div{
+	padding: 1rem 2rem;
+}
+.active{
+	color: #409CFC;
+	border-bottom: 2px solid #409CFC;
+}
+.lists{
+	width: 90%;
+	margin: 0 auto;
+}
+.options{
+	display: flex;
+	justify-content: space-between;
+	margin: 1rem 0;
+}
+.options-left{
+	display: flex;
+}
+.imgwrap{
+	width: 3rem;
+	margin-right: 2rem;
+}
+.imgwrap img{
+	width: 100%;
+}
+.num{
+	display: flex;
+	align-items: center;
+	color: #409CFC;
+}

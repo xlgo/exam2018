@@ -1,0 +1,93 @@
+.bg{
+	background: url(../image/bg.png) no-repeat;
+	width: 100%;
+	height: 100%;
+	background-size: 100% 100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: -1;
+}
+.content{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+}
+.count{
+	margin-top: 2rem;
+	width: 8rem;
+	position: relative;
+}
+.count img{
+	width: 100%;
+}
+.countdown{
+	position: absolute;
+	font-size: 2rem;
+	color: #fff;
+	left: 2.2rem;
+    bottom: 2.8rem;
+}
+h2{
+	color: #fff;
+}
+.topic{
+	width: 85%;
+	margin: 0 auto;
+	font-size: 1.8rem;
+	color: #fff;
+	margin-bottom: 3rem;
+}
+.options{
+	width: 100%;
+	
+}
+.option{
+	width: 70%;
+	text-align: center;
+	margin: 0 auto;
+	background: #fff;
+	box-shadow: 1px 1px 1px #888;
+	border-radius: 50px;
+	line-height: 3rem;
+	position: relative;
+	color: #409CFC;
+	font-weight: 600;
+	margin-bottom: 2rem;
+}
+.icon{
+	width: 1.5rem;
+	position: absolute;
+	right: 1rem;
+	bottom: 0.1rem;
+}
+.icon img{
+	width: 100%;
+}
+.active{
+	background: #8cef7b;
+	color: #fff;
+}
+.buttons{
+	width: 70%;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+}
+.buttons div{
+	width:45%;
+	text-align: center;
+	background: #007eff;
+	box-shadow: 0px 2px 0px #888;
+	line-height: 2.5rem;
+	font-size: 2rem;
+	color: #fff;
+}
+.up{
+	border-radius: 50px 0 0 50px;
+}
+.down{
+	border-radius: 0 50px 50px 0;
+}

@@ -1,0 +1,70 @@
+.title{
+	width: 100%;
+	height: 6rem;
+	font-size: 2.5rem;
+	color: #fff;
+	background: #409CFC;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.items{
+	margin-bottom: 1rem;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.topic{
+	line-height: 3.5rem;
+	font-size: 1.8rem;
+	padding: 0 3%;
+}
+.option{
+	width: 100%;
+	padding: 0 3%;
+}
+.options{
+	width: 100%;
+}
+.option-s{
+	line-height: 2.5rem;
+	border: 1px solid #888;
+	border-radius: 5px;
+	margin-bottom: 0.8rem;
+	padding-left: 1rem;
+	display: flex;
+	align-items: center;
+}
+.garden{
+	font-size: 1.5rem;
+	font-weight: 900;
+	border: 1px solid #888;
+	border-radius: 100%;
+	width: 2rem;
+    height: 2rem;
+    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1.5rem;
+}
+.actives{
+	border: 1px solid #409CFC;
+	color: #409CFC;
+}
+.actives span{
+	background: #409CFC;
+	color: #fff;
+	border: 1px solid #409CFC;
+}
+.answer{
+	padding: 0 3%;
+	width: 100%;
+	background: #eee;
+}
+.answer div{
+	line-height: 2.5rem;
+}
+.correct{
+	color: #409CFC;
+}

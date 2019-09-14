@@ -1,0 +1,93 @@
+a:link{text-decoration:none ; }
+a:visited {text-decoration:none ; }
+a:hover {text-decoration:none ; }
+a:active {text-decoration:none ; }
+.bg{
+	background: url(../image/bg.png) no-repeat;
+	width: 100%;
+	height: 100%;
+	background-size: 100% 100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: -1;
+}
+.content{
+	width:85%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+}
+.message{
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+}
+.portraitbg{
+	width: 100%;
+}
+.portraitwrap{
+	width: 20%;
+	position: absolute;
+    left: 40%;
+    top: 50%;
+}
+.portrait{
+	width: 100%;
+}
+.integral{
+	width:100%;
+	text-align: center;
+	position: absolute;
+    bottom: 0%;
+    font-size: 2rem;
+    color: #fff;
+}
+.messagetext{
+	position: absolute;
+	right: 0.5rem;
+	bottom: 0.3rem;
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+}
+.imgwrap{
+	width: 14%;
+	margin-left: 5px;
+}
+.messagetext img{
+	width: 100%;
+}
+.littleoptions{
+	width: 100%;
+	position: relative;
+	margin-top: 1.5rem;
+}
+.optionbg{
+	width: 100%;
+}
+.options{
+	margin-top: 2rem;
+}
+.optioncontent{
+	position: absolute;
+	width: 100%;
+	top: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	height: 100%;
+}
+.optionicon{
+	width: 22%;
+}
+.optioncontenttext{
+	display: flex;
+	text-align: center;
+	flex-direction: column;
+}
+.texts{
+	color: #285fff;
+	font-size: 2rem;
+}
