@@ -11,12 +11,12 @@ import cn.hnzxl.exam.project.dao.ExaminationQuestionMapper;
 import cn.hnzxl.exam.project.model.ExaminationQuestion;
 
 @Service
-public class ExaminationQuestionService extends BaseService<ExaminationQuestion, String> {
+public class ExaminationQuestionService extends BaseService<ExaminationQuestion, Long> {
 	@Resource
 	private ExaminationQuestionMapper examinationQuestionMapper = null;
 
 	@Override
-	public BaseMapper<ExaminationQuestion, String> getBaseMapper() {
+	public BaseMapper<ExaminationQuestion, Long> getBaseMapper() {
 		return examinationQuestionMapper;
 	}
 }

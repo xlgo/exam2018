@@ -6,7 +6,7 @@ import java.util.Map;
 import cn.hnzxl.exam.base.dao.BaseMapper;
 import cn.hnzxl.exam.project.model.UserQuestion;
 
-public interface UserQuestionMapper extends BaseMapper<UserQuestion, String>{
+public interface UserQuestionMapper extends BaseMapper<UserQuestion, Long>{
 	int updateUserRightAnswer(UserQuestion userQuestion);
 	Integer selectUserScore(UserQuestion userQuestion);
 	

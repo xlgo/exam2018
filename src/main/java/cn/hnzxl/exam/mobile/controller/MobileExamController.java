@@ -27,7 +27,9 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,12 +41,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.hnzxl.exam.base.configuration.Constant;
 import cn.hnzxl.exam.base.model.BaseModel;
 import cn.hnzxl.exam.base.model.MPMessage;
 import cn.hnzxl.exam.base.model.MsgType;
+import cn.hnzxl.exam.base.util.BaseConfig;
 import cn.hnzxl.exam.base.util.GUIDUtil;
 import cn.hnzxl.exam.base.util.MD5Util;
 import cn.hnzxl.exam.base.util.SessionUtil;
+import cn.hnzxl.exam.base.util.WeChatConfig;
 import cn.hnzxl.exam.base.util.WeiXinUtil;
 import cn.hnzxl.exam.project.model.UserExamination;
 import cn.hnzxl.exam.project.service.UserExaminationService;
@@ -56,6 +61,7 @@ import cn.hnzxl.exam.system.service.SystemConfigService;
 import cn.hnzxl.exam.system.service.UserPrizeService;
 import cn.hnzxl.exam.system.service.UserService;
 import demo.demo1.GeetestConfig;
+import lombok.Builder.Default;
 import sdk.GeetestLib;
 
 /**
@@ -74,9 +80,14 @@ public class MobileExamController {
 	private UserQuestionService userQuestionService;
 	@Autowired
 	private SystemConfigService systemconfigService;
-
+	@Autowired
+	private BaseConfig baseConfig;
+	@Autowired
+	private WeChatConfig weChatConfig;
 	@Autowired
 	private UserExaminationService userExaminationService;
+	@Autowired
+	private StringRedisTemplate stringRedisTemplate;
 	// 用户的奖品
 	@Autowired
 	private UserPrizeService userPrizeService;
@@ -119,8 +130,8 @@ public class MobileExamController {
 			case "CLICK"://菜单点击
 				switch (message.getEventKey()) {
 				case "start_exam":
-					String url = WeiXinUtil.hostName+"/m/login?openId="+message.getFromUserName();
-					url+="&signature="+DigestUtils.md5Hex(message.getFromUserName()+WeiXinUtil.appId);
+					String url = baseConfig.getHostName()+"/m/login?openId="+message.getFromUserName();
+					url+="&signature="+DigestUtils.md5Hex(message.getFromUserName()+weChatConfig.getAppId());
 					content="<a href='"+url+"'>您已经通过身份唯一性验证，点击开始答题</a>";
 					break;
 				case "good":
@@ -142,8 +153,8 @@ public class MobileExamController {
 		}else if(MsgType.text.name().equals(msgType)){
 			if(StringUtils.contains(message.getContent(), "答题") || StringUtils.contains(message.getContent(), "考试")|| StringUtils.contains(message.getContent(), "验证")){
 				//String userInfo = WeiXinUtil.userInfo(message.getFromUserName());
-				String url = WeiXinUtil.hostName+"/m/login?openId="+message.getFromUserName();
-				url+="&signature="+DigestUtils.md5Hex(message.getFromUserName()+WeiXinUtil.appId);
+				String url = baseConfig.getHostName()+"/m/login?openId="+message.getFromUserName();
+				url+="&signature="+DigestUtils.md5Hex(message.getFromUserName()+weChatConfig.getAppId());
 				content="<a href='"+url+"'>您已经通过身份唯一性验证，点击开始答题</a>";
 			}else if(StringUtils.containsIgnoreCase(message.getContent(), "success")){
 				return message.getContent();
@@ -156,7 +167,7 @@ public class MobileExamController {
 			}else if(StringUtils.containsIgnoreCase(message.getContent(), "fromUserName")){
 				content=message.getFromUserName();
 			}else if(StringUtils.containsIgnoreCase(message.getContent(), "accessToken")){
-				content=WeiXinUtil.accessToken;
+				content=WeiXinUtil.getAccessToken();
 			}else{
 				if(message.getFromUserName().equals("oMwu30Qu71mi6Jz_SuZD0FEirlWk")){
 					WeiXinUtil.messageCustomSendText("oMwu30W4hosuh2qVZopcvevobdVk", message.getContent());
@@ -200,172 +211,37 @@ public class MobileExamController {
 
 	@RequestMapping("/login")
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
-		String userAgent = request.getHeader("user-agent");
-		if (userAgent.indexOf("Mobile") == -1) {
-			return new ModelAndView("redirect:/index2");
-		}
-		//System.out.println("out----------------");
-		/*synchronized (request.getRequestedSessionId().intern()) {
-			System.out.println("inn----------------");
-			System.out.println("stop----------");
-		}*/
-		String openId = request.getParameter("openId");
-		String signature = request.getParameter("signature");
-		Subject subject = SecurityUtils.getSubject();
-		
-		if(StringUtils.isNotBlank(openId)){
-			if(StringUtils.isBlank(signature)){
-				try {
-					response.sendRedirect("/m/login");
-					return null;
-				} catch (IOException e) {
-				}
-			}
-			if(signature.equals(DigestUtils.md5Hex(openId+WeiXinUtil.appId))){
-				if (!subject.isAuthenticated()) {
-					subject.logout();
-					SessionUtil.setAttribute("openId", request.getParameter("openId"));
-					SessionUtil.setAttribute("signature", request.getParameter("signature"));
-					User user = userService.selectByWxOpenid(openId);
-					if(user==null){
-						try {
-							response.sendRedirect("/m/login");
-							return null;
-						} catch (IOException e) {
-						}
-					}
-					UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
-					subject.login(token);
-				//	return new ModelAndView("redirect:/m/index");
-				}
-				SessionUtil.setAttribute("openId", request.getParameter("openId"));
-				return new ModelAndView("redirect:/m/index");
-			}else{
-				try {
-					response.sendRedirect("/m/login");
-					return null;
-				} catch (IOException e) {
-				}
-			}
-			
-			if (!subject.isAuthenticated()) {
-				subject.logout();
-				User user = userService.selectByWxOpenid(openId);
-				if(user==null){
-					try {
-						response.sendRedirect("/m/login");
-						return null;
-					} catch (IOException e) {
-					}
-				}
-				UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
-				subject.login(token);
-			//	return new ModelAndView("redirect:/m/index");
-			}
-			SessionUtil.setAttribute("openId", request.getParameter("openId"));
-			return new ModelAndView("redirect:/m/index");
-			
-		}
-		/*if (!"xlgg".equals(SessionUtil.getAttribute("ms_flag"))) {
-			if (!"xlgg".equals(request.getParameter("ms_flag"))) {
-				try {
-					SessionUtil.setAttribute("openId", request.getParameter("openId"));
-					response.sendRedirect("/");
-				} catch (IOException e) {
-				}
-				return null;
-			} else {
-				Subject subject = SecurityUtils.getSubject();
-				subject.logout();
-				SessionUtil.setAttribute("ms_flag", "xlgg");
-				try {
-					response.sendRedirect("/m/login");
-				} catch (IOException e) {
-				}
-				return null;
-			}
-		}*/
-		
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		if (StringUtils.isBlank(username)) {
-			subject.logout();
-			return new ModelAndView("/mobile/login");
-		}
-		/*
-		 * try{ GeetestLib gtSdk = new GeetestLib(GeetestConfig.getGeetest_id(),
-		 * GeetestConfig.getGeetest_key(), GeetestConfig.isnewfailback());
-		 * 
-		 * String challenge =
-		 * request.getParameter(GeetestLib.fn_geetest_challenge); String
-		 * validate = request.getParameter(GeetestLib.fn_geetest_validate);
-		 * String seccode = request.getParameter(GeetestLib.fn_geetest_seccode);
-		 * 
-		 * //从session中获取gt-server状态 int gt_server_status_code = (Integer)
-		 * request.getSession().getAttribute(gtSdk.gtServerStatusSessionKey);
-		 * //从session中获取userid String userid =
-		 * (String)request.getSession().getAttribute("userid");
-		 * 
-		 * int gtResult = 0;
-		 * 
-		 * if (gt_server_status_code == 1) { //gt-server正常，向gt-server进行二次验证
-		 * gtResult = gtSdk.enhencedValidateRequest(challenge, validate,
-		 * seccode, userid); } else { // gt-server非正常情况下，进行failback模式验证 gtResult
-		 * = gtSdk.failbackValidateRequest(challenge, validate, seccode); } if
-		 * (gtResult == 1) { }else{ throw new Exception("验证码验证失败！"); } }catch
-		 * (Exception e) { return new
-		 * ModelAndView("/mobile/login","msg",e.getMessage()); }
-		 */
-		log.info(username + "进行登录:info001");
-		//Subject subject = SecurityUtils.getSubject();
-		if (!subject.isAuthenticated()) {
-			String sessOpenId  = (String) SessionUtil.getAttribute("openId");
-			
-			try {
-				//if(sessOpenId==null){
-					//return new ModelAndView("/mobile/loginError", "msg","10086");
-				//}
-				
-				String md5Password = MD5Util.MD5(username + password);
-				UsernamePasswordToken token = new UsernamePasswordToken(username, md5Password);
-				subject.login(token);
-				
-				//User user = (User) subject.getSession().getAttribute("currentUser");
-				//if(StringUtils.isBlank(user.getWxOpenid())){
-					//User hasExisOpenId = userService.selectByWxOpenid(sessOpenId);
-					//if(hasExisOpenId!=null){
-						//throw new AccountException("该微信账号已经关联系统账号("+hasExisOpenId.getUsername()+")，无法登陆！");
-					//}
-					
-					//User updUser = new User();
-					//updUser.setUserid(user.getUserid());
-					//updUser.setWxOpenid(sessOpenId);
-					//userService.updateByPrimaryKeySelective(updUser);
-				//}else if(!user.getWxOpenid().equals(sessOpenId)){
-					//User hasExisOpenId = userService.selectByWxOpenid(sessOpenId);
-					//throw new AccountException("请使用该用户注册或首次登陆的微信进行答题！");
-				//}
-				//String identity = user.getIdentity();
-			} catch (AccountException e) {
-				subject.logout();
-				SessionUtil.setAttribute("openId", sessOpenId);
-				return new ModelAndView("/mobile/login", "msg", e.getMessage());
-			} catch (Exception e) {
-				subject.logout();
-				SessionUtil.setAttribute("openId", sessOpenId);
-				return new ModelAndView("/mobile/login", "msg", "用户名或者密码错误");
-			}
-		}
 		return new ModelAndView("redirect:/m/index");
 	}
-
+	
+	@RequestMapping("/reginfo")
+	public String reginfo(Model model) {
+		User currentUser = SessionUtil.getCurrentUser();
+		if(currentUser.getStatus()==1){
+			return "redirect:/m/index";
+		}
+		model.addAttribute("user", currentUser);
+		return "/mobile/reginfo";
+	}
+	
+	@RequestMapping("/reginfoSubmit")
+	@ResponseBody
+	public String reginfoSubmit(User user,Model model) {
+		user.setUserid(SessionUtil.getCurrentUser().getUserid());
+		user.setStatus(1);
+		userService.updateByPrimaryKeySelective(user);
+		userService.selectByPrimaryKey(SessionUtil.getCurrentUser().getUserid());
+		SessionUtil.setAttribute(Constant.SESSION_USER_INFO, user);
+		return "success";
+	}
+	@RequestMapping("/rule")
+	public String rule() {
+		return "/mobile/rule";
+	}
 	@RequestMapping("/index")
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
-		String userAgent = request.getHeader("user-agent");
-		if (userAgent.indexOf("Mobile") == -1) {
-			return new ModelAndView("redirect:/index");
-		}
-		return new ModelAndView("/mobile/index");
+		
+		return new ModelAndView("/mobile/index").addObject("user",SessionUtil.getCurrentUser());
 	}
 
 	@RequestMapping("/valid")
@@ -436,7 +312,7 @@ public class MobileExamController {
 		userInfo.put("ip", SessionUtil.getIpAddr(request));
 		userInfo.put("userAgent", request.getHeader("User-Agent"));
 		Map<String, Object> examInfo;
-		synchronized (SessionUtil.getCurrentUser().getUserid().intern()) {
+		synchronized (SessionUtil.getCurrentUser().getUserid()) {
 			examInfo = userQuestionService.getExamInfo(userInfo);
 		}
 		if (examInfo == null) {
@@ -448,13 +324,18 @@ public class MobileExamController {
 	}
 
 	@RequestMapping("save")
-	public ModelAndView save(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView save(Long examinationId,HttpServletRequest request, HttpServletResponse response) {
 		log.info(SessionUtil.getIpAddr(request) + ",用户IP:info008:info004");
 		log.info(SessionUtil.getCurrentUser().getUsername() + "提交试卷:info004");
-		Map<String, String[]> userQuestionInfo = request.getParameterMap();
-		String examinationId = request.getParameter("examinationId");
+		Map<String, String[]> userQuestionInfo = new HashMap<>(request.getParameterMap());
+		
+		//userQuestionInfo.put("userId", new String[]{SessionUtil.getCurrentUser().getUserid()+""});
+		//stringRedisTemplate.opsForList().leftPush("exam:2019:saveExam", JSON.toJSONString(userQuestionInfo));
+		userQuestionInfo.remove("examinationId");
+		userQuestionInfo.remove("userId");
+		
 		userQuestionService.saveUserExam(examinationId, userQuestionInfo, "2");
-		SystemConfig sc = systemconfigService.selectByPrimaryKey("choujiang");
+		SystemConfig sc = systemconfigService.selectByPrimaryKey(2L);
 		if (sc != null && sc.getValue() != null) {
 
 		}
@@ -465,7 +346,7 @@ public class MobileExamController {
 	public ModelAndView success(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("/mobile/success");
-		SystemConfig sc = systemconfigService.selectByPrimaryKey("choujiang");
+		SystemConfig sc = systemconfigService.selectByPrimaryKey(2L);
 		User currentUser = SessionUtil.getCurrentUser();
 
 		/*
@@ -519,9 +400,8 @@ public class MobileExamController {
 	}
 
 	@RequestMapping("contrast")
-	public ModelAndView contrast(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String examinationId = request.getParameter("id");
-		SystemConfig config = systemconfigService.selectByPrimaryKey("1");
+	public ModelAndView contrast(Long id,HttpServletRequest request, HttpServletResponse response) throws Exception {
+		SystemConfig config = systemconfigService.selectByPrimaryKey(1L);
 		if (config != null) {
 			try {
 				Long startDate = DateUtils.parseDate(config.getKey(), "yyyy-MM-dd HH:mm").getTime();
@@ -539,7 +419,7 @@ public class MobileExamController {
 			return new ModelAndView("/mobile/failure_def").addObject("errorTitle", "错误！").addObject("error",
 					"系统未设置开放时间，请联系管理员！");
 		}
-		return new ModelAndView("/mobile/contrast").addAllObjects(userExaminationService.contrast(examinationId));
+		return new ModelAndView("/mobile/contrast").addAllObjects(userExaminationService.contrast(id));
 	}
 
 	/**
@@ -564,10 +444,10 @@ public class MobileExamController {
 
 	@RequestMapping("ranking")
 	@ResponseBody
-	public Object ranking(HttpServletRequest request, HttpServletResponse response) {
+	public Object ranking(Long id,HttpServletRequest request, HttpServletResponse response) {
 		User currentUser = SessionUtil.getCurrentUser();
 		UserExamination ue = new UserExamination();
-		ue.setUserExaminationExaminationId(request.getParameter("id"));
+		ue.setUserExaminationExaminationId(id);
 		ue.setUserExaminationUserid(currentUser.getUserid());
 		return userExaminationService.selectRanking(ue);
 	}
@@ -580,7 +460,7 @@ public class MobileExamController {
 	@RequestMapping("saveRegister")
 	public ModelAndView saveRegister(User user, HttpServletRequest request, HttpServletResponse response,
 			RedirectAttributes ra) {
-		user.setUserid(GUIDUtil.getUUID());
+		//user.setUserid(GUIDUtil.getUUID());
 		try {
 			if (StringUtils.isEmpty(user.getUsername())) {
 				throw new Exception("用户名不能为空！");
@@ -659,5 +539,14 @@ public class MobileExamController {
 			SessionUtil.setAttribute("openId", sessOpenId);
 		}
 	    return new ModelAndView("redirect:/m/login");
+	}
+	
+	@RequestMapping("heartbeat")
+	@ResponseBody
+	public Object heartbeat(String info,String info2,HttpServletRequest request){
+		Map<String,Object> res =new HashMap<String,Object>();
+		res.put("timestamp", new Date().getTime());
+		res.put("status", "success");
+		return res;
 	}
 }

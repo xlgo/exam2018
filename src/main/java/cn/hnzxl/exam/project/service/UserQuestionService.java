@@ -27,7 +27,7 @@ import cn.hnzxl.exam.project.model.UserQuestion;
 import cn.hnzxl.exam.system.model.User;
 
 @Service
-public class UserQuestionService extends BaseService<UserQuestion, String> {
+public class UserQuestionService extends BaseService<UserQuestion, Long> {
 	public static Logger log = Logger.getLogger(UserQuestionService.class);
 	@Autowired
 	private UserQuestionMapper userQuestionMapper ;
@@ -77,7 +77,7 @@ public class UserQuestionService extends BaseService<UserQuestion, String> {
 			//List<UserExamination> insertExamination = new ArrayList<UserExamination>();
 			if(CollectionUtils.isEmpty(userExaminations)){
 				UserExamination userExamination = new UserExamination();
-				userExamination.setUserExaminationId(GUIDUtil.getUUID());
+				//userExamination.setUserExaminationId(GUIDUtil.getUUID());
 				userExamination.setUserExaminationUserid(currentUser.getUserid());
 				userExamination.setUserExaminationExaminationId(examination.getExaminationId());
 				userExamination.setUserExaminationIp(""+userInfo.get("ip"));
@@ -98,7 +98,7 @@ public class UserQuestionService extends BaseService<UserQuestion, String> {
 		}
 		
 		if(res.get("examination")!=null){
-			String examinationId = ((Examination)res.get("examination")).getExaminationId();
+			Long examinationId = ((Examination)res.get("examination")).getExaminationId();
 			Map<String,Object> headlineParam = new HashMap<String, Object>();
 			headlineParam.put("headlineExaminationId", examinationId);
 			if(type==1){
@@ -112,7 +112,7 @@ public class UserQuestionService extends BaseService<UserQuestion, String> {
 					userQuestionParam.put("userQuestionExaminationId", examinationId);
 					userQuestionParam.put("userQuestionHeadlineId", headline.getHeadlineId());
 					List<UserQuestion> userQuestions = this.selectAll(userQuestionParam);
-					List<String> ids = new ArrayList<String>();
+					List<Long> ids = new ArrayList<Long>();
 					for (UserQuestion userQuestion : userQuestions) {
 						ids.add(userQuestion.getUserQuestionQuestionId());
 					}
@@ -132,7 +132,7 @@ public class UserQuestionService extends BaseService<UserQuestion, String> {
 					int index = 0;
 					for (Question question : questionTemp) {
 						UserQuestion uq=new UserQuestion();
-						uq.setUserQuestionId(GUIDUtil.getUUID());
+						//uq.setUserQuestionId(GUIDUtil.getUUID());
 						uq.setUserQuestionExaminationId(examinationId);
 						uq.setUserQuestionHeadlineId(headline.getHeadlineId());
 						uq.setUserQuestionUserid(currentUser.getUserid());
@@ -189,7 +189,7 @@ public class UserQuestionService extends BaseService<UserQuestion, String> {
 	}
 	
 	
-	public void saveUserExam(String examinationId,Map<String, String[]> userQuestionInfo,String type){
+	public void saveUserExam(Long examinationId,Map<String, String[]> userQuestionInfo,String type){
 		User currentUser =SessionUtil.getCurrentUser();
 		
 		Map<String,Object> userExaminationParam = new HashMap<String, Object>();
@@ -207,7 +207,7 @@ public class UserQuestionService extends BaseService<UserQuestion, String> {
 		for (String key : userQuestionInfo.keySet()) {
 			UserQuestion userQuestion = new UserQuestion();
 			userQuestion.setUserQuestionExaminationId(examinationId);
-			userQuestion.setUserQuestionQuestionId(key);
+			userQuestion.setUserQuestionQuestionId(Long.valueOf(key));
 			userQuestion.setUserQuestionUserid(currentUser.getUserid());
 			String[] value = userQuestionInfo.get(key);
 			Arrays.sort(value);

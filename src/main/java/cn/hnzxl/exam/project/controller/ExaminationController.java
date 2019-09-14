@@ -17,7 +17,7 @@ import cn.hnzxl.exam.project.service.ExaminationService;
 
 @Controller
 @RequestMapping("/project/examination/")
-public class ExaminationController extends BaseController<Examination, String> {
+public class ExaminationController extends BaseController<Examination, Long> {
 	@Autowired
 	private ExaminationService examinationService;
 
@@ -27,7 +27,7 @@ public class ExaminationController extends BaseController<Examination, String> {
 	}
 
 	@Override
-	public BaseService<Examination, String> getBsetService() {
+	public BaseService<Examination, Long> getBsetService() {
 		return examinationService;
 	}
 	

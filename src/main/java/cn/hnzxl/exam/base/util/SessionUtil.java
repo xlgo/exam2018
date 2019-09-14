@@ -10,6 +10,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
+import cn.hnzxl.exam.base.configuration.Constant;
 import cn.hnzxl.exam.system.model.User;
 
 /**
@@ -63,7 +64,7 @@ public class SessionUtil {
 	 * @return
 	 */
 	public static User getCurrentUser(){
-		Object user = getAttribute("currentUser");
+		Object user = getAttribute(Constant.SESSION_USER_INFO);
 		if(user==null){
 			Subject subject = SecurityUtils.getSubject();
 			subject.logout();

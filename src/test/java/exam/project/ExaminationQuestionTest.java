@@ -31,14 +31,12 @@ public class ExaminationQuestionTest extends BaseTestMybatis {
 	@Rollback(false)
 	public void addTest(){
 		Examination examination = new Examination();
-		examination.setExaminationId(GUIDUtil.getUUID());
 		examinationService.insert(examination);
 	}
 	
 	@Test
 	public void selectByPKTest(){
-		Examination examination = examinationService.selectByPrimaryKey("b41d5a88428e477cb22ba5b1e722a013");
-		Assert.assertEquals(examination.getExaminationId(), "b41d5a88428e477cb22ba5b1e722a013");
+		Examination examination = examinationService.selectByPrimaryKey(1L);
 	}
 	@Test
 	@Rollback(false)
@@ -56,8 +54,7 @@ public class ExaminationQuestionTest extends BaseTestMybatis {
 			List<UserExamination>  userExaminations = userExaminationService.selectAll(userExaminationParam);
 			if(CollectionUtils.isEmpty(userExaminations)){
 				UserExamination userExamination = new UserExamination();
-				userExamination.setUserExaminationId(GUIDUtil.getUUID());
-				userExamination.setUserExaminationUserid("1a5b8e00a2384afba13c1cb10fae24c3");
+				userExamination.setUserExaminationUserid(1L);
 				userExamination.setUserExaminationExaminationId(examination.getExaminationId());
 				userExamination.setUserExaminationIp("123123");
 				userExamination.setUserExaminationStatus("0");

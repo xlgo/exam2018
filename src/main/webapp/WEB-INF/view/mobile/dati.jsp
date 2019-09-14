@@ -53,6 +53,9 @@
 			//剩余时间；
 			var syTime= examinationTimeLength- parseInt((current-startTime)/60000)-1;
 			var sySS = 59-parseInt(((current-startTime)%60000)/1000);
+			//alert(current)
+			
+			//alert(startTime)
 			if(syTime<2){
 				//$("#timeLength").parent().removeClass().addClass("btn btn-danger btn-xs");
 			}else if(syTime<10){
@@ -76,26 +79,26 @@
 				}
 				info.push({t:new Date().getTime(),c:$(":input:checked").size()});
 			}
-			setTimeout(daojishi, 100);
+			setTimeout(daojishi, 200);
 			
 		}
 		//心跳包
 		function heartbeat(){
-			$.post("<c:url value="/heartbeat"/>",{info:JSON.stringify(info),info2:JSON.stringify(info2)},function(data){
+			$.post("<c:url value="/m/heartbeat"/>",{info:JSON.stringify(info),info2:JSON.stringify(info2)},function(data){
 				//修正时间
 				current=data.timestamp;
 				info=[{t:new Date().getTime(),c:$(":input:checked").size()}];
 				info2=[{t:new Date().getTime(),c:$(":input:checked").size()}];
-			});
+			},"json");
 		}
 		function heartbeat2(){
-			$.post("<c:url value="/heartbeat"/>",{info:JSON.stringify(info),info2:JSON.stringify(info2)},function(data){
+			$.post("<c:url value="/m/heartbeat"/>",{info:JSON.stringify(info),info2:JSON.stringify(info2)},function(data){
 				//修正时间
 				info=[{t:new Date().getTime(),c:$(":input:checked").size()}];
 				info2=[{t:new Date().getTime(),c:$(":input:checked").size()}];
 				current=data.timestamp;
-				setTimeout(heartbeat2, 600000);
-			});
+				setTimeout(heartbeat2, 60000);
+			},"json");
 		}
 		//答题完毕 提交
 		function checkForm(){

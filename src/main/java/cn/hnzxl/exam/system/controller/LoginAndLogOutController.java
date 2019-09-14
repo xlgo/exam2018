@@ -37,10 +37,6 @@ public class LoginAndLogOutController {
 	
 	@RequestMapping("/login2")
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
-		String userAgent = request.getHeader("user-agent");
-		if(userAgent.indexOf("Mobile")!=-1){
-			return new ModelAndView("redirect:/m/login");
-		}
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		if(StringUtils.isBlank(username)){
@@ -77,7 +73,7 @@ public class LoginAndLogOutController {
 			} catch (AccountException e) {
 				return new ModelAndView("login","msg",e.getMessage());
 			} catch (Exception e) {
-				return new ModelAndView("login","msg",e.getMessage());
+				return new ModelAndView("login","msg","密码错误");
 			}
 		}
 	    return new ModelAndView("redirect:login2");
@@ -93,27 +89,7 @@ public class LoginAndLogOutController {
 	
 	@RequestMapping("/index")
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
-		String userAgent = request.getHeader("user-agent");
-		if(userAgent.indexOf("Mobile")!=-1){
-			return new ModelAndView("redirect:/m/index");
-		}
-		Subject subject = SecurityUtils.getSubject();
-		subject.logout();
-		User user =SessionUtil.getCurrentUser();
-		
-		user=userService.selectByPrimaryKey(user.getUserid());
-		if(StringUtils.isEmpty(user.getIdentity())){
-    		String valid = user.getArea();
-    		if(StringUtils.isEmpty(valid)){
-    			valid = RandomStringUtils.randomNumeric(6);
-		    	User updateUser = new User();
-		    	updateUser.setArea(valid);
-		    	updateUser.setUserid(user.getUserid());
-		    	userService.updateByPrimaryKeySelective(updateUser);
-    		}
-    		return new ModelAndView("valid").addObject("validCode", valid);
-    	}
-		return new ModelAndView("index");
+		return new ModelAndView("/index2019");
 	}
 	
 	@RequestMapping("/index2")
@@ -139,8 +115,7 @@ public class LoginAndLogOutController {
 	@RequestMapping("heartbeat")
 	@ResponseBody
 	public Object heartbeat(String info,String info2,HttpServletRequest request){
-		Subject subject = SecurityUtils.getSubject();
-		try{
+		/*try{
 			if(JSON.parseArray(info).size()==0|| JSON.parseArray(info2).size()==0){
 				log.info(SessionUtil.getIpAddr(request)+",用户IP:info008:exp002");
 				log.error(SessionUtil.getCurrentUser().getUsername()+"，初始化为空:exp002！");
@@ -155,6 +130,7 @@ public class LoginAndLogOutController {
 			log.info(SessionUtil.getIpAddr(request)+",用户IP:info008:exp000");
 			log.error(SessionUtil.getCurrentUser().getUsername()+"，心跳参数错误:exp000！");
 		}
+		*/
 		Map<String,Object> res =new HashMap<String,Object>();
 		res.put("timestamp", new Date().getTime());
 		res.put("status", "success");

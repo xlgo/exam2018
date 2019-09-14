@@ -22,7 +22,7 @@ import cn.hnzxl.exam.project.model.Examination;
 
 public abstract class BaseController<MODEL extends BaseModel<PK>,  PK extends Serializable> {
 	public static Logger log = Logger.getLogger(BaseModel.class.getName()+"Controller");
-	 public abstract BaseService<MODEL, String> getBsetService();
+	 public abstract BaseService<MODEL, PK> getBsetService();
 	 public abstract Class<MODEL> getModelClass();
 	 
 	 @RequestMapping("list")
@@ -33,8 +33,7 @@ public abstract class BaseController<MODEL extends BaseModel<PK>,  PK extends Se
 	 }
 	 
 	 @RequestMapping("edit")
-	 public ModelAndView edit(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		 String id = request.getParameter("id");
+	 public ModelAndView edit(PK id,HttpServletRequest request, HttpServletResponse response) throws Exception{
 		 MODEL model = getBsetService().selectByPrimaryKey(id);
 		 if(model == null){
 			 return add(request,response);
@@ -51,10 +50,9 @@ public abstract class BaseController<MODEL extends BaseModel<PK>,  PK extends Se
 	 
 	 @RequestMapping("delJSON")
 	 @ResponseBody
-	 public DWZResult delJSON(HttpServletRequest request, HttpServletResponse response){
+	 public DWZResult delJSON(PK[] id,HttpServletRequest request, HttpServletResponse response){
 		 DWZResult dwzResult = new DWZResult();
-		 String[] ids = request.getParameterValues("id");
-		 int delCount = getBsetService().deleteByPrimaryKeyBatch(ids);
+		 int delCount = getBsetService().deleteByPrimaryKeyBatch(id);
 		 dwzResult.setMessage("删除成功"+(delCount>1?"("+delCount+"条)":"")+"！");
 		 return dwzResult;
 	 }
@@ -69,7 +67,7 @@ public abstract class BaseController<MODEL extends BaseModel<PK>,  PK extends Se
 			 getBsetService().updateByPrimaryKeySelective(model);
 			 dwzResult.setMessage("保存成功！");
 		 }else{
-			 model.setId((PK)GUIDUtil.getUUID());
+			 //model.setId((PK)GUIDUtil.getUUID());
 			 getBsetService().insert(model);
 			 dwzResult.setMessage("创建成功！");
 		 }

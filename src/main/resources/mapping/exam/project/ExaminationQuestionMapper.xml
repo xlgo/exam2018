@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.hnzxl.exam.project.dao.ExaminationQuestionMapper">
 	<resultMap id="BaseResultMap" type="cn.hnzxl.exam.project.model.ExaminationQuestion">
-		<id column="examination_question_id" property="examinationQuestionId" jdbcType="VARCHAR" />
-		<result column="examination_question_examination_id" property="examinationQuestionExaminationId" jdbcType="VARCHAR" />
-		<result column="examination_question_headline_id" property="examinationQuestionHeadlineId" jdbcType="VARCHAR" />
-		<result column="examination_question_question_id" property="examinationQuestionQuestionId" jdbcType="VARCHAR" />
+		<id column="examination_question_id" property="examinationQuestionId" jdbcType="BIGINT" />
+		<result column="examination_question_examination_id" property="examinationQuestionExaminationId" jdbcType="BIGINT" />
+		<result column="examination_question_headline_id" property="examinationQuestionHeadlineId" jdbcType="BIGINT" />
+		<result column="examination_question_question_id" property="examinationQuestionQuestionId" jdbcType="BIGINT" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		examination_question_id, examination_question_examination_id, examination_question_headline_id,
@@ -15,13 +15,13 @@
 	<sql id="Base_Dynamic_Where">
 		<where>
 			<if test="examinationQuestionExaminationId != null">
-				AND examination_question_examination_id = #{examinationQuestionExaminationId,jdbcType=VARCHAR}
+				AND examination_question_examination_id = #{examinationQuestionExaminationId}
 			</if>
 			<if test="examinationQuestionHeadlineId != null">
-				AND examination_question_headline_id = #{examinationQuestionHeadlineId,jdbcType=VARCHAR}
+				AND examination_question_headline_id = #{examinationQuestionHeadlineId}
 			</if>
 			<if test="examinationQuestionQuestionId != null">
-				AND examination_question_question_id = #{examinationQuestionQuestionId,jdbcType=VARCHAR}
+				AND examination_question_question_id = #{examinationQuestionQuestionId}
 			</if>
 		</where>
 	</sql>
@@ -38,28 +38,28 @@
 		</if>
 	</select>
 
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from examination_question
-		where examination_question_id = #{examinationQuestionId,jdbcType=VARCHAR}
+		where examination_question_id = #{examinationQuestionId}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+	<delete id="deleteByPrimaryKey">
 		delete from examination_question
 		where examination_question_id =
-		#{examinationQuestionId,jdbcType=VARCHAR}
+		#{examinationQuestionId}
 	</delete>
-	<insert id="insert" parameterType="cn.hnzxl.exam.project.model.ExaminationQuestion">
+	<insert id="insert" parameterType="cn.hnzxl.exam.project.model.ExaminationQuestion" useGeneratedKeys="true" keyProperty="examinationQuestionId">
 		insert into examination_question (examination_question_id,
 		examination_question_examination_id,
 		examination_question_headline_id, examination_question_question_id
 		)
 		values
-		(#{examinationQuestionId,jdbcType=VARCHAR}, #{examinationQuestionExaminationId,jdbcType=VARCHAR},
-		#{examinationQuestionHeadlineId,jdbcType=VARCHAR}, #{examinationQuestionQuestionId,jdbcType=VARCHAR}
+		(#{examinationQuestionId}, #{examinationQuestionExaminationId},
+		#{examinationQuestionHeadlineId}, #{examinationQuestionQuestionId}
 		)
 	</insert>
-	<insert id="insertSelective" parameterType="cn.hnzxl.exam.project.model.ExaminationQuestion">
+	<insert id="insertSelective" parameterType="cn.hnzxl.exam.project.model.ExaminationQuestion" useGeneratedKeys="true" keyProperty="examinationQuestionId">
 		insert into examination_question
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="examinationQuestionId != null">
@@ -77,16 +77,16 @@
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="examinationQuestionId != null">
-				#{examinationQuestionId,jdbcType=VARCHAR},
+				#{examinationQuestionId},
 			</if>
 			<if test="examinationQuestionExaminationId != null">
-				#{examinationQuestionExaminationId,jdbcType=VARCHAR},
+				#{examinationQuestionExaminationId},
 			</if>
 			<if test="examinationQuestionHeadlineId != null">
-				#{examinationQuestionHeadlineId,jdbcType=VARCHAR},
+				#{examinationQuestionHeadlineId},
 			</if>
 			<if test="examinationQuestionQuestionId != null">
-				#{examinationQuestionQuestionId,jdbcType=VARCHAR},
+				#{examinationQuestionQuestionId},
 			</if>
 		</trim>
 	</insert>
@@ -94,26 +94,26 @@
 		update examination_question
 		<set>
 			<if test="examinationQuestionExaminationId != null">
-				examination_question_examination_id = #{examinationQuestionExaminationId,jdbcType=VARCHAR},
+				examination_question_examination_id = #{examinationQuestionExaminationId},
 			</if>
 			<if test="examinationQuestionHeadlineId != null">
-				examination_question_headline_id = #{examinationQuestionHeadlineId,jdbcType=VARCHAR},
+				examination_question_headline_id = #{examinationQuestionHeadlineId},
 			</if>
 			<if test="examinationQuestionQuestionId != null">
-				examination_question_question_id = #{examinationQuestionQuestionId,jdbcType=VARCHAR},
+				examination_question_question_id = #{examinationQuestionQuestionId},
 			</if>
 		</set>
-		where examination_question_id = #{examinationQuestionId,jdbcType=VARCHAR}
+		where examination_question_id = #{examinationQuestionId}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="cn.hnzxl.exam.project.model.ExaminationQuestion">
 		update examination_question
 		set examination_question_examination_id
-		= #{examinationQuestionExaminationId,jdbcType=VARCHAR},
+		= #{examinationQuestionExaminationId},
 		examination_question_headline_id =
-		#{examinationQuestionHeadlineId,jdbcType=VARCHAR},
+		#{examinationQuestionHeadlineId},
 		examination_question_question_id =
-		#{examinationQuestionQuestionId,jdbcType=VARCHAR}
+		#{examinationQuestionQuestionId}
 		where examination_question_id =
-		#{examinationQuestionId,jdbcType=VARCHAR}
+		#{examinationQuestionId}
 	</update>
 </mapper>

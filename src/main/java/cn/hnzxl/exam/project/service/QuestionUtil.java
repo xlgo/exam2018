@@ -25,7 +25,7 @@ public class QuestionUtil {
 	public static final Logger log = Logger.getLogger(QuestionUtil.class);
 	@Autowired
 	public QuestionService questionService;
-	private static Map<String, Question> questionsById;
+	private static Map<Long, Question> questionsById;
 	private static Map<String, List<Question>> questionsByType;
 
 	public List<Question> getQuestionsByType(String type) {
@@ -39,7 +39,7 @@ public class QuestionUtil {
 		questionsById=null;
 	}
 	
-	public Map<String, Question> getQuestions() {
+	public Map<Long, Question> getQuestions() {
 		if(questionsById == null){
 			initQuestions();
 		}
@@ -47,7 +47,7 @@ public class QuestionUtil {
 	}
 	private void initQuestions(){
 		questionsByType = new HashMap<String, List<Question>>();
-		questionsById =new HashMap<String, Question>();
+		questionsById =new HashMap<Long, Question>();
 		Map<String,Object> params = new HashMap<String, Object>();
 		params.put("questionStatus", "0");
 		List<Question> questions = questionService.selectAll(params);
@@ -63,12 +63,12 @@ public class QuestionUtil {
 			typeQuestion.add(question);
 		}
 	}
-	public List<Question> getQuestionsByIds(List<String> ids){
+	public List<Question> getQuestionsByIds(List<Long> ids){
 		if(questionsById == null){
 			initQuestions();
 		}
 		List<Question> resQuestions  = new ArrayList<Question>();
-		for (String id : ids) {
+		for (Long id : ids) {
 			resQuestions.add(questionsById.get(id));
 		}
 		return resQuestions;

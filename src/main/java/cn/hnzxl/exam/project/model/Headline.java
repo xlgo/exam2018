@@ -9,11 +9,11 @@ import cn.hnzxl.exam.base.model.BaseModel;
  * @date 2014年11月10日 下午9:45:17
  *
  */
-public class Headline extends BaseModel<String> {
+public class Headline extends BaseModel<Long> {
 	// 大题编号
-	private String headlineId;
+	private Long headlineId;
 	// 试卷id
-	private String headlineExaminationId;
+	private Long headlineExaminationId;
 	// 试卷名称
 	private String headlineExaminationName;
 	// 大题标题
@@ -41,20 +41,20 @@ public class Headline extends BaseModel<String> {
 		this.headlineQuestionType = headlineQuestionType;
 	}
 
-	public String getHeadlineId() {
+	public Long getHeadlineId() {
 		return headlineId;
 	}
 
-	public void setHeadlineId(String headlineId) {
-		this.headlineId = headlineId == null ? null : headlineId.trim();
+	public void setHeadlineId(Long headlineId) {
+		this.headlineId = headlineId;
 	}
 
-	public String getHeadlineExaminationId() {
+	public Long getHeadlineExaminationId() {
 		return headlineExaminationId;
 	}
 
-	public void setHeadlineExaminationId(String headlineExaminationId) {
-		this.headlineExaminationId = headlineExaminationId == null ? null : headlineExaminationId.trim();
+	public void setHeadlineExaminationId(Long headlineExaminationId) {
+		this.headlineExaminationId = headlineExaminationId;
 	}
 
 	public String getHeadlineHeadlineSubject() {
@@ -114,12 +114,12 @@ public class Headline extends BaseModel<String> {
 	}
 
 	@Override
-	public String getId() {
+	public Long getId() {
 		return this.headlineId;
 	}
 
 	@Override
-	public void setId(String modelId) {
+	public void setId(Long modelId) {
 		this.headlineId = modelId;
 	}
 

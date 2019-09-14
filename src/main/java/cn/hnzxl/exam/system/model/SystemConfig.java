@@ -2,8 +2,8 @@ package cn.hnzxl.exam.system.model;
 
 import cn.hnzxl.exam.base.model.BaseModel;
 
-public class SystemConfig  extends BaseModel<String> {
-    private String id;
+public class SystemConfig  extends BaseModel<Long> {
+    private Long id;
 
     private String type;
 
@@ -13,12 +13,12 @@ public class SystemConfig  extends BaseModel<String> {
 
     private String memo;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getType() {

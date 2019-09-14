@@ -2,16 +2,16 @@ package cn.hnzxl.exam.project.model;
 
 import cn.hnzxl.exam.base.model.BaseModel;
 
-public class UserQuestion extends BaseModel<String> {
-	private String userQuestionId;
+public class UserQuestion extends BaseModel<Long> {
+	private Long userQuestionId;
 
-	private String userQuestionExaminationId;
+	private Long userQuestionExaminationId;
 
-	private String userQuestionHeadlineId;
+	private Long userQuestionHeadlineId;
 
-	private String userQuestionUserid;
+	private Long userQuestionUserid;
 
-	private String userQuestionQuestionId;
+	private Long userQuestionQuestionId;
 
 	private Integer userQuestionScore;
 
@@ -20,44 +20,44 @@ public class UserQuestion extends BaseModel<String> {
 	private String userQuestionUserAnswer;
 	
 	private Integer userQuestionSort;
-	public String getUserQuestionId() {
+	public Long getUserQuestionId() {
 		return userQuestionId;
 	}
 
-	public void setUserQuestionId(String userQuestionId) {
-		this.userQuestionId = userQuestionId == null ? null : userQuestionId.trim();
+	public void setUserQuestionId(Long userQuestionId) {
+		this.userQuestionId = userQuestionId;
 	}
 
-	public String getUserQuestionExaminationId() {
+	public Long getUserQuestionExaminationId() {
 		return userQuestionExaminationId;
 	}
 
-	public void setUserQuestionExaminationId(String userQuestionExaminationId) {
-		this.userQuestionExaminationId = userQuestionExaminationId == null ? null : userQuestionExaminationId.trim();
+	public void setUserQuestionExaminationId(Long userQuestionExaminationId) {
+		this.userQuestionExaminationId = userQuestionExaminationId;
 	}
 
-	public String getUserQuestionHeadlineId() {
+	public Long getUserQuestionHeadlineId() {
 		return userQuestionHeadlineId;
 	}
 
-	public void setUserQuestionHeadlineId(String userQuestionHeadlineId) {
-		this.userQuestionHeadlineId = userQuestionHeadlineId == null ? null : userQuestionHeadlineId.trim();
+	public void setUserQuestionHeadlineId(Long userQuestionHeadlineId) {
+		this.userQuestionHeadlineId = userQuestionHeadlineId;
 	}
 
-	public String getUserQuestionUserid() {
+	public Long getUserQuestionUserid() {
 		return userQuestionUserid;
 	}
 
-	public void setUserQuestionUserid(String userQuestionUserid) {
-		this.userQuestionUserid = userQuestionUserid == null ? null : userQuestionUserid.trim();
+	public void setUserQuestionUserid(Long userQuestionUserid) {
+		this.userQuestionUserid = userQuestionUserid;
 	}
 
-	public String getUserQuestionQuestionId() {
+	public Long getUserQuestionQuestionId() {
 		return userQuestionQuestionId;
 	}
 
-	public void setUserQuestionQuestionId(String userQuestionQuestionId) {
-		this.userQuestionQuestionId = userQuestionQuestionId == null ? null : userQuestionQuestionId.trim();
+	public void setUserQuestionQuestionId(Long userQuestionQuestionId) {
+		this.userQuestionQuestionId = userQuestionQuestionId;
 	}
 
 	public Integer getUserQuestionScore() {
@@ -85,12 +85,12 @@ public class UserQuestion extends BaseModel<String> {
 	}
 
 	@Override
-	public String getId() {
+	public Long getId() {
 		return this.userQuestionId;
 	}
 
 	@Override
-	public void setId(String modelId) {
+	public void setId(Long modelId) {
 		this.userQuestionId  = modelId;
 	}
 

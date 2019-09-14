@@ -56,7 +56,10 @@ public class LoginRealm extends AuthorizingRealm {
 		User user = userService.selectByUserName(token.getUsername());
 		if (user == null) {
 			throw new AccountException("用户名不存在");
+		}else if(StringUtils.isBlank(user.getPermission())){
+			throw new AccountException("非法的用户");
 		}
+		
 		AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(),
 				this.getName());
 		this.setSession("currentUser", user);

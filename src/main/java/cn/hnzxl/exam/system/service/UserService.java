@@ -20,12 +20,12 @@ import cn.hnzxl.exam.system.model.User;
  *
  */
 @Service
-public class UserService extends BaseService<User, String> {
+public class UserService extends BaseService<User, Long> {
 	@Autowired
 	private UserMapper userMapper = null;
 
 	@Override
-	public BaseMapper<User, String> getBaseMapper() {
+	public BaseMapper<User, Long> getBaseMapper() {
 		return userMapper;
 	}
 	public boolean hasUserByUsername(String username){

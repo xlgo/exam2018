@@ -23,7 +23,7 @@
 
 <div class="gaimi-header">
     <div class="header-back">
-        <a href="<c:url value="/index"/>">
+        <a href="<c:url value="/m/index"/>">
                <img src="<c:url value="/resource/mobile/image/arrow.png"/>">
            </a>
     </div>
@@ -35,10 +35,8 @@
         <li><span>开始时间：</span><b><fmt:formatDate value="${modelList[0].createTime}" pattern="yyyy-MM-dd HH:mm"/></b></li>
         <li><span>答卷耗时：</span><b><fmt:formatNumber value="${modelList[0].userExaminationTimeLength}" pattern="0.0"/></b></li>
         <li><span>得分：</span><b>${modelList[0].userExaminationScore}</b></li>
-        <li><span>排名：</span><b id="${modelList[0].userExaminationExaminationId}"></b></li>
     </ul>
 </div>
-<div class="login-tijiao gaitop" onclick="viewRanking('${modelList[0].userExaminationExaminationId}');">查看排名</div>
 
 
 

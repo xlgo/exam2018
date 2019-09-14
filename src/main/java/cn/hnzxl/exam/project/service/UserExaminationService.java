@@ -21,7 +21,7 @@ import cn.hnzxl.exam.project.model.UserQuestion;
 import cn.hnzxl.exam.system.model.User;
 
 @Service
-public class UserExaminationService extends BaseService<UserExamination, String> {
+public class UserExaminationService extends BaseService<UserExamination, Long> {
 	@Autowired
 	private UserExaminationMapper userExaminationMapper = null;
 	@Autowired
@@ -33,7 +33,7 @@ public class UserExaminationService extends BaseService<UserExamination, String>
 	@Autowired
 	private UserQuestionService userQuestionService;
 	@Override
-	public BaseMapper<UserExamination, String> getBaseMapper() {
+	public BaseMapper<UserExamination, Long> getBaseMapper() {
 		return userExaminationMapper;
 	}
 	/**
@@ -48,7 +48,7 @@ public class UserExaminationService extends BaseService<UserExamination, String>
 	/**
 	 * 获取用户答题的信息
 	 */
-	public Map<String,Object> contrast(String examinationId) {
+	public Map<String,Object> contrast(Long examinationId) {
 		Map<String, Object> res = new HashMap<String, Object>();
 		
 		User currentUser =SessionUtil.getCurrentUser();

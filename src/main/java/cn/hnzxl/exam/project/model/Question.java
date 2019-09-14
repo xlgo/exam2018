@@ -9,7 +9,7 @@ import cn.hnzxl.exam.base.model.BaseModel;
  * @date 2014年11月8日 下午6:47:44
  *
  */
-public class Question extends BaseModel<String> {
+public class Question extends BaseModel<Long> {
 	//判断
 	public final static String TYPE_JUDGE="00";
 	//单选
@@ -17,7 +17,7 @@ public class Question extends BaseModel<String> {
 	//多选
 	public final static String TYPE_MULTIPLE="02";
 	
-	private String questionId;
+	private Long questionId;
 	// 类别id
 	private String questionCategoryId;
 	// 题目类型 00:判断，01:单选，02:多选
@@ -37,12 +37,12 @@ public class Question extends BaseModel<String> {
 
 	private String questionRemark;
 
-	public String getQuestionId() {
+	public Long getQuestionId() {
 		return questionId;
 	}
 
-	public void setQuestionId(String questionId) {
-		this.questionId = questionId == null ? null : questionId.trim();
+	public void setQuestionId(Long questionId) {
+		this.questionId = questionId;
 	}
 
 	public String getQuestionCategoryId() {
@@ -118,12 +118,12 @@ public class Question extends BaseModel<String> {
 	}
 
 	@Override
-	public String getId() {
+	public Long getId() {
 		return this.questionId;
 	}
 
 	@Override
-	public void setId(String modelId) {
+	public void setId(Long modelId) {
 		this.questionId = modelId;
 	}
 }

@@ -11,13 +11,13 @@ import cn.hnzxl.exam.base.model.BaseModel;
  * @date 2014年11月12日 上午10:54:50
  *
  */
-public class UserExamination extends BaseModel<String> {
+public class UserExamination extends BaseModel<Long> {
 
-	private String userExaminationId;
+	private Long userExaminationId;
 	// 用户的id
-	private String userExaminationUserid;
+	private Long userExaminationUserid;
 	// 试卷的id
-	private String userExaminationExaminationId;
+	private Long userExaminationExaminationId;
 	private String userExaminationExaminationName;
 	public String getUserExaminationExaminationName() {
 		return userExaminationExaminationName;
@@ -42,27 +42,27 @@ public class UserExamination extends BaseModel<String> {
 	// 状态 0有效，1答题完成，2作废
 	private String userExaminationStatus;
 
-	public String getUserExaminationId() {
+	public Long getUserExaminationId() {
 		return userExaminationId;
 	}
 
-	public void setUserExaminationId(String userExaminationId) {
+	public void setUserExaminationId(Long userExaminationId) {
 		this.userExaminationId = userExaminationId;
 	}
 
-	public String getUserExaminationUserid() {
+	public Long getUserExaminationUserid() {
 		return userExaminationUserid;
 	}
 
-	public void setUserExaminationUserid(String userExaminationUserid) {
+	public void setUserExaminationUserid(Long userExaminationUserid) {
 		this.userExaminationUserid = userExaminationUserid;
 	}
 
-	public String getUserExaminationExaminationId() {
+	public Long getUserExaminationExaminationId() {
 		return userExaminationExaminationId;
 	}
 
-	public void setUserExaminationExaminationId(String userExaminationExaminationId) {
+	public void setUserExaminationExaminationId(Long userExaminationExaminationId) {
 		this.userExaminationExaminationId = userExaminationExaminationId;
 	}
 
@@ -123,12 +123,12 @@ public class UserExamination extends BaseModel<String> {
 	}
 
 	@Override
-	public String getId() {
+	public Long getId() {
 		return this.userExaminationId;
 	}
 
 	@Override
-	public void setId(String modelId) {
+	public void setId(Long modelId) {
 		this.userExaminationId = modelId;
 	}
 }

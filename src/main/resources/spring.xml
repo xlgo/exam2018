@@ -13,7 +13,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 	<context:component-scan base-package="cn.hnzxl.**.service" />
 	<context:component-scan base-package="cn.hnzxl.**.task" />
 	<context:component-scan base-package="cn.hnzxl.**.util" />
-	
+	<context:component-scan base-package="cn.hnzxl.**.configuration" />
 	<import resource="spring-mybatis.xml" />
 	<import resource="spring-shiro.xml" />
 </beans>

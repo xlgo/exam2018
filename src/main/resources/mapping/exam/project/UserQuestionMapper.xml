@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.hnzxl.exam.project.dao.UserQuestionMapper">
 	<resultMap id="BaseResultMap" type="cn.hnzxl.exam.project.model.UserQuestion">
-		<id column="user_question_id" property="userQuestionId" jdbcType="VARCHAR" />
-		<result column="user_question_examination_id" property="userQuestionExaminationId" jdbcType="VARCHAR" />
-		<result column="user_question_headline_id" property="userQuestionHeadlineId" jdbcType="VARCHAR" />
-		<result column="user_question_userid" property="userQuestionUserid" jdbcType="VARCHAR" />
+		<id column="user_question_id" property="userQuestionId" jdbcType="BIGINT" />
+		<result column="user_question_examination_id" property="userQuestionExaminationId" jdbcType="BIGINT" />
+		<result column="user_question_headline_id" property="userQuestionHeadlineId" jdbcType="BIGINT" />
+		<result column="user_question_userid" property="userQuestionUserid" jdbcType="BIGINT" />
 		<result column="user_question_question_id" property="userQuestionQuestionId" jdbcType="VARCHAR" />
 		<result column="user_question_score" property="userQuestionScore" jdbcType="INTEGER" />
 		<result column="user_question_right_answer" property="userQuestionRightAnswer" jdbcType="VARCHAR" />
@@ -20,25 +20,25 @@
 	<sql id="Base_Dynamic_Where">
 		<where>
 			<if test="userQuestionExaminationId != null">
-				AND user_question_examination_id = #{userQuestionExaminationId,jdbcType=VARCHAR}
+				AND user_question_examination_id = #{userQuestionExaminationId}
 			</if>
 			<if test="userQuestionHeadlineId != null">
-				AND user_question_headline_id = #{userQuestionHeadlineId,jdbcType=VARCHAR}
+				AND user_question_headline_id = #{userQuestionHeadlineId}
 			</if>
 			<if test="userQuestionUserid != null">
-				AND user_question_userid = #{userQuestionUserid,jdbcType=VARCHAR}
+				AND user_question_userid = #{userQuestionUserid}
 			</if>
 			<if test="userQuestionQuestionId != null">
-				AND user_question_question_id = #{userQuestionQuestionId,jdbcType=VARCHAR}
+				AND user_question_question_id = #{userQuestionQuestionId}
 			</if>
 			<if test="userQuestionScore != null">
-				AND user_question_score = #{userQuestionScore,jdbcType=INTEGER}
+				AND user_question_score = #{userQuestionScore}
 			</if>
 			<if test="userQuestionRightAnswer != null">
-				AND user_question_right_answer = #{userQuestionRightAnswer,jdbcType=VARCHAR}
+				AND user_question_right_answer = #{userQuestionRightAnswer}
 			</if>
 			<if test="userQuestionUserAnswer != null">
-				AND user_question_user_answer = #{userQuestionUserAnswer,jdbcType=VARCHAR}
+				AND user_question_user_answer = #{userQuestionUserAnswer}
 			</if>
 		</where>
 	</sql>
@@ -55,16 +55,16 @@
 		</if>
 	</select>
 
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" >
 		select
 		<include refid="Base_Column_List" />
 		from user_question
-		where user_question_id = #{userQuestionId,jdbcType=VARCHAR}
+		where user_question_id = #{userQuestionId}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+	<delete id="deleteByPrimaryKey" >
 		delete from user_question
 		where user_question_id =
-		#{userQuestionId,jdbcType=VARCHAR}
+		#{userQuestionId}
 	</delete>
 	<insert id="insertBatch" >
 		insert into user_question (user_question_id, user_question_examination_id,
@@ -74,38 +74,38 @@
 		)
 		values
 		<foreach collection="list" item="item" separator=",">
-			(#{item.userQuestionId,jdbcType=VARCHAR},
-			#{item.userQuestionExaminationId,jdbcType=VARCHAR},
-			#{item.userQuestionHeadlineId,jdbcType=VARCHAR},
-			#{item.userQuestionUserid,jdbcType=VARCHAR},
-			#{item.userQuestionQuestionId,jdbcType=VARCHAR},
-			#{item.userQuestionScore,jdbcType=INTEGER},
-			#{item.userQuestionRightAnswer,jdbcType=VARCHAR},
-			#{item.userQuestionUserAnswer,jdbcType=VARCHAR},
-			#{item.userQuestionSort,jdbcType=INTEGER}
+			(#{item.userQuestionId},
+			#{item.userQuestionExaminationId},
+			#{item.userQuestionHeadlineId},
+			#{item.userQuestionUserid},
+			#{item.userQuestionQuestionId},
+			#{item.userQuestionScore},
+			#{item.userQuestionRightAnswer},
+			#{item.userQuestionUserAnswer},
+			#{item.userQuestionSort}
 			)
 		</foreach>
 		 
 	</insert>
-	<insert id="insert" parameterType="cn.hnzxl.exam.project.model.UserQuestion">
+	<insert id="insert" parameterType="cn.hnzxl.exam.project.model.UserQuestion" useGeneratedKeys="true" keyProperty="userQuestionId">
 		insert into user_question (user_question_id, user_question_examination_id,
 		user_question_headline_id, user_question_userid,
 		user_question_question_id, user_question_score,
 		user_question_right_answer, user_question_user_answer,user_question_sort
 		)
-		values (#{userQuestionId,jdbcType=VARCHAR},
-		#{userQuestionExaminationId,jdbcType=VARCHAR},
-		#{userQuestionHeadlineId,jdbcType=VARCHAR},
-		#{userQuestionUserid,jdbcType=VARCHAR},
-		#{userQuestionQuestionId,jdbcType=VARCHAR},
-		#{userQuestionScore,jdbcType=INTEGER},
-		#{userQuestionRightAnswer,jdbcType=VARCHAR},
-		#{userQuestionUserAnswer,jdbcType=VARCHAR},
-		#{userQuestionSort,jdbcType=INTEGER}
+		values (#{userQuestionId},
+		#{userQuestionExaminationId},
+		#{userQuestionHeadlineId},
+		#{userQuestionUserid},
+		#{userQuestionQuestionId},
+		#{userQuestionScore},
+		#{userQuestionRightAnswer},
+		#{userQuestionUserAnswer},
+		#{userQuestionSort}
 		)
 	</insert>
 	
-	<insert id="insertSelective" parameterType="cn.hnzxl.exam.project.model.UserQuestion">
+	<insert id="insertSelective" parameterType="cn.hnzxl.exam.project.model.UserQuestion" useGeneratedKeys="true" keyProperty="userQuestionId">
 		insert into user_question
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="userQuestionId != null">
@@ -138,31 +138,31 @@
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="userQuestionId != null">
-				#{userQuestionId,jdbcType=VARCHAR},
+				#{userQuestionId},
 			</if>
 			<if test="userQuestionExaminationId != null">
-				#{userQuestionExaminationId,jdbcType=VARCHAR},
+				#{userQuestionExaminationId},
 			</if>
 			<if test="userQuestionHeadlineId != null">
-				#{userQuestionHeadlineId,jdbcType=VARCHAR},
+				#{userQuestionHeadlineId},
 			</if>
 			<if test="userQuestionUserid != null">
-				#{userQuestionUserid,jdbcType=VARCHAR},
+				#{userQuestionUserid},
 			</if>
 			<if test="userQuestionQuestionId != null">
-				#{userQuestionQuestionId,jdbcType=VARCHAR},
+				#{userQuestionQuestionId},
 			</if>
 			<if test="userQuestionScore != null">
-				#{userQuestionScore,jdbcType=INTEGER},
+				#{userQuestionScore},
 			</if>
 			<if test="userQuestionRightAnswer != null">
-				#{userQuestionRightAnswer,jdbcType=VARCHAR},
+				#{userQuestionRightAnswer},
 			</if>
 			<if test="userQuestionUserAnswer != null">
-				#{userQuestionUserAnswer,jdbcType=VARCHAR},
+				#{userQuestionUserAnswer},
 			</if>
 			<if test="userQuestionSort != null">
-				#{userQuestionSort,jdbcType=INTEGER},
+				#{userQuestionSort},
 			</if>
 		</trim>
 	</insert>
@@ -170,42 +170,42 @@
 		update user_question
 		<set>
 			<if test="userQuestionExaminationId != null">
-				user_question_examination_id = #{userQuestionExaminationId,jdbcType=VARCHAR},
+				user_question_examination_id = #{userQuestionExaminationId},
 			</if>
 			<if test="userQuestionHeadlineId != null">
-				user_question_headline_id = #{userQuestionHeadlineId,jdbcType=VARCHAR},
+				user_question_headline_id = #{userQuestionHeadlineId},
 			</if>
 			<if test="userQuestionUserid != null">
-				user_question_userid = #{userQuestionUserid,jdbcType=VARCHAR},
+				user_question_userid = #{userQuestionUserid},
 			</if>
 			<if test="userQuestionQuestionId != null">
-				user_question_question_id = #{userQuestionQuestionId,jdbcType=VARCHAR},
+				user_question_question_id = #{userQuestionQuestionId},
 			</if>
 			<if test="userQuestionScore != null">
-				user_question_score = #{userQuestionScore,jdbcType=INTEGER},
+				user_question_score = #{userQuestionScore},
 			</if>
 			<if test="userQuestionRightAnswer != null">
-				user_question_right_answer = #{userQuestionRightAnswer,jdbcType=VARCHAR},
+				user_question_right_answer = #{userQuestionRightAnswer},
 			</if>
 			<if test="userQuestionUserAnswer != null">
-				user_question_user_answer = #{userQuestionUserAnswer,jdbcType=VARCHAR},
+				user_question_user_answer = #{userQuestionUserAnswer},
 			</if>
 		</set>
-		where user_question_id = #{userQuestionId,jdbcType=VARCHAR}
+		where user_question_id = #{userQuestionId}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="cn.hnzxl.exam.project.model.UserQuestion">
 		update user_question
 		set user_question_examination_id =
-		#{userQuestionExaminationId,jdbcType=VARCHAR},
-		user_question_headline_id = #{userQuestionHeadlineId,jdbcType=VARCHAR},
-		user_question_userid = #{userQuestionUserid,jdbcType=VARCHAR},
+		#{userQuestionExaminationId},
+		user_question_headline_id = #{userQuestionHeadlineId},
+		user_question_userid = #{userQuestionUserid},
 		user_question_question_id =
-		#{userQuestionQuestionId,jdbcType=VARCHAR},
-		user_question_score = #{userQuestionScore,jdbcType=INTEGER},
-		user_question_right_answer = #{userQuestionRightAnswer,jdbcType=VARCHAR},
+		#{userQuestionQuestionId},
+		user_question_score = #{userQuestionScore},
+		user_question_right_answer = #{userQuestionRightAnswer},
 		user_question_user_answer =
-		#{userQuestionUserAnswer,jdbcType=VARCHAR}
-		where user_question_id = #{userQuestionId,jdbcType=VARCHAR}
+		#{userQuestionUserAnswer}
+		where user_question_id = #{userQuestionId}
 	</update>
 	<!-- 
 	更新问题答案
@@ -213,19 +213,19 @@
 	<update id="updateUserRightAnswer" parameterType="cn.hnzxl.exam.project.model.UserQuestion">
 		update user_question
 		set 
-		user_question_user_answer = #{userQuestionUserAnswer,jdbcType=VARCHAR}
-		where user_question_examination_id = #{userQuestionExaminationId,jdbcType=VARCHAR}
-		AND user_question_userid = #{userQuestionUserid,jdbcType=VARCHAR}
-		AND user_question_question_id = #{userQuestionQuestionId,jdbcType=VARCHAR}
+		user_question_user_answer = #{userQuestionUserAnswer}
+		where user_question_examination_id = #{userQuestionExaminationId}
+		AND user_question_userid = #{userQuestionUserid}
+		AND user_question_question_id = #{userQuestionQuestionId}
 	</update>
 	<update id="updateUserRightAnswer2" >
 		<foreach collection="list" item="item" separator=";">
 			update user_question
 			set 
-			user_question_user_answer = #{item.userQuestionUserAnswer,jdbcType=VARCHAR}
-			where user_question_examination_id = #{item.userQuestionExaminationId,jdbcType=VARCHAR}
-			AND user_question_userid = #{item.userQuestionUserid,jdbcType=VARCHAR}
-			AND user_question_question_id = #{item.userQuestionQuestionId,jdbcType=VARCHAR}
+			user_question_user_answer = #{item.userQuestionUserAnswer}
+			where user_question_examination_id = #{item.userQuestionExaminationId}
+			AND user_question_userid = #{item.userQuestionUserid}
+			AND user_question_question_id = #{item.userQuestionQuestionId}
 		</foreach>
 	</update>
 	
@@ -237,8 +237,8 @@
 		SELECT Sum(user_question.user_question_score)
 		FROM user_question
 		WHERE user_question.user_question_right_answer = user_question.user_question_user_answer
-			AND user_question_examination_id = #{userQuestionExaminationId,jdbcType=VARCHAR}
-			AND user_question_userid = #{userQuestionUserid,jdbcType=VARCHAR}
+			AND user_question_examination_id = #{userQuestionExaminationId}
+			AND user_question_userid = #{userQuestionUserid}
 	</select>
 	<!-- 
 		前10答对排名

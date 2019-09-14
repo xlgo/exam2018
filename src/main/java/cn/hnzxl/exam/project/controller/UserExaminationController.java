@@ -36,7 +36,7 @@ import cn.hnzxl.exam.system.service.SystemConfigService;
  */
 @Controller
 @RequestMapping("/project/userexamination/")
-public class UserExaminationController  extends BaseController<UserExamination,String>{
+public class UserExaminationController  extends BaseController<UserExamination,Long>{
 	@Autowired
 	private UserExaminationService userExaminationService;
 	
@@ -64,17 +64,16 @@ public class UserExaminationController  extends BaseController<UserExamination,S
 	
 	@RequestMapping("ranking")
 	@ResponseBody
-	public Object ranking(HttpServletRequest request, HttpServletResponse response) {
+	public Object ranking(Long id,HttpServletRequest request, HttpServletResponse response) {
 		User currentUser =SessionUtil.getCurrentUser();
 		UserExamination ue = new UserExamination();
-		ue.setUserExaminationExaminationId(request.getParameter("id"));
+		ue.setUserExaminationExaminationId(id);
 		ue.setUserExaminationUserid(currentUser.getUserid());
 		return userExaminationService.selectRanking(ue);
 	}
 	@RequestMapping("contrast")
-	public ModelAndView contrast(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String examinationId = request.getParameter("id");
-		SystemConfig config = systemconfigService.selectByPrimaryKey("1");
+	public ModelAndView contrast(Long id,HttpServletRequest request, HttpServletResponse response) throws Exception {
+		SystemConfig config = systemconfigService.selectByPrimaryKey(1L);
 		if(config!=null){
 			try{
 				Long startDate = DateUtils.parseDate(config.getKey(), "yyyy-MM-dd HH:mm").getTime();
@@ -89,15 +88,13 @@ public class UserExaminationController  extends BaseController<UserExamination,S
 		}else{
 			return new ModelAndView(getRequestPath(request)).addObject("errorTitle","错误！").addObject("error","系统未设置开放时间，请联系管理员！");
 		}
-		return new ModelAndView(getRequestPath(request)).addAllObjects(userExaminationService.contrast(examinationId));
+		return new ModelAndView(getRequestPath(request)).addAllObjects(userExaminationService.contrast(id));
 	}
 	
 	@RequestMapping("contrastJSON")
 	@ResponseBody
-	public Object contrastJSON(HttpServletRequest request, HttpServletResponse response) {
-		String examinationId = request.getParameter("id");
-		
-		return userExaminationService.contrast(examinationId);
+	public Object contrastJSON(Long id,HttpServletRequest request, HttpServletResponse response) {
+		return userExaminationService.contrast(id);
 	}
 	
 	@RequestMapping("enterCount")
@@ -119,10 +116,9 @@ public class UserExaminationController  extends BaseController<UserExamination,S
 	
 	@RequestMapping("lingquJSON")
 	 @ResponseBody
-	 public DWZResult lingquJSON(HttpServletRequest request, HttpServletResponse response){
+	 public DWZResult lingquJSON(Long id,HttpServletRequest request, HttpServletResponse response){
 		 DWZResult dwzResult = new DWZResult();
-		 String userExamId = request.getParameter("id");
-		 UserExamination ue = getBsetService().selectByPrimaryKey(userExamId);
+		 UserExamination ue = getBsetService().selectByPrimaryKey(id);
 		 ue.setUserExaminationSysteminfo("1");
 		 getBsetService().updateByPrimaryKey(ue);
 		 dwzResult.setMessage("领取成功！");

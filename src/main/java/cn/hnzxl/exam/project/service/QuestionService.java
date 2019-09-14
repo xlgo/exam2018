@@ -19,7 +19,7 @@ import cn.hnzxl.exam.project.dao.QuestionMapper;
 import cn.hnzxl.exam.project.model.Question;
 
 @Service
-public class QuestionService extends BaseService<Question, String> {
+public class QuestionService extends BaseService<Question, Long> {
 	@Autowired
 	private QuestionMapper questionMapper = null;
 
@@ -59,7 +59,7 @@ public class QuestionService extends BaseService<Question, String> {
 			String questionAnalysis = sheet.getCell(5,i).getContents();
 			String isTest = sheet.getCell(5,i).getContents();
 			Question question = new Question();
-			question.setQuestionId(GUIDUtil.getUUID());
+			//question.setQuestionId(GUIDUtil.getUUID());
 			question.setQuestionType(questionType);
 			question.setQuestionSubject(questionSubject);
 			question.setQuestionAnswer(questionAnswer);

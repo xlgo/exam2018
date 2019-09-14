@@ -26,7 +26,7 @@ import cn.hnzxl.exam.project.service.HeadlineService;
  */
 @Controller
 @RequestMapping("/project/headline/")
-public class HeadlineController extends BaseController<Headline, String> {
+public class HeadlineController extends BaseController<Headline, Long> {
 	@Autowired
 	private HeadlineService headlineService;
 
@@ -41,7 +41,7 @@ public class HeadlineController extends BaseController<Headline, String> {
 	}
 
 	public DWZResult saveJSON(Headline model, HttpServletRequest request, HttpServletResponse response) {
-		model.setHeadlineExaminationId(request.getParameter("examination.id"));
+		model.setHeadlineExaminationId(Long.valueOf(request.getParameter("examination.id")));
 		return super.saveJSON(model, request, response);
 	}
 	

@@ -12,10 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.alibaba.fastjson.JSON;
 
 import cn.hnzxl.exam.base.controller.BaseController;
 import cn.hnzxl.exam.base.util.PageUtil;
@@ -34,14 +37,13 @@ import cn.hnzxl.exam.system.service.UserService;
  */
 @Controller
 @RequestMapping("/project/userquestion/")
-public class UserQuestionController  extends BaseController<UserQuestion,String>{
+public class UserQuestionController  extends BaseController<UserQuestion,Long>{
 	@Autowired
 	private UserQuestionService userQuestionService;
 	@Autowired
 	private ExaminationService examinationService;
 	@Autowired
 	private UserService userService;
-	
 	@Override
 	public UserQuestionService getBsetService() {
 		return userQuestionService;
@@ -74,9 +76,10 @@ public class UserQuestionController  extends BaseController<UserQuestion,String>
 		return userQuestionService.getExamInfo(userInfo);
 	}
 	@RequestMapping("save")
-	public ModelAndView save(HttpServletRequest request, HttpServletResponse response) {
-		Map<String, String[]> userQuestionInfo = request.getParameterMap();
-		String examinationId = request.getParameter("examinationId");
+	public ModelAndView save(Long examinationId,HttpServletRequest request, HttpServletResponse response) {
+		User currentUser =SessionUtil.getCurrentUser();
+		Map<String, String[]> userQuestionInfo = new HashMap<>(request.getParameterMap());
+		userQuestionInfo.remove("examinationId");
 		userQuestionService.saveUserExam(examinationId, userQuestionInfo,"1");
 		return new ModelAndView("redirect:/project/userquestion/success");
 	}

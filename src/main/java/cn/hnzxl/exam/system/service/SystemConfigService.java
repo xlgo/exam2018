@@ -21,12 +21,12 @@ import cn.hnzxl.exam.system.model.User;
  *
  */
 @Service
-public class SystemConfigService extends BaseService<SystemConfig, String> {
+public class SystemConfigService extends BaseService<SystemConfig, Long> {
 	@Autowired
 	private SystemConfigMapper systemConfigMapper = null;
 
 	@Override
-	public BaseMapper<SystemConfig, String> getBaseMapper() {
+	public BaseMapper<SystemConfig, Long> getBaseMapper() {
 		return systemConfigMapper;
 	}
 	

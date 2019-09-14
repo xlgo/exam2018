@@ -4,8 +4,8 @@ import java.util.Date;
 
 import cn.hnzxl.exam.base.model.BaseModel;
 
-public class UserPrize extends BaseModel<String>{
-    private String userId;
+public class UserPrize extends BaseModel<Long>{
+    private Long userId;
 
     private String userName;
 
@@ -15,12 +15,12 @@ public class UserPrize extends BaseModel<String>{
 
     private String flag;
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -56,12 +56,12 @@ public class UserPrize extends BaseModel<String>{
     }
 
 	@Override
-	public String getId() {
+	public Long getId() {
 		return userId;
 	}
 
 	@Override
-	public void setId(String modelId) {
+	public void setId(Long modelId) {
 		this.userId = modelId;
 	}
 }

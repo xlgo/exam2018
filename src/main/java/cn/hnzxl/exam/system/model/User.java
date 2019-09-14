@@ -1,9 +1,6 @@
 package cn.hnzxl.exam.system.model;
 
-import org.apache.commons.lang3.StringUtils;
-
 import cn.hnzxl.exam.base.model.BaseModel;
-import cn.hnzxl.exam.base.util.MD5Util;
 
 /**
  * 用户model
@@ -12,8 +9,8 @@ import cn.hnzxl.exam.base.util.MD5Util;
  * @date 2014年10月25日 上午12:52:20
  *
  */
-public class User extends BaseModel<String> {
-	private String userid;
+public class User extends BaseModel<Long> {
+	private Long userid;
 	/**
 	 * 用户姓名
 	 */
@@ -46,7 +43,7 @@ public class User extends BaseModel<String> {
 	 */
 	private String idnumber;
 	/**
-	 * 身份<br/>
+	 * 身份<br/>院校类别
 	 * 1:学生，2:老师， 3:工作者
 	 */
 	private String identity;
@@ -74,13 +71,20 @@ public class User extends BaseModel<String> {
 	 * 找回密码答案
 	 */
 	private String verifyanswer;
-
-	public String getUserid() {
+	//微信头像
+	private String headimgurl;
+	//unionid
+	private String unionid;
+	//昵称
+	private String nickname;
+	//状态
+	private int status;
+	public Long getUserid() {
 		return userid;
 	}
 
-	public void setUserid(String userid) {
-		this.userid = userid == null ? null : userid.trim();
+	public void setUserid(Long userid) {
+		this.userid = userid;
 	}
 
 	public String getName() {
@@ -196,13 +200,13 @@ public class User extends BaseModel<String> {
 	}
 
 	@Override
-	public String getId() {
+	public Long getId() {
 		return userid;
 	}
 
 	@Override
-	public void setId(String modelId) {
-		this.userid= modelId;
+	public void setId(Long userid) {
+		this.userid= userid;
 	}
 	/**
 	 * 班级
@@ -240,4 +244,37 @@ public class User extends BaseModel<String> {
 	public void setWxOpenid(String wxOpenid) {
 		this.wxOpenid = wxOpenid;
 	}
+
+	public String getHeadimgurl() {
+		return headimgurl;
+	}
+
+	public void setHeadimgurl(String headimgurl) {
+		this.headimgurl = headimgurl;
+	}
+
+	public String getUnionid() {
+		return unionid;
+	}
+
+	public void setUnionid(String unionid) {
+		this.unionid = unionid;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	
 }

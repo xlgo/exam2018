@@ -6,7 +6,7 @@ import java.util.Map;
 import cn.hnzxl.exam.base.dao.BaseMapper;
 import cn.hnzxl.exam.project.model.UserExamination;
 
-public interface UserExaminationMapper extends BaseMapper<UserExamination, String> {
+public interface UserExaminationMapper extends BaseMapper<UserExamination, Long> {
 	/**
 	 * 获取用户的排名
 	 * @param record

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.hnzxl.exam.system.dao.SystemConfigMapper" >
   <resultMap id="BaseResultMap" type="cn.hnzxl.exam.system.model.SystemConfig" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
+    <id column="id" property="id" jdbcType="BIGINT" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="key" property="key" jdbcType="VARCHAR" />
     <result column="value" property="value" jdbcType="VARCHAR" />
@@ -22,17 +22,17 @@
 		</where>
 	</sql>
 	
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
     from system_config
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" >
     delete from system_config
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id}
   </delete>
-  <insert id="insert" parameterType="cn.hnzxl.exam.system.model.SystemConfig" >
+  <insert id="insert" parameterType="cn.hnzxl.exam.system.model.SystemConfig"  useGeneratedKeys="true" keyProperty="id">
     insert into system_config (id, type, `key`,value, memo)
     values (#{id}, #{type}, #{key}, #{value}, #{memo})
   </insert>
@@ -57,19 +57,19 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
+        #{id},
       </if>
       <if test="type != null" >
-        #{type,jdbcType=VARCHAR},
+        #{type},
       </if>
       <if test="key != null" >
-        #{key,jdbcType=VARCHAR},
+        #{key},
       </if>
       <if test="value != null" >
-        #{value,jdbcType=VARCHAR},
+        #{value},
       </if>
       <if test="memo != null" >
-        #{memo,jdbcType=VARCHAR},
+        #{memo},
       </if>
     </trim>
   </insert>
@@ -77,27 +77,27 @@
     update system_config
     <set >
       <if test="type != null" >
-        type = #{type,jdbcType=VARCHAR},
+        type = #{type},
       </if>
       <if test="key != null" >
-        `key` = #{key,jdbcType=VARCHAR},
+        `key` = #{key},
       </if>
       <if test="value != null" >
-        value = #{value,jdbcType=VARCHAR},
+        value = #{value},
       </if>
       <if test="memo != null" >
-        memo = #{memo,jdbcType=VARCHAR},
+        memo = #{memo},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.hnzxl.exam.system.model.SystemConfig" >
     update system_config
-    set type = #{type,jdbcType=VARCHAR},
-      key = #{key,jdbcType=VARCHAR},
-      value = #{value,jdbcType=VARCHAR},
-      memo = #{memo,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    set type = #{type},
+      key = #{key},
+      value = #{value},
+      memo = #{memo}
+    where id = #{id}
   </update>
   
   <select id="selectAll" resultMap="BaseResultMap" parameterType="java.util.Map">

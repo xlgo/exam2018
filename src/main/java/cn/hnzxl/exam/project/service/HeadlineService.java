@@ -9,12 +9,12 @@ import cn.hnzxl.exam.project.dao.HeadlineMapper;
 import cn.hnzxl.exam.project.model.Headline;
 
 @Service
-public class HeadlineService extends BaseService<Headline, String> {
+public class HeadlineService extends BaseService<Headline, Long> {
 	@Autowired
 	private HeadlineMapper headlineMapper = null;
 
 	@Override
-	public BaseMapper<Headline, String> getBaseMapper() {
+	public BaseMapper<Headline, Long> getBaseMapper() {
 		return headlineMapper;
 	}
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.hnzxl.exam.project.dao.QuestionMapper">
 	<resultMap id="BaseResultMap" type="cn.hnzxl.exam.project.model.Question">
-		<id column="question_id" property="questionId" jdbcType="VARCHAR" />
+		<id column="question_id" property="questionId" jdbcType="BIGINT" />
 		<result column="question_category_id" property="questionCategoryId" jdbcType="VARCHAR" />
 		<result column="question_type" property="questionType" jdbcType="VARCHAR" />
 		<result column="question_subject" property="questionSubject" jdbcType="VARCHAR" />
@@ -22,31 +22,31 @@
 	<sql id="Base_Dynamic_Where">
 		<where>
 		<if test="questionCategoryId != null">
-				AND question_category_id = #{questionCategoryId,jdbcType=VARCHAR}
+				AND question_category_id = #{questionCategoryId}
 			</if>
 			<if test="questionType != null">
-				AND question_type like #{questionType,jdbcType=VARCHAR}
+				AND question_type like #{questionType}
 			</if>
 			<if test="questionSubject != null">
-				AND question_subject like #{questionSubject,jdbcType=VARCHAR}
+				AND question_subject like #{questionSubject}
 			</if>
 			<if test="questionAnswer != null">
-				AND question_answer like #{questionAnswer,jdbcType=VARCHAR}
+				AND question_answer like #{questionAnswer}
 			</if>
 			<if test="questionRightAnswer != null">
-				AND question_right_answer = #{questionRightAnswer,jdbcType=VARCHAR}
+				AND question_right_answer = #{questionRightAnswer}
 			</if>
 			<if test="questionScore != null">
-				AND question_score = #{questionScore,jdbcType=INTEGER}
+				AND question_score = #{questionScore}
 			</if>
 			<if test="questionAnalysis != null">
-				AND question_analysis = #{questionAnalysis,jdbcType=VARCHAR}
+				AND question_analysis = #{questionAnalysis}
 			</if>
 			<if test="questionStatus != null">
-				AND question_status = #{questionStatus,jdbcType=INTEGER}
+				AND question_status = #{questionStatus}
 			</if>
 			<if test="questionRemark != null">
-				AND question_remark = #{questionRemark,jdbcType=VARCHAR}
+				AND question_remark = #{questionRemark}
 			</if>
 		</where>
 	</sql>
@@ -63,31 +63,31 @@
 		</if>
 	</select>
 
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" >
 		select
 		<include refid="Base_Column_List" />
 		from question
-		where question_id = #{questionId,jdbcType=VARCHAR}
+		where question_id = #{questionId}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+	<delete id="deleteByPrimaryKey" >
 		delete from question
 		where question_id =
-		#{questionId,jdbcType=VARCHAR}
+		#{questionId}
 	</delete>
-	<insert id="insert" parameterType="cn.hnzxl.exam.project.model.Question">
+	<insert id="insert" parameterType="cn.hnzxl.exam.project.model.Question" useGeneratedKeys="true" keyProperty="questionId">
 		insert into question (question_id, question_category_id, question_type,
 		question_subject, question_answer, question_right_answer,
 		question_score, question_analysis, question_status,
 		question_remark)
-		values (#{questionId,jdbcType=VARCHAR}, #{questionCategoryId,jdbcType=VARCHAR},
-		#{questionType,jdbcType=VARCHAR},
-		#{questionSubject,jdbcType=VARCHAR}, #{questionAnswer,jdbcType=VARCHAR},
-		#{questionRightAnswer,jdbcType=VARCHAR},
-		#{questionScore,jdbcType=INTEGER}, #{questionAnalysis,jdbcType=VARCHAR},
-		#{questionStatus,jdbcType=INTEGER},
-		#{questionRemark,jdbcType=VARCHAR})
+		values (#{questionId}, #{questionCategoryId},
+		#{questionType},
+		#{questionSubject}, #{questionAnswer},
+		#{questionRightAnswer},
+		#{questionScore}, #{questionAnalysis},
+		#{questionStatus},
+		#{questionRemark})
 	</insert>
-	<insert id="insertSelective" parameterType="cn.hnzxl.exam.project.model.Question">
+	<insert id="insertSelective" parameterType="cn.hnzxl.exam.project.model.Question"  useGeneratedKeys="true" keyProperty="questionId">
 		insert into question
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="questionId != null">
@@ -123,34 +123,34 @@
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="questionId != null">
-				#{questionId,jdbcType=VARCHAR},
+				#{questionId},
 			</if>
 			<if test="questionCategoryId != null">
-				#{questionCategoryId,jdbcType=VARCHAR},
+				#{questionCategoryId},
 			</if>
 			<if test="questionType != null">
-				#{questionType,jdbcType=VARCHAR},
+				#{questionType},
 			</if>
 			<if test="questionSubject != null">
-				#{questionSubject,jdbcType=VARCHAR},
+				#{questionSubject},
 			</if>
 			<if test="questionAnswer != null">
-				#{questionAnswer,jdbcType=VARCHAR},
+				#{questionAnswer},
 			</if>
 			<if test="questionRightAnswer != null">
-				#{questionRightAnswer,jdbcType=VARCHAR},
+				#{questionRightAnswer},
 			</if>
 			<if test="questionScore != null">
-				#{questionScore,jdbcType=INTEGER},
+				#{questionScore},
 			</if>
 			<if test="questionAnalysis != null">
-				#{questionAnalysis,jdbcType=VARCHAR},
+				#{questionAnalysis},
 			</if>
 			<if test="questionStatus != null">
-				#{questionStatus,jdbcType=INTEGER},
+				#{questionStatus},
 			</if>
 			<if test="questionRemark != null">
-				#{questionRemark,jdbcType=VARCHAR},
+				#{questionRemark},
 			</if>
 		</trim>
 	</insert>
@@ -158,51 +158,51 @@
 		update question
 		<set>
 			<if test="questionCategoryId != null">
-				question_category_id = #{questionCategoryId,jdbcType=VARCHAR},
+				question_category_id = #{questionCategoryId},
 			</if>
 			<if test="questionType != null">
-				question_type = #{questionType,jdbcType=VARCHAR},
+				question_type = #{questionType},
 			</if>
 			<if test="questionSubject != null">
-				question_subject = #{questionSubject,jdbcType=VARCHAR},
+				question_subject = #{questionSubject},
 			</if>
 			<if test="questionAnswer != null">
-				question_answer = #{questionAnswer,jdbcType=VARCHAR},
+				question_answer = #{questionAnswer},
 			</if>
 			<if test="questionRightAnswer != null">
-				question_right_answer = #{questionRightAnswer,jdbcType=VARCHAR},
+				question_right_answer = #{questionRightAnswer},
 			</if>
 			<if test="questionScore != null">
-				question_score = #{questionScore,jdbcType=INTEGER},
+				question_score = #{questionScore},
 			</if>
 			<if test="questionAnalysis != null">
-				question_analysis = #{questionAnalysis,jdbcType=VARCHAR},
+				question_analysis = #{questionAnalysis},
 			</if>
 			<if test="questionStatus != null">
-				question_status = #{questionStatus,jdbcType=INTEGER},
+				question_status = #{questionStatus},
 			</if>
 			<if test="questionRemark != null">
-				question_remark = #{questionRemark,jdbcType=VARCHAR},
+				question_remark = #{questionRemark},
 			</if>
 		</set>
-		where question_id = #{questionId,jdbcType=VARCHAR}
+		where question_id = #{questionId}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="cn.hnzxl.exam.project.model.Question">
 		update question
 		set question_category_id =
-		#{questionCategoryId,jdbcType=VARCHAR},
-		question_type = #{questionType,jdbcType=VARCHAR},
+		#{questionCategoryId},
+		question_type = #{questionType},
 		question_subject =
-		#{questionSubject,jdbcType=VARCHAR},
-		question_answer = #{questionAnswer,jdbcType=VARCHAR},
+		#{questionSubject},
+		question_answer = #{questionAnswer},
 		question_right_answer =
-		#{questionRightAnswer,jdbcType=VARCHAR},
-		question_score = #{questionScore,jdbcType=INTEGER},
+		#{questionRightAnswer},
+		question_score = #{questionScore},
 		question_analysis =
-		#{questionAnalysis,jdbcType=VARCHAR},
-		question_status = #{questionStatus,jdbcType=INTEGER},
+		#{questionAnalysis},
+		question_status = #{questionStatus},
 		question_remark =
-		#{questionRemark,jdbcType=VARCHAR}
-		where question_id = #{questionId,jdbcType=VARCHAR}
+		#{questionRemark}
+		where question_id = #{questionId}
 	</update>
 </mapper>

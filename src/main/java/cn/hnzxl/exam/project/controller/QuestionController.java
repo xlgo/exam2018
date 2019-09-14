@@ -33,7 +33,7 @@ import cn.hnzxl.exam.project.service.QuestionService;
  */
 @Controller
 @RequestMapping("/project/question/")
-public class QuestionController extends BaseController<Question, String> {
+public class QuestionController extends BaseController<Question, Long> {
 	@Autowired
 	private QuestionService questionService;
 

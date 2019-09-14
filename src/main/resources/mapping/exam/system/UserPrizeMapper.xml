@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.hnzxl.exam.system.dao.UserPrizeMapper" >
   <resultMap id="BaseResultMap" type="cn.hnzxl.exam.system.model.UserPrize" >
-    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <id column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="valid_code" property="validCode" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -11,23 +11,23 @@
   <sql id="Base_Column_List" >
     user_id, user_name, valid_code, create_time, flag
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
     from user_prize
-    where user_id = #{userId,jdbcType=VARCHAR}
+    where user_id = #{userId}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" >
     delete from user_prize
-    where user_id = #{userId,jdbcType=VARCHAR}
+    where user_id = #{userId}
   </delete>
-  <insert id="insert" parameterType="cn.hnzxl.exam.system.model.UserPrize" >
+  <insert id="insert" parameterType="cn.hnzxl.exam.system.model.UserPrize"  useGeneratedKeys="true" keyProperty="userId">
     insert into user_prize (user_id, user_name, valid_code, 
       create_time, flag)
-    values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{validCode,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR})
+    values (#{userId}, #{userName}, #{validCode}, 
+      #{createTime}, #{flag})
   </insert>
-  <insert id="insertSelective" parameterType="cn.hnzxl.exam.system.model.UserPrize" >
+  <insert id="insertSelective" parameterType="cn.hnzxl.exam.system.model.UserPrize"  useGeneratedKeys="true" keyProperty="userId">
     insert into user_prize
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -48,19 +48,19 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
-        #{userId,jdbcType=VARCHAR},
+        #{userId},
       </if>
       <if test="userName != null" >
-        #{userName,jdbcType=VARCHAR},
+        #{userName},
       </if>
       <if test="validCode != null" >
-        #{validCode,jdbcType=VARCHAR},
+        #{validCode},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        #{createTime},
       </if>
       <if test="flag != null" >
-        #{flag,jdbcType=VARCHAR},
+        #{flag},
       </if>
     </trim>
   </insert>
@@ -68,27 +68,27 @@
     update user_prize
     <set >
       <if test="userName != null" >
-        user_name = #{userName,jdbcType=VARCHAR},
+        user_name = #{userName},
       </if>
       <if test="validCode != null" >
-        valid_code = #{validCode,jdbcType=VARCHAR},
+        valid_code = #{validCode},
       </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime},
       </if>
       <if test="flag != null" >
-        flag = #{flag,jdbcType=VARCHAR},
+        flag = #{flag},
       </if>
     </set>
-    where user_id = #{userId,jdbcType=VARCHAR}
+    where user_id = #{userId}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.hnzxl.exam.system.model.UserPrize" >
     update user_prize
-    set user_name = #{userName,jdbcType=VARCHAR},
-      valid_code = #{validCode,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      flag = #{flag,jdbcType=VARCHAR}
-    where user_id = #{userId,jdbcType=VARCHAR}
+    set user_name = #{userName},
+      valid_code = #{validCode},
+      create_time = #{createTime},
+      flag = #{flag}
+    where user_id = #{userId}
   </update>
   
   

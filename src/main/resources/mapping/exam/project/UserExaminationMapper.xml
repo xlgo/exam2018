@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.hnzxl.exam.project.dao.UserExaminationMapper">
 	<resultMap id="BaseResultMap" type="cn.hnzxl.exam.project.model.UserExamination">
-		<id column="user_examination_id" property="userExaminationId" jdbcType="VARCHAR" />
-		<result column="user_examination_userid" property="userExaminationUserid" jdbcType="VARCHAR" />
-		<result column="user_examination_examination_id" property="userExaminationExaminationId" jdbcType="VARCHAR" />
+		<id column="user_examination_id" property="userExaminationId" jdbcType="BIGINT" />
+		<result column="user_examination_userid" property="userExaminationUserid" jdbcType="BIGINT" />
+		<result column="user_examination_examination_id" property="userExaminationExaminationId" jdbcType="BIGINT" />
 		<result column="user_examination_examination_name" property="userExaminationExaminationName" jdbcType="VARCHAR" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="user_examination_ip" property="userExaminationIp" jdbcType="VARCHAR" />
@@ -27,34 +27,34 @@
 		<where>
 			AND user_examination_examination_id = examination_id
 			<if test="userExaminationUserid != null">
-				AND user_examination_userid = #{userExaminationUserid,jdbcType=VARCHAR}
+				AND user_examination_userid = #{userExaminationUserid}
 			</if>
 			<if test="userExaminationExaminationId != null">
-				AND user_examination_examination_id = #{userExaminationExaminationId,jdbcType=VARCHAR}
+				AND user_examination_examination_id = #{userExaminationExaminationId}
 			</if>
 			<if test="createTime != null">
-				AND create_time = #{createTime,jdbcType=TIMESTAMP}
+				AND create_time = #{createTime}
 			</if>
 			<if test="userExaminationIp != null">
-				AND user_examination_ip = #{userExaminationIp,jdbcType=VARCHAR}
+				AND user_examination_ip = #{userExaminationIp}
 			</if>
 			<if test="userExaminationSubmitTime != null">
-				AND user_examination_submit_time = #{userExaminationSubmitTime,jdbcType=TIMESTAMP}
+				AND user_examination_submit_time = #{userExaminationSubmitTime}
 			</if>
 			<if test="userExaminationTimeLength != null">
-				AND user_examination_time_length = #{userExaminationTimeLength,jdbcType=DOUBLE}
+				AND user_examination_time_length = #{userExaminationTimeLength}
 			</if>
 			<if test="userExaminationScore != null">
-				AND user_examination_score = #{userExaminationScore,jdbcType=INTEGER}
+				AND user_examination_score = #{userExaminationScore}
 			</if>
 			<if test="userExaminationBorwseinfo != null">
-				AND user_examination_borwseinfo = #{userExaminationBorwseinfo,jdbcType=VARCHAR}
+				AND user_examination_borwseinfo = #{userExaminationBorwseinfo}
 			</if>
 			<if test="userExaminationSysteminfo != null">
-				AND user_examination_systeminfo = #{userExaminationSysteminfo,jdbcType=VARCHAR}
+				AND user_examination_systeminfo = #{userExaminationSysteminfo}
 			</if>
 			<if test="userExaminationStatus != null">
-				AND user_examination_status = #{userExaminationStatus,jdbcType=VARCHAR}
+				AND user_examination_status = #{userExaminationStatus}
 			</if>
 		</where>
 	</sql>
@@ -71,32 +71,32 @@
 		</if>
 	</select>
 
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from user_examination
-		where user_examination_id = #{userExaminationId,jdbcType=VARCHAR}
+		where user_examination_id = #{userExaminationId}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+	<delete id="deleteByPrimaryKey">
 		delete from user_examination
 		where user_examination_id =
-		#{userExaminationId,jdbcType=VARCHAR}
+		#{userExaminationId}
 	</delete>
-	<insert id="insert" parameterType="cn.hnzxl.exam.project.model.UserExamination">
+	<insert id="insert" parameterType="cn.hnzxl.exam.project.model.UserExamination"  useGeneratedKeys="true" keyProperty="userExaminationId">
 		insert into user_examination (user_examination_id, user_examination_userid,
 		user_examination_examination_id, create_time,
 		user_examination_ip, user_examination_submit_time,
 		user_examination_time_length, user_examination_score,
 		user_examination_borwseinfo, user_examination_systeminfo,
 		user_examination_status)
-		values (#{userExaminationId,jdbcType=VARCHAR}, #{userExaminationUserid,jdbcType=VARCHAR},
-		#{userExaminationExaminationId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
-		#{userExaminationIp,jdbcType=VARCHAR}, #{userExaminationSubmitTime,jdbcType=TIMESTAMP},
-		#{userExaminationTimeLength,jdbcType=DOUBLE}, #{userExaminationScore,jdbcType=INTEGER},
-		#{userExaminationBorwseinfo,jdbcType=VARCHAR}, #{userExaminationSysteminfo,jdbcType=VARCHAR},
-		#{userExaminationStatus,jdbcType=VARCHAR})
+		values (#{userExaminationId}, #{userExaminationUserid},
+		#{userExaminationExaminationId}, #{createTime},
+		#{userExaminationIp}, #{userExaminationSubmitTime},
+		#{userExaminationTimeLength}, #{userExaminationScore},
+		#{userExaminationBorwseinfo}, #{userExaminationSysteminfo},
+		#{userExaminationStatus})
 	</insert>
-	<insert id="insertSelective" parameterType="cn.hnzxl.exam.project.model.UserExamination">
+	<insert id="insertSelective" parameterType="cn.hnzxl.exam.project.model.UserExamination" useGeneratedKeys="true" keyProperty="userExaminationId">
 		insert into user_examination
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="userExaminationId != null">
@@ -135,37 +135,37 @@
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="userExaminationId != null">
-				#{userExaminationId,jdbcType=VARCHAR},
+				#{userExaminationId},
 			</if>
 			<if test="userExaminationUserid != null">
-				#{userExaminationUserid,jdbcType=VARCHAR},
+				#{userExaminationUserid},
 			</if>
 			<if test="userExaminationExaminationId != null">
-				#{userExaminationExaminationId,jdbcType=VARCHAR},
+				#{userExaminationExaminationId},
 			</if>
 			<if test="createTime != null">
-				#{createTime,jdbcType=TIMESTAMP},
+				#{createTime},
 			</if>
 			<if test="userExaminationIp != null">
-				#{userExaminationIp,jdbcType=VARCHAR},
+				#{userExaminationIp},
 			</if>
 			<if test="userExaminationSubmitTime != null">
-				#{userExaminationSubmitTime,jdbcType=TIMESTAMP},
+				#{userExaminationSubmitTime},
 			</if>
 			<if test="userExaminationTimeLength != null">
-				#{userExaminationTimeLength,jdbcType=DOUBLE},
+				#{userExaminationTimeLength},
 			</if>
 			<if test="userExaminationScore != null">
-				#{userExaminationScore,jdbcType=INTEGER},
+				#{userExaminationScore},
 			</if>
 			<if test="userExaminationBorwseinfo != null">
-				#{userExaminationBorwseinfo,jdbcType=VARCHAR},
+				#{userExaminationBorwseinfo},
 			</if>
 			<if test="userExaminationSysteminfo != null">
-				#{userExaminationSysteminfo,jdbcType=VARCHAR},
+				#{userExaminationSysteminfo},
 			</if>
 			<if test="userExaminationStatus != null">
-				#{userExaminationStatus,jdbcType=VARCHAR},
+				#{userExaminationStatus},
 			</if>
 		</trim>
 	</insert>
@@ -173,56 +173,56 @@
 		update user_examination
 		<set>
 			<if test="userExaminationUserid != null">
-				user_examination_userid = #{userExaminationUserid,jdbcType=VARCHAR},
+				user_examination_userid = #{userExaminationUserid},
 			</if>
 			<if test="userExaminationExaminationId != null">
-				user_examination_examination_id = #{userExaminationExaminationId,jdbcType=VARCHAR},
+				user_examination_examination_id = #{userExaminationExaminationId},
 			</if>
 			<if test="createTime != null">
-				create_time = #{createTime,jdbcType=TIMESTAMP},
+				create_time = #{createTime},
 			</if>
 			<if test="userExaminationIp != null">
-				user_examination_ip = #{userExaminationIp,jdbcType=VARCHAR},
+				user_examination_ip = #{userExaminationIp},
 			</if>
 			<if test="userExaminationSubmitTime != null">
-				user_examination_submit_time = #{userExaminationSubmitTime,jdbcType=TIMESTAMP},
+				user_examination_submit_time = #{userExaminationSubmitTime},
 			</if>
 			<if test="userExaminationTimeLength != null">
-				user_examination_time_length = #{userExaminationTimeLength,jdbcType=DOUBLE},
+				user_examination_time_length = #{userExaminationTimeLength},
 			</if>
 			<if test="userExaminationScore != null">
-				user_examination_score = #{userExaminationScore,jdbcType=INTEGER},
+				user_examination_score = #{userExaminationScore},
 			</if>
 			<if test="userExaminationBorwseinfo != null">
-				user_examination_borwseinfo = #{userExaminationBorwseinfo,jdbcType=VARCHAR},
+				user_examination_borwseinfo = #{userExaminationBorwseinfo},
 			</if>
 			<if test="userExaminationSysteminfo != null">
-				user_examination_systeminfo = #{userExaminationSysteminfo,jdbcType=VARCHAR},
+				user_examination_systeminfo = #{userExaminationSysteminfo},
 			</if>
 			<if test="userExaminationStatus != null">
-				user_examination_status = #{userExaminationStatus,jdbcType=VARCHAR},
+				user_examination_status = #{userExaminationStatus},
 			</if>
 		</set>
-		where user_examination_id = #{userExaminationId,jdbcType=VARCHAR}
+		where user_examination_id = #{userExaminationId}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="cn.hnzxl.exam.project.model.UserExamination">
 		update user_examination
 		set user_examination_userid =
-		#{userExaminationUserid,jdbcType=VARCHAR},
+		#{userExaminationUserid},
 		user_examination_examination_id =
-		#{userExaminationExaminationId,jdbcType=VARCHAR},
-		create_time = #{createTime,jdbcType=TIMESTAMP},
+		#{userExaminationExaminationId},
+		create_time = #{createTime},
 		user_examination_ip =
-		#{userExaminationIp,jdbcType=VARCHAR},
-		user_examination_submit_time = #{userExaminationSubmitTime,jdbcType=TIMESTAMP},
-		user_examination_time_length = #{userExaminationTimeLength,jdbcType=DOUBLE},
+		#{userExaminationIp},
+		user_examination_submit_time = #{userExaminationSubmitTime},
+		user_examination_time_length = #{userExaminationTimeLength},
 		user_examination_score =
-		#{userExaminationScore,jdbcType=INTEGER},
-		user_examination_borwseinfo = #{userExaminationBorwseinfo,jdbcType=VARCHAR},
-		user_examination_systeminfo = #{userExaminationSysteminfo,jdbcType=VARCHAR},
+		#{userExaminationScore},
+		user_examination_borwseinfo = #{userExaminationBorwseinfo},
+		user_examination_systeminfo = #{userExaminationSysteminfo},
 		user_examination_status =
-		#{userExaminationStatus,jdbcType=VARCHAR}
-		where user_examination_id = #{userExaminationId,jdbcType=VARCHAR}
+		#{userExaminationStatus}
+		where user_examination_id = #{userExaminationId}
 	</update>
 	
 	<!-- 
@@ -272,7 +272,7 @@
 		WHERE
 			t1.user_examination_userid = t2.userid
 		AND t1.user_examination_status = 1
-		AND t1.user_examination_examination_id = #{userExaminationExaminationId,jdbcType=VARCHAR}
+		AND t1.user_examination_examination_id = #{userExaminationExaminationId}
 		ORDER BY
 			t1.user_examination_score DESC,
 			t1.user_examination_time_length
@@ -294,7 +294,7 @@
 		WHERE
 			t1.user_examination_userid = t2.userid
 		<if test="@Ognl@isNotEmpty(userExaminationExaminationId)">
-			AND t1.user_examination_examination_id =  #{userExaminationExaminationId,jdbcType=VARCHAR}
+			AND t1.user_examination_examination_id =  #{userExaminationExaminationId}
 		</if>
 		GROUP BY
 			t2.school

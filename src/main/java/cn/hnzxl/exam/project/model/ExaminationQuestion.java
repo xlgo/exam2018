@@ -2,57 +2,54 @@ package cn.hnzxl.exam.project.model;
 
 import cn.hnzxl.exam.base.model.BaseModel;
 
-public class ExaminationQuestion extends BaseModel<String> {
-	private String examinationQuestionId;
+public class ExaminationQuestion extends BaseModel<Long> {
+	private Long examinationQuestionId;
 
-	private String examinationQuestionExaminationId;
+	private Long examinationQuestionExaminationId;
 
-	private String examinationQuestionHeadlineId;
+	private Long examinationQuestionHeadlineId;
 
-	private String examinationQuestionQuestionId;
+	private Long examinationQuestionQuestionId;
 
-	public String getExaminationQuestionId() {
+	public Long getExaminationQuestionId() {
 		return examinationQuestionId;
 	}
 
-	public void setExaminationQuestionId(String examinationQuestionId) {
-		this.examinationQuestionId = examinationQuestionId == null ? null : examinationQuestionId.trim();
+	public void setExaminationQuestionId(Long examinationQuestionId) {
+		this.examinationQuestionId = examinationQuestionId;
 	}
 
-	public String getExaminationQuestionExaminationId() {
+	public Long getExaminationQuestionExaminationId() {
 		return examinationQuestionExaminationId;
 	}
 
-	public void setExaminationQuestionExaminationId(String examinationQuestionExaminationId) {
-		this.examinationQuestionExaminationId = examinationQuestionExaminationId == null ? null
-				: examinationQuestionExaminationId.trim();
+	public void setExaminationQuestionExaminationId(Long examinationQuestionExaminationId) {
+		this.examinationQuestionExaminationId = examinationQuestionExaminationId;
 	}
 
-	public String getExaminationQuestionHeadlineId() {
+	public Long getExaminationQuestionHeadlineId() {
 		return examinationQuestionHeadlineId;
 	}
 
-	public void setExaminationQuestionHeadlineId(String examinationQuestionHeadlineId) {
-		this.examinationQuestionHeadlineId = examinationQuestionHeadlineId == null ? null
-				: examinationQuestionHeadlineId.trim();
+	public void setExaminationQuestionHeadlineId(Long examinationQuestionHeadlineId) {
+		this.examinationQuestionHeadlineId = examinationQuestionHeadlineId;
 	}
 
-	public String getExaminationQuestionQuestionId() {
+	public Long getExaminationQuestionQuestionId() {
 		return examinationQuestionQuestionId;
 	}
 
-	public void setExaminationQuestionQuestionId(String examinationQuestionQuestionId) {
-		this.examinationQuestionQuestionId = examinationQuestionQuestionId == null ? null
-				: examinationQuestionQuestionId.trim();
+	public void setExaminationQuestionQuestionId(Long examinationQuestionQuestionId) {
+		this.examinationQuestionQuestionId = examinationQuestionQuestionId;
 	}
 	
 	@Override
-	public String getId() {
+	public Long getId() {
 		return this.examinationQuestionId;
 	}
 
 	@Override
-	public void setId(String modelId) {
+	public void setId(Long modelId) {
 		this.examinationQuestionId  = modelId;
 	}
 }

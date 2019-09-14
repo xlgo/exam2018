@@ -29,13 +29,13 @@ import cn.hnzxl.exam.system.service.UserService;
 
 @Controller
 @RequestMapping("/system/config/")
-public class SystemConfigController extends BaseController<SystemConfig, String> {
+public class SystemConfigController extends BaseController<SystemConfig, Long> {
 
 	@Autowired
 	private SystemConfigService systemConfigService;
 
 	@Override
-	public BaseService<SystemConfig, String> getBsetService() {
+	public BaseService<SystemConfig, Long> getBsetService() {
 		return systemConfigService;
 	}
 
@@ -58,22 +58,21 @@ public class SystemConfigController extends BaseController<SystemConfig, String>
 	 }
 	 
 	 @Override
-	public ModelAndView edit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		 String id = request.getParameter("id");
+	public ModelAndView edit(Long id,HttpServletRequest request, HttpServletResponse response) throws Exception {
 		 SystemConfig model = getBsetService().selectByPrimaryKey(id);
 		 if(model == null){
 			model=new SystemConfig();
-			model.setId("1");
+			model.setId(1L);
 			getBsetService().insert(model);
 		 }
 		return new ModelAndView(getRequestPath(request)).addObject("model", model);
 	}
 	 @RequestMapping("choujiang")
 	 public ModelAndView choujiang(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		 SystemConfig model = getBsetService().selectByPrimaryKey("choujiang");
+		 SystemConfig model = getBsetService().selectByPrimaryKey(2L);
 		 if(model == null){
 			 model=new SystemConfig();
-			model.setId("choujiang");
+			model.setId(2L);
 			model.setType("抽奖");
 			model.setValue("10,10:10,10:10");
 			getBsetService().insert(model);

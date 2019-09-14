@@ -31,14 +31,12 @@ public class UserTest extends BaseTestMybatis{
 	@Test
 	public void insertUser(){
 		User user = new User();
-		user.setUserid(GUIDUtil.getUUID());
 		int i = userService.insert(user);
 		Assert.assertEquals(i, 1);
 	}
 	@Test
 	public void selectUser(){
-		String id ="ab03270ba2a4403c8d547503981d0f25";
-		User user = userService.selectByPrimaryKey(id);
+		User user = userService.selectByPrimaryKey(1L);
 		Assert.assertNotNull(user);
 	}
 	@Test

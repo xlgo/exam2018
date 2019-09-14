@@ -42,6 +42,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 			<value>
 				/ =anon
 				/favicon.ico =anon
+				/index = anon
 				/gt/** = anon
 				/resource/** = anon
 				/login = anon
@@ -53,15 +54,11 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 				/system/user/saveRegister = anon
 				/system/user/hasUse = anon
 				/system/user/registerSuccess = anon
+				/heartbeat = anon
 				/*.txt = anon
-
-				/m/login = anon
-				/m/valid = anon
-				/m/doValid = anon
-				/m/token = anon
-				/m/registerUser = anon
-				/m/saveRegister = anon
-				/m/registerSuccess = anon
+				
+				/m/** = anon
+				/oauth2 =anon
 				/** = authc
 				
 			</value>

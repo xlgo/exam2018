@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.hnzxl.exam.project.dao.ExaminationMapper">
 	<resultMap id="BaseResultMap" type="cn.hnzxl.exam.project.model.Examination">
-		<id column="examination_id" property="examinationId" jdbcType="VARCHAR" />
+		<id column="examination_id" property="examinationId" jdbcType="BIGINT" />
 		<result column="examination_category_id" property="examinationCategoryId" jdbcType="VARCHAR" />
 		<result column="examination_subject" property="examinationSubject" jdbcType="VARCHAR" />
 		<result column="examination_content" property="examinationContent" jdbcType="VARCHAR" />
@@ -22,33 +22,33 @@
 	<sql id="Base_Dynamic_Where">
 		<where> 
 			<if test="@Ognl@isNotEmpty(examinationCategoryId)">
-				AND examination_category_id = #{examinationCategoryId,jdbcType=VARCHAR}
+				AND examination_category_id = #{examinationCategoryId}
 			</if>
 			<if test="@Ognl@isNotEmpty(examinationSubject)">
-				AND examination_subject like #{examinationSubject,jdbcType=VARCHAR}
+				AND examination_subject like #{examinationSubject}
 			</if>
 			<if test="@Ognl@isNotEmpty(examinationContent)">
-				AND examination_content like #{examinationContent,jdbcType=VARCHAR}
+				AND examination_content like #{examinationContent}
 			</if>
 			<if test="@Ognl@isNotEmpty(examinationStartTime)">
-				AND examination_start_time = #{examinationStartTime,jdbcType=TIMESTAMP}
+				AND examination_start_time = #{examinationStartTime}
 			</if>
 			<if test="@Ognl@isNotEmpty(examinationEndTime)">
-				AND examination_end_time = #{examinationEndTime,jdbcType=TIMESTAMP}
+				AND examination_end_time = #{examinationEndTime}
 			</if>
 			<if test="@Ognl@isNotEmpty(examinationTime)">
-				AND examination_start_time &lt;= #{examinationTime,jdbcType=TIMESTAMP}
-				AND examination_end_time &gt;= #{examinationTime,jdbcType=TIMESTAMP}
+				AND examination_start_time &lt;= #{examinationTime}
+				AND examination_end_time &gt;= #{examinationTime}
 			</if>
 			
 			<if test="@Ognl@isNotEmpty(examinationTimeLength)">
-				AND examination_time_length = #{examinationTimeLength,jdbcType=INTEGER}
+				AND examination_time_length = #{examinationTimeLength}
 			</if>
 			<if test="@Ognl@isNotEmpty(examinationScore)">
-				AND examination_score = #{examinationScore,jdbcType=INTEGER}
+				AND examination_score = #{examinationScore}
 			</if>
 			<if test="@Ognl@isNotEmpty(examinationStatus)">
-				AND examination_status = #{examinationStatus,jdbcType=INTEGER}
+				AND examination_status = #{examinationStatus}
 			</if>
 		</where>
 	</sql>
@@ -65,35 +65,35 @@
 		</if>
 	</select>
 
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from examination
-		where examination_id = #{examinationId,jdbcType=VARCHAR}
+		where examination_id = #{examinationId}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+	<delete id="deleteByPrimaryKey">
 		delete from examination
 		where examination_id =
-		#{examinationId,jdbcType=VARCHAR}
+		#{examinationId}
 	</delete>
-	<insert id="insert" parameterType="cn.hnzxl.exam.project.model.Examination">
+	<insert id="insert" parameterType="cn.hnzxl.exam.project.model.Examination"  useGeneratedKeys="true" keyProperty="examinationId">
 		insert into examination (examination_id, examination_category_id,
 		examination_subject, examination_content,
 		examination_start_time, examination_end_time,
 		examination_time_length,
 		examination_score,
 		examination_status)
-		values (#{examinationId,jdbcType=VARCHAR},
-		#{examinationCategoryId,jdbcType=VARCHAR},
-		#{examinationSubject,jdbcType=VARCHAR},
-		#{examinationContent,jdbcType=VARCHAR},
-		#{examinationStartTime,jdbcType=TIMESTAMP},
-		#{examinationEndTime,jdbcType=TIMESTAMP},
-		#{examinationTimeLength,jdbcType=INTEGER},
-		#{examinationScore,jdbcType=INTEGER},
-		#{examinationStatus,jdbcType=INTEGER})
+		values (#{examinationId},
+		#{examinationCategoryId},
+		#{examinationSubject},
+		#{examinationContent},
+		#{examinationStartTime},
+		#{examinationEndTime},
+		#{examinationTimeLength},
+		#{examinationScore},
+		#{examinationStatus})
 	</insert>
-	<insert id="insertSelective" parameterType="cn.hnzxl.exam.project.model.Examination">
+	<insert id="insertSelective" parameterType="cn.hnzxl.exam.project.model.Examination" useGeneratedKeys="true" keyProperty="examinationId">
 		insert into examination
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="examinationId != null">
@@ -126,31 +126,31 @@
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="examinationId != null">
-				#{examinationId,jdbcType=VARCHAR},
+				#{examinationId},
 			</if>
 			<if test="examinationCategoryId != null">
-				#{examinationCategoryId,jdbcType=VARCHAR},
+				#{examinationCategoryId},
 			</if>
 			<if test="examinationSubject != null">
-				#{examinationSubject,jdbcType=VARCHAR},
+				#{examinationSubject},
 			</if>
 			<if test="examinationContent != null">
-				#{examinationContent,jdbcType=VARCHAR},
+				#{examinationContent},
 			</if>
 			<if test="examinationStartTime != null">
-				#{examinationStartTime,jdbcType=TIMESTAMP},
+				#{examinationStartTime},
 			</if>
 			<if test="examinationEndTime != null">
-				#{examinationEndTime,jdbcType=TIMESTAMP},
+				#{examinationEndTime},
 			</if>
 			<if test="examinationTimeLength != null">
-				#{examinationTimeLength,jdbcType=INTEGER},
+				#{examinationTimeLength},
 			</if>
 			<if test="examinationScore != null">
-				#{examinationScore,jdbcType=INTEGER},
+				#{examinationScore},
 			</if>
 			<if test="examinationStatus != null">
-				#{examinationStatus,jdbcType=INTEGER},
+				#{examinationStatus},
 			</if>
 		</trim>
 	</insert>
@@ -158,46 +158,46 @@
 		update examination
 		<set>
 			<if test="examinationCategoryId != null">
-				examination_category_id = #{examinationCategoryId,jdbcType=VARCHAR},
+				examination_category_id = #{examinationCategoryId},
 			</if>
 			<if test="examinationSubject != null">
-				examination_subject = #{examinationSubject,jdbcType=VARCHAR},
+				examination_subject = #{examinationSubject},
 			</if>
 			<if test="examinationContent != null">
-				examination_content = #{examinationContent,jdbcType=VARCHAR},
+				examination_content = #{examinationContent},
 			</if>
 			<if test="examinationStartTime != null">
-				examination_start_time = #{examinationStartTime,jdbcType=TIMESTAMP},
+				examination_start_time = #{examinationStartTime},
 			</if>
 			<if test="examinationEndTime != null">
-				examination_end_time = #{examinationEndTime,jdbcType=TIMESTAMP},
+				examination_end_time = #{examinationEndTime},
 			</if>
 			<if test="examinationTimeLength != null">
-				examination_time_length = #{examinationTimeLength,jdbcType=INTEGER},
+				examination_time_length = #{examinationTimeLength},
 			</if>
 			<if test="examinationScore != null">
-				examination_score = #{examinationScore,jdbcType=INTEGER},
+				examination_score = #{examinationScore},
 			</if>
 			<if test="examinationStatus != null">
-				examination_status = #{examinationStatus,jdbcType=INTEGER},
+				examination_status = #{examinationStatus},
 			</if>
 		</set>
-		where examination_id = #{examinationId,jdbcType=VARCHAR}
+		where examination_id = #{examinationId}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="cn.hnzxl.exam.project.model.Examination">
 		update examination
 		set examination_category_id =
-		#{examinationCategoryId,jdbcType=VARCHAR},
-		examination_subject = #{examinationSubject,jdbcType=VARCHAR},
-		examination_content = #{examinationContent,jdbcType=VARCHAR},
+		#{examinationCategoryId},
+		examination_subject = #{examinationSubject},
+		examination_content = #{examinationContent},
 		examination_start_time =
-		#{examinationStartTime,jdbcType=TIMESTAMP},
-		examination_end_time = #{examinationEndTime,jdbcType=TIMESTAMP},
-		examination_time_length = #{examinationTimeLength,jdbcType=INTEGER},
+		#{examinationStartTime},
+		examination_end_time = #{examinationEndTime},
+		examination_time_length = #{examinationTimeLength},
 		examination_score =
-		#{examinationScore,jdbcType=INTEGER},
-		examination_status = #{examinationStatus,jdbcType=INTEGER}
+		#{examinationScore},
+		examination_status = #{examinationStatus}
 		where examination_id =
-		#{examinationId,jdbcType=VARCHAR}
+		#{examinationId}
 	</update>
 </mapper>

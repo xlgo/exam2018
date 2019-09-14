@@ -19,7 +19,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/resource/css/main/admin.css"/>" />
 <!--[if IE]>
 <link rel="stylesheet" type="text/css" href="<c:url value="/resource/js/dwz/themes/css/ieHack.css"/>" />
-<![endif]-->
+<![endif]-->a
 <!--[if lte IE 9]>
 <script type="text/javascript" src="<c:url value="/resource/js/dwz/js/speedup.js" />"></script>
 <![endif]-->
@@ -39,7 +39,7 @@
 <script type="text/javascript">
 	$(function() {
 		DWZ.init("<c:url value='/resource/js/dwz/dwz.frag.xml'/>", {
-			loginUrl : "<c:url value='/login' />", // 跳到登录页面
+			loginUrl : "<c:url value='/login2' />", // 跳到登录页面
 			pageInfo : {
 				pageNum : "pageNum",
 				numPerPage : "pageSize",

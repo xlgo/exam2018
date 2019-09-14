@@ -44,7 +44,7 @@ import cn.hnzxl.exam.system.service.UserService;
 
 @Controller
 @RequestMapping("/system/user/")
-public class UserController extends BaseController<User, String> {
+public class UserController extends BaseController<User, Long> {
 	private static List<String> school = new ArrayList<String>();
 	@Autowired
 	private UserService userService;
@@ -59,7 +59,7 @@ public class UserController extends BaseController<User, String> {
 	private ExaminationService examinationService ;
 	
 	@Override
-	public BaseService<User, String> getBsetService() {
+	public BaseService<User, Long> getBsetService() {
 		return userService;
 	}
 
@@ -91,7 +91,7 @@ public class UserController extends BaseController<User, String> {
 	}
 	@RequestMapping("saveRegister")
 	public ModelAndView saveRegister(User user, HttpServletRequest request, HttpServletResponse response,RedirectAttributes ra) {
-		user.setUserid(GUIDUtil.getUUID());
+		//user.setUserid(GUIDUtil.getUUID());
 		try{
 			if(StringUtils.isEmpty(user.getUsername())){
 				throw new Exception("用户名不能为空！");
@@ -225,7 +225,7 @@ public class UserController extends BaseController<User, String> {
 					 param.put("userQuestionUserid", ids[0]);
 					 List<UserQuestion> uqs = userQuestionService.selectAll(param);
 					 
-					String[] uqIds = new String[uqs.size()];
+					Long[] uqIds = new Long[uqs.size()];
 					for (int i = 0; i < uqs.size(); i++) {
 						uqIds[i]=uqs.get(i).getUserQuestionId();
 					}

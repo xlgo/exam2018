@@ -14,12 +14,12 @@ import cn.hnzxl.exam.system.model.UserPrize;
  *
  */
 @Service
-public class UserPrizeService extends BaseService<UserPrize, String> {
+public class UserPrizeService extends BaseService<UserPrize, Long> {
 	@Autowired
 	private UserPrizeMapper userPrizeMapper = null;
 
 	@Override
-	public BaseMapper<UserPrize, String> getBaseMapper() {
+	public BaseMapper<UserPrize, Long> getBaseMapper() {
 		return userPrizeMapper;
 	}
 	

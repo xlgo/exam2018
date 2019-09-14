@@ -11,9 +11,9 @@ import cn.hnzxl.exam.base.model.BaseModel;
  * @date 2014年11月2日 下午3:51:22
  *
  */
-public class Examination extends BaseModel<String> {
+public class Examination extends BaseModel<Long> {
 	//试卷id
-	private String examinationId;
+	private Long examinationId;
 	//类别id
 	private String examinationCategoryId;
 	//试卷标题
@@ -32,12 +32,12 @@ public class Examination extends BaseModel<String> {
 	private Integer examinationStatus;
 	
 	
-	public String getExaminationId() {
+	public Long getExaminationId() {
 		return examinationId;
 	}
 
-	public void setExaminationId(String examinationId) {
-		this.examinationId = examinationId == null ? null : examinationId.trim();
+	public void setExaminationId(Long examinationId) {
+		this.examinationId = examinationId;
 	}
 
 	public String getExaminationCategoryId() {
@@ -106,12 +106,12 @@ public class Examination extends BaseModel<String> {
 	}
 	
 	@Override
-	public String getId() {
+	public Long getId() {
 		return this.examinationId;
 	}
 
 	@Override
-	public void setId(String modelId) {
+	public void setId(Long modelId) {
 		this.examinationId  = modelId;
 	}
 }
