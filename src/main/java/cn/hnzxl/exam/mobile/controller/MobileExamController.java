@@ -304,10 +304,6 @@ public class MobileExamController {
 
 	@RequestMapping("startExam")
 	public ModelAndView startExam(HttpServletRequest request, HttpServletResponse response) {
-		String userAgent = request.getHeader("user-agent");
-		if (userAgent.indexOf("Mobile") == -1) {
-			return new ModelAndView("redirect:/index");
-		}
 		Map<String, Object> userInfo = new HashMap<String, Object>();
 		userInfo.put("ip", SessionUtil.getIpAddr(request));
 		userInfo.put("userAgent", request.getHeader("User-Agent"));
@@ -335,10 +331,7 @@ public class MobileExamController {
 		userQuestionInfo.remove("userId");
 		
 		userQuestionService.saveUserExam(examinationId, userQuestionInfo, "2");
-		SystemConfig sc = systemconfigService.selectByPrimaryKey(2L);
-		if (sc != null && sc.getValue() != null) {
-
-		}
+		
 		return new ModelAndView("redirect:/m/success");
 	}
 

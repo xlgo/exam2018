@@ -174,7 +174,7 @@ CREATE TABLE `user_question` (
   `user_question_right_answer` varchar(50)  COMMENT '正确答案',
   `user_question_user_answer` varchar(50)  COMMENT '用户答案',
   `user_question_sort` int  COMMENT '排序用的',
-  PRIMARY KEY (`user_question_id`),
+  PRIMARY KEY (`user_question_id`,`user_question_userid`),
   KEY `inx_qeqq` (`user_question_examination_id`,`user_question_userid`,`user_question_question_id`),
   KEY `inx_hd` (`user_question_headline_id`,`user_question_userid`)
-) ENGINE=InnoDB ;
+) ENGINE=InnoDB  PARTITION BY hash(user_question_userid) PARTITIONS 40;

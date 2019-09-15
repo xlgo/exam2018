@@ -9,8 +9,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import redis.clients.jedis.JedisPoolConfig;
@@ -56,10 +58,24 @@ public class JedisConfiguration {
 	@Bean
 	public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
 		StringRedisTemplate srt = new StringRedisTemplate(redisConnectionFactory);
-		srt.setDefaultSerializer(new GenericJackson2JsonRedisSerializer());
-		srt.opsForList().leftPush("系统信息:系统启动时间", DateFormatUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
 		return srt;
 	}
+	@Bean
+	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+		RedisTemplate<String, Object> rt = new RedisTemplate<String, Object>();
+		rt.setConnectionFactory(redisConnectionFactory);
+		GenericJackson2JsonRedisSerializer jsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
+		rt.setDefaultSerializer(jsonRedisSerializer);
+		
+		StringRedisSerializer KeySerializer = new StringRedisSerializer();
+		rt.setKeySerializer(KeySerializer);
+		rt.setHashKeySerializer(new JdkSerializationRedisSerializer());
+		
+		rt.afterPropertiesSet();
+		rt.opsForList().leftPush("系统信息:系统启动时间", DateFormatUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+		return rt;
+	}
+	
 	/*
 	 * @Bean public LettuceConnectionFactory lettuceConnectionFactory(){ return
 	 * new LettuceConnectionFactory(); }

@@ -4,10 +4,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.alibaba.fastjson.JSON;
+
+import cn.hnzxl.exam.project.dto.ExamCacheInfo;
 import cn.hnzxl.exam.project.service.UserQuestionService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring.xml"})
@@ -15,6 +19,8 @@ public class UserQuestionTest{
 	private UserQuestionService userQuestionService;
 	@Autowired
 	private StringRedisTemplate stringRedisTemplate;
+	@Autowired
+	private RedisTemplate<String, Object> redisTemplate;
 	@Test
 	public void popList(){
 		try{
@@ -43,5 +49,22 @@ public class UserQuestionTest{
 			stringRedisTemplate.discard();
 		}
 		System.out.println(stringRedisTemplate.opsForList().size("系统信息:提交的题目")+"结束："+(System.currentTimeMillis()-l1));
+	}
+	
+	@Test
+	public void jsonTest(){
+		String rightPop = stringRedisTemplate.opsForList().leftPop("exam:2019:examInfo");
+		Object parse = JSON.parse(rightPop);
+		System.out.println(parse);
+	}
+	/**
+	 * 获取数据用的
+	 */
+	@Test
+	public void jsonSDF(){
+		ExamCacheInfo info = (ExamCacheInfo) redisTemplate.opsForList().rightPop("exam:2019:info");
+		Object object = redisTemplate.opsForHash().get(info.getDataKey(), info.getUserId());
+		redisTemplate.opsForHash().delete(info.getDataKey(), info.getUserId());
+		System.out.println(object);
 	}
 }

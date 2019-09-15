@@ -7,11 +7,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+
+import com.alibaba.fastjson.JSON;
 
 import cn.hnzxl.exam.base.dao.BaseMapper;
 import cn.hnzxl.exam.base.service.BaseService;
@@ -19,6 +25,7 @@ import cn.hnzxl.exam.base.util.GUIDUtil;
 import cn.hnzxl.exam.base.util.SessionUtil;
 import cn.hnzxl.exam.mobile.controller.MobileExamController;
 import cn.hnzxl.exam.project.dao.UserQuestionMapper;
+import cn.hnzxl.exam.project.dto.ExamCacheInfo;
 import cn.hnzxl.exam.project.model.Examination;
 import cn.hnzxl.exam.project.model.Headline;
 import cn.hnzxl.exam.project.model.Question;
@@ -39,12 +46,57 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 	private UserExaminationService userExaminationService;
 	@Autowired
 	private QuestionUtil questionUtil;
-	
+	@Autowired
+	private RedisTemplate<String, Object> redisTemplate;
 	@Override
 	public UserQuestionMapper getBaseMapper() {
 		return userQuestionMapper;
 	}
-
+	
+	@PostConstruct
+	public void processExamInfo(){
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (true) {
+					Long size = redisTemplate.opsForList().size(ExamCacheInfo.KEY_PREFIX);
+					if(size>0){
+						ExamCacheInfo info = (ExamCacheInfo) redisTemplate.opsForList().rightPop("exam:2019:info");
+						if(info.getType().equals(ExamCacheInfo.Type.EXAM_SAVE)){//保存提交的成绩！
+							Map<String,Object> chacheMap = (Map<String, Object>) redisTemplate.opsForHash().get(info.getDataKey(), info.getUserId());
+							
+							List<UserQuestion> userQuestions = (List<UserQuestion>) chacheMap.get("userQuestions");
+							Long userExaminationId = (Long)chacheMap.get("userExaminationId");
+							redisTemplate.opsForHash().delete(info.getDataKey(), info.getUserId());
+							
+							updateUserRightAnswer(userQuestions);
+							Long examinationId = userQuestions.get(0).getUserQuestionExaminationId();
+							//获取用户分数
+							UserQuestion sroreParam = new UserQuestion();
+							sroreParam.setUserQuestionExaminationId(examinationId);
+							sroreParam.setUserQuestionUserid(info.getUserId());
+							Integer userScore = selectUserScore(sroreParam);
+							
+							UserExamination userExamination = new UserExamination();
+							userExamination.setUserExaminationId(userExaminationId);
+							userExamination.setUserExaminationScore(userScore==null?0:userScore);
+							userExaminationService.updateByPrimaryKeySelective(userExamination);
+							
+						}else if(info.getType().equals(ExamCacheInfo.Type.EXAM_SAVE)){
+							
+						}
+						System.out.println("获取到数据，进行处理！");
+					}else{
+						try {
+							Thread.sleep(1000L);
+						} catch (InterruptedException e) {
+						}
+					}
+				}
+			}
+		},"exam.process").start();
+	}
+	
 	/**
 	 * 开始考试的试卷信息<br/> 
 	 * examination，试卷<br/>
@@ -187,9 +239,7 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 	public Integer selectUserScore(UserQuestion userQuestion) {
 		return userQuestionMapper.selectUserScore(userQuestion);
 	}
-	
-	
-	public void saveUserExam(Long examinationId,Map<String, String[]> userQuestionInfo,String type){
+	public void saveUserExam_bak(Long examinationId,Map<String, String[]> userQuestionInfo,String type){
 		User currentUser =SessionUtil.getCurrentUser();
 		
 		Map<String,Object> userExaminationParam = new HashMap<String, Object>();
@@ -230,15 +280,80 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 		sroreParam.setUserQuestionExaminationId(examinationId);
 		sroreParam.setUserQuestionUserid(currentUser.getUserid());
 		Integer userScore = this.selectUserScore(sroreParam);
+		userExamination.setUserExaminationScore(userScore==null?0:userScore);
+		
+		userExamination.setUserExaminationSubmitTime(new Date());
+		Long timeLength = userExamination.getUserExaminationSubmitTime().getTime()-userExamination.getCreateTime().getTime();
+		userExamination.setUserExaminationTimeLength((double)timeLength/60000);
+		userExamination.setUserExaminationStatus("1");
+		userExamination.setUserExaminationSysteminfo(type);
+		userExaminationService.updateByPrimaryKey(userExamination);
+		
+	}
+	
+	public void saveUserExam(Long examinationId,Map<String, String[]> userQuestionInfo,String type){
+		User currentUser =SessionUtil.getCurrentUser();
+		
+		Map<String,Object> userExaminationParam = new HashMap<String, Object>();
+		userExaminationParam.put("userExaminationUserid", currentUser.getUserid());
+		userExaminationParam.put("userExaminationExaminationId", examinationId);
+		
+		//更新用户试卷信息
+		UserExamination userExamination= userExaminationService.selectAll(userExaminationParam).get(0);
+		if(StringUtils.equals(userExamination.getUserExaminationStatus(),"1")){
+			return;
+		}
+		
+		List<UserQuestion> userQuestions = new ArrayList<UserQuestion>();
+		
+		for (String key : userQuestionInfo.keySet()) {
+			UserQuestion userQuestion = new UserQuestion();
+			userQuestion.setUserQuestionExaminationId(examinationId);
+			userQuestion.setUserQuestionQuestionId(Long.valueOf(key));
+			userQuestion.setUserQuestionUserid(currentUser.getUserid());
+			String[] value = userQuestionInfo.get(key);
+			Arrays.sort(value);
+			String userAnswer ="";
+			for (int i = 0; i < value.length; i++) {
+				userAnswer+=value[i];
+				if(i+1 != value.length){
+					userAnswer+="|";
+				}
+			}
+			userQuestion.setUserQuestionUserAnswer(userAnswer);
+			userQuestions.add(userQuestion);
+		}
+		long c=System.currentTimeMillis();
+		
+		ExamCacheInfo eci = ExamCacheInfo.getSave(currentUser.getUserid());
+		redisTemplate.opsForList().leftPush(eci.KEY_PREFIX, eci);
+		
+		Map<String,Object> chacheMap = new HashMap<>();
+		chacheMap.put("userQuestions", userQuestions);
+		chacheMap.put("userExaminationId", userExamination.getUserExaminationId());
+		redisTemplate.opsForHash().put(eci.getDataKey(),eci.getUserId(), chacheMap);
+		
+		
+		/*
+		//userQuestionMapper.updateUserRightAnswer2(userQuestions);
+		this.updateUserRightAnswer(userQuestions);
+		//获取用户分数
+		UserQuestion sroreParam = new UserQuestion();
+		sroreParam.setUserQuestionExaminationId(examinationId);
+		sroreParam.setUserQuestionUserid(currentUser.getUserid());
+		Integer userScore = this.selectUserScore(sroreParam);
+		userExamination.setUserExaminationScore(userScore==null?0:userScore);
+		*/
 		
 		
 		userExamination.setUserExaminationSubmitTime(new Date());
 		Long timeLength = userExamination.getUserExaminationSubmitTime().getTime()-userExamination.getCreateTime().getTime();
 		userExamination.setUserExaminationTimeLength((double)timeLength/60000);
-		userExamination.setUserExaminationScore(userScore==null?0:userScore);
 		userExamination.setUserExaminationStatus("1");
 		userExamination.setUserExaminationSysteminfo(type);
 		userExaminationService.updateByPrimaryKey(userExamination);
+		
+		log.info(currentUser.getUsername()+"提交：type="+type+",size="+userQuestions.size()+",times="+(System.currentTimeMillis()-c));
 		
 	}
 	
