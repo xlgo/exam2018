@@ -23,6 +23,9 @@
 		var info=[{t:new Date().getTime(),c:0}];
 		var info2=[{t:new Date().getTime(),c:0}];
 		$(function(){
+			$("#submitBtn").click(function(){
+				$("form").submit();
+			});
 			heartbeat2();
 			daojishi();
 			//秒表
@@ -38,9 +41,6 @@
 				}
 			});
 			
-			$("#submitBtn").click(function(){
-				$("form").submit();
-			});
 		});
 		
 		function secondClock(){
