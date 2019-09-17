@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
@@ -57,50 +59,68 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 
 	@PostConstruct
 	public void processExamInfo() {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (true) {
-					Long size = redisTemplate.opsForList().size(ExamCacheInfo.KEY_PREFIX);
-					if (size > 0) {
-						ExamCacheInfo info = (ExamCacheInfo) redisTemplate.opsForList().rightPop("exam:2019:info");
-						if (info.getType().equals(ExamCacheInfo.Type.EXAM_SAVE)) {
-							// 保存提交的答题新以及得出成绩！
-							Map<String, Object> chacheMap = (Map<String, Object>) redisTemplate.opsForHash()
-									.get(info.getDataKey(), info.getUserId());
-
-							List<UserQuestion> userQuestions = (List<UserQuestion>) chacheMap.get("userQuestions");
-							redisTemplate.opsForHash().delete(info.getDataKey(), info.getUserId());
-							//redisTemplate.opsForValue().remove(EXAMINATION_HEADLINE_INFO_CACHE_KEY);
-							redisTemplate.delete(EXAMINATION_HEADLINE_INFO_CACHE_KEY+":"+info.getUserId());
-							Long userExaminationId = (Long) chacheMap.get("userExaminationId");
-							Long examinationId = (Long) chacheMap.get("examinationId");
-
-							updateUserRightAnswer(userQuestions);
-							// 获取用户分数
-							UserQuestion sroreParam = new UserQuestion();
-							sroreParam.setUserQuestionExaminationId(examinationId);
-							sroreParam.setUserQuestionUserid(info.getUserId());
-							Integer userScore = selectUserScore(sroreParam);
-
-							UserExamination userExamination = new UserExamination();
-							userExamination.setUserExaminationId(userExaminationId);
-							userExamination.setUserExaminationScore(userScore == null ? 0 : userScore);
-							userExaminationService.updateByPrimaryKeySelective(userExamination);
-
-						} else if (info.getType().equals(ExamCacheInfo.Type.EXAM_SAVE)) {
-							// 把抽到的题目信息保存到数据库中去
-						}
-						System.out.println("获取到数据，进行处理！");
-					} else {
+		ExecutorService threadPool = Executors.newCachedThreadPool();
+		for (int i = 0; i < 3; i++) {
+			threadPool.execute(new Runnable() {
+				@Override
+				public void run() {
+					while (true) {
 						try {
-							Thread.sleep(1000L);
-						} catch (InterruptedException e) {
+							processExam();
+						} catch (Exception e) {
+							log.error(e);
 						}
 					}
 				}
+			});
+		}
+	}
+
+	private void processExam() {
+		if (redisTemplate.opsForList().size(ExamCacheInfo.KEY_PREFIX) > 0) {
+			ExamCacheInfo info = (ExamCacheInfo) redisTemplate.opsForList().rightPop("exam:2019:info");
+			if(info==null){
+				return;
 			}
-		}, "exam.process").start();
+			if (info.getType().equals(ExamCacheInfo.Type.EXAM_SAVE)) {
+				// 保存提交的答题新以及得出成绩！
+				Map<String, Object> chacheMap = (Map<String, Object>) redisTemplate.opsForHash().get(info.getDataKey(),
+						info.getUserId());
+
+				List<UserQuestion> userQuestions = (List<UserQuestion>) chacheMap.get("userQuestions");
+				redisTemplate.opsForHash().delete(info.getDataKey(), info.getUserId());
+				// redisTemplate.opsForValue().remove(EXAMINATION_HEADLINE_INFO_CACHE_KEY);
+				redisTemplate.delete(EXAMINATION_HEADLINE_INFO_CACHE_KEY + ":" + info.getUserId());
+				Long userExaminationId = (Long) chacheMap.get("userExaminationId");
+				Long examinationId = (Long) chacheMap.get("examinationId");
+
+				updateUserRightAnswer(userQuestions);
+				// 获取用户分数
+				UserQuestion sroreParam = new UserQuestion();
+				sroreParam.setUserQuestionExaminationId(examinationId);
+				sroreParam.setUserQuestionUserid(info.getUserId());
+				Integer userScore = selectUserScore(sroreParam);
+
+				UserExamination userExamination = new UserExamination();
+				userExamination.setUserExaminationId(userExaminationId);
+				userExamination.setUserExaminationScore(userScore == null ? 0 : userScore);
+				userExaminationService.updateByPrimaryKeySelective(userExamination);
+
+			} else if (info.getType().equals(ExamCacheInfo.Type.EXAM_START)) {
+				// 把抽到的题目信息保存到数据库中去
+				List<UserQuestion> uqs = (List<UserQuestion>) redisTemplate.opsForHash().get(info.getDataKey(),
+						info.getUserId());
+				redisTemplate.opsForHash().delete(info.getDataKey(), info.getUserId());
+				getBaseMapper().insertBatch(uqs);
+			}
+			System.out.println("获取到数据，进行处理！");
+		} else {
+			try {
+				Thread.sleep(1000L);
+			} catch (InterruptedException e) {
+			}
+		}
+
 	}
 
 	/**
@@ -114,7 +134,7 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 	private final static String EXAMINATION_INFO_CACHE_KEY = ExamCacheInfo.KEY_PREFIX + ":examination";
 	private final static String EXAMINATION_HEADLINE_INFO_CACHE_KEY = ExamCacheInfo.KEY_PREFIX + ":examinationHeadline";
 	private final static String EXAMINATION_QUESTION_INFO_CACHE_KEY = ExamCacheInfo.KEY_PREFIX + ":examinationQuestion";
-	
+
 	public Map<String, Object> getExamInfo(Map<String, Object> userInfo) {
 		SessionUtil.rateLimit2("examInfo", 2 * 1000l);
 		Map<String, Object> res = new HashMap<String, Object>();
@@ -181,8 +201,9 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 
 			if (type == 1) {// TODO 这里先重缓存中拿到信息，如果没有在去查数据库
 				long c = System.currentTimeMillis();
-				Map<String, Object> questionInfo = (Map<String, Object>) redisTemplate.opsForValue().get(EXAMINATION_HEADLINE_INFO_CACHE_KEY+":"+currentUser.getUserid());
-				if(questionInfo == null){
+				Map<String, Object> questionInfo = (Map<String, Object>) redisTemplate.opsForValue()
+						.get(EXAMINATION_HEADLINE_INFO_CACHE_KEY + ":" + currentUser.getUserid());
+				if (questionInfo == null) {
 					questionInfo = new HashMap<>();
 					for (Headline headline : headlines) {
 						// 从用户试题库拿题
@@ -198,7 +219,8 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 						List<Question> questionTemp = questionUtil.getQuestionsByIds(ids);
 						questionInfo.put("question_" + headline.getHeadlineId(), questionTemp);
 					}
-					redisTemplate.opsForValue().set(EXAMINATION_HEADLINE_INFO_CACHE_KEY+":"+currentUser.getUserid(),questionInfo,10,TimeUnit.MINUTES);
+					redisTemplate.opsForValue().set(EXAMINATION_HEADLINE_INFO_CACHE_KEY + ":" + currentUser.getUserid(),
+							questionInfo, 10, TimeUnit.MINUTES);
 				}
 				res.putAll(questionInfo);
 				log.info(currentUser.getUsername() + ",取题：" + (System.currentTimeMillis() - c) + ":info010");
@@ -229,14 +251,18 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 						uqs.add(uq);
 					}
 				}
-				//保存抽题的信息
-				redisTemplate.opsForValue().set(EXAMINATION_HEADLINE_INFO_CACHE_KEY+":"+currentUser.getId(),questionInfo,10,TimeUnit.MINUTES);
-				
+				// 保存抽题的信息
+				redisTemplate.opsForValue().set(EXAMINATION_HEADLINE_INFO_CACHE_KEY + ":" + currentUser.getId(),
+						questionInfo, 10, TimeUnit.MINUTES);
+
 				res.putAll(questionInfo);
-				long c = System.currentTimeMillis();
-				this.getBaseMapper().insertBatch(uqs);// TODO
-														// 这里保存时间为考试时间，如果提交试卷，那么被信息将被清楚。
-				// this.insert(uqs);
+				long c = System.currentTimeMillis();// TODO ss
+				// this.getBaseMapper().insertBatch(uqs);
+
+				ExamCacheInfo eci = ExamCacheInfo.getStart(currentUser.getUserid());
+				redisTemplate.opsForList().leftPush(eci.KEY_PREFIX, eci);
+				redisTemplate.opsForHash().put(eci.getDataKey(), eci.getUserId(), uqs);
+
 				log.info(currentUser.getUsername() + ",抽题：" + (System.currentTimeMillis() - c) + ":info010");
 			}
 
