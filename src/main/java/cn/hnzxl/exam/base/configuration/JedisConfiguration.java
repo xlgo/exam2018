@@ -3,6 +3,7 @@ package cn.hnzxl.exam.base.configuration;
 import java.util.Date;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -52,6 +53,9 @@ public class JedisConfiguration {
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
         jedisConnectionFactory.setHostName(hostName);
         jedisConnectionFactory.setPort(port);
+        if(StringUtils.isNotEmpty(password)) {
+        	jedisConnectionFactory.setPassword(password);
+        }
        return jedisConnectionFactory;
     }
 	

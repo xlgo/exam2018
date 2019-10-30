@@ -26,9 +26,9 @@ CREATE TABLE `examination` (
   `examination_content` varchar(999)  COMMENT '试卷内容',
   `examination_start_time` datetime  COMMENT '开考时间',
   `examination_end_time` datetime  COMMENT '结束时间',
-  `examination_time_length` int(11)  COMMENT '试卷时间',
-  `examination_score` int(255)  COMMENT '试卷分数',
-  `examination_status` int(255) COMMENT '状态	0出题中，1可以答题，2结束',
+  `examination_time_length` int  COMMENT '试卷时间',
+  `examination_score` int  COMMENT '试卷分数',
+  `examination_status` int COMMENT '状态	0出题中，1可以答题，2结束',
   PRIMARY KEY (`examination_id`)
 ) ENGINE=InnoDB ;
 
