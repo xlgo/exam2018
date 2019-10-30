@@ -208,7 +208,11 @@ public class MobileExamController {
 		//retMessage.setContent("<a href='"+JSON.parseObject(userInfo).getString("headimgurl")+"'>亲爱的"+JSON.parseObject(userInfo).getString("nickname")+"，你好。点击查看你的头像</a>");
 		return retMessage;
 	}
-
+	
+	@RequestMapping("/noFollow")
+	public ModelAndView noFollow(HttpServletRequest request, HttpServletResponse response) {
+		return new ModelAndView("/mobile/no_follow");
+	}
 	@RequestMapping("/login")
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
 		return new ModelAndView("redirect:/m/index");

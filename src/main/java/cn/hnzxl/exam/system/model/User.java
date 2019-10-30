@@ -52,7 +52,7 @@ public class User extends BaseModel<Long> {
 	 */
 	private String mobilenumber;
 	/**
-	 * 地区
+	 * 学号
 	 */
 	private String area;
 	/**

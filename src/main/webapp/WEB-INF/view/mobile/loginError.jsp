@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<title>河南省第二届大学生反邪教警示教育知识竞赛</title>
+<title>河南省高校国家安全教育互联网知识竞赛</title>
 
 <script type="text/javascript">
 </script>

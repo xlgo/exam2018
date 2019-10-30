@@ -28,7 +28,17 @@ public class WebAppConfigurer extends HandlerInterceptorAdapter {
 			throws Exception {
 		String uri = request.getRequestURI();
 		User user = SessionUtil.getCurrentUser();
+		for (String path : anon) {
+			if(pathMatcher.matchStart(path, uri)){//可以直接查看的页面
+				return true;
+			}
+		}
 		if (user == null) {
+			if(!"xlgg".equals(request.getParameter("flag"))) {
+				response.sendRedirect("/m/noFollow");
+				return false;
+			}
+			
 			String queryString = request.getQueryString();
 			String formUrl = request.getContextPath() + request.getRequestURI()
 					+ (StringUtils.isNotEmpty(queryString) ? "?" + queryString : "");

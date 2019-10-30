@@ -24,6 +24,11 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 		<mvc:interceptor>
 			<mvc:mapping path="/m/**"/>
 			<bean class="cn.hnzxl.exam.base.configuration.WebAppConfigurer" >
+				<property name="anon">
+					<list>
+						<value>/m/noFollow</value>
+					</list>
+				</property>
 				<property name="auth">
 					<list>
 						<value>/m/reginfo*</value>

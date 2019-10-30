@@ -75,7 +75,7 @@
 			  </div>
 			</div>
 			<div class="inputs" style="position: relative;">
-			  <input type="text" name="area" class="form-control xiaoqu" placeholder="所在校区">
+			  <input type="text" name="area" class="form-control xiaoqu" placeholder="学号">
 			</div>
 			<div class="inputs">
 			  <input type="text" name="major" class="form-control zhuanye" placeholder="请输入专业">
