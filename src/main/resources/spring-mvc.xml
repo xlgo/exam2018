@@ -29,6 +29,11 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 						<value>/m/noFollow</value>
 					</list>
 				</property>
+				<property name="ignoreFlag">
+					<list>
+						<value>/m/userExamInfo</value>
+					</list>
+				</property>
 				<property name="auth">
 					<list>
 						<value>/m/reginfo*</value>

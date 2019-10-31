@@ -22,6 +22,9 @@ public class WebAppConfigurer extends HandlerInterceptorAdapter {
 	private List<String> anon;
 	//需要授权之后可以访问的页面
 	private List<String> auth;
+	//不需要
+	private List<String> ignoreFlag;
+	
 	AntPathMatcher pathMatcher = new AntPathMatcher("/");
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -33,12 +36,21 @@ public class WebAppConfigurer extends HandlerInterceptorAdapter {
 				return true;
 			}
 		}
+		boolean hasFlag=true;
+		for (String path : ignoreFlag) {
+			if(pathMatcher.matchStart(path, uri)){//可以直接查看的页面
+				hasFlag = false;
+			}
+		}
 		if (user == null) {
-			if(!"xlgg".equals(request.getParameter("flag"))) {
+			
+			if(hasFlag && !"xlgg".equals(request.getParameter("flag"))) {
 				response.sendRedirect("/m/noFollow");
 				return false;
 			}
-			
+			if("xlgg".equals(request.getParameter("flag"))){
+				SessionUtil.setAttribute("flag","xlgg");
+			}
 			String queryString = request.getQueryString();
 			String formUrl = request.getContextPath() + request.getRequestURI()
 					+ (StringUtils.isNotEmpty(queryString) ? "?" + queryString : "");
@@ -55,6 +67,10 @@ public class WebAppConfigurer extends HandlerInterceptorAdapter {
 			response.sendRedirect("/m/reginfo");
 			return false;
 		}
+		if(hasFlag && !"xlgg".equals(SessionUtil.getAttribute("flag"))) {
+			response.sendRedirect("/m/noFollow");
+			return false;
+		}
 		return true;
 	}
 	public List<String> getAnon() {
@@ -68,6 +84,12 @@ public class WebAppConfigurer extends HandlerInterceptorAdapter {
 	}
 	public void setAuth(List<String> auth) {
 		this.auth = auth;
+	}
+	public List<String> getIgnoreFlag() {
+		return ignoreFlag;
+	}
+	public void setIgnoreFlag(List<String> ignoreFlag) {
+		this.ignoreFlag = ignoreFlag;
 	}
 	
 }

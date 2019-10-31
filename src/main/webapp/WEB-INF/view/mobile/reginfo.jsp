@@ -44,25 +44,8 @@
 			</div>
 			
 			<div class="inputs" style="position: relative;">
-				  <input disabled type="text" class="form-control leibie" placeholder="院校类别" />
-				  <input type="hidden" name="identity" />
-				  <img class="down" chioceType='schoolType' src="<c:url value="/resource/mobile/image/down.png"/>"/>
-				  <div class="sliding none sliding_schoolType" >
-				  	
-				  	<div class="sliding-down">
-				  		<div class="sliding-left">
-					  		<ul class="left-list identity-ul">
-					  			<li value="1">专科</li>
-					  			<li value="2">本科</li>
-							</ul>
-					  	</div>
-					</div>
-				  </div>
-			</div>
-			<div class="inputs" style="position: relative;">
-			  <input type="text" class="form-control school" placeholder="所在学校">
+			  <input type="text" id="schoolType" class="form-control school" placeholder="所在学校">
 			  <input type="hidden" name="school" />
-			  <img class="down" chioceType='schoolName' src="<c:url value="/resource/mobile/image/down.png"/>"/>
 			  <div class="sliding none sliding_schoolName" >
 			  	
 			  	<div class="sliding-down">
@@ -126,6 +109,7 @@
     			})
     		})
     		$(".down").click(function(){
+        		$(".sliding").hide();
 				var chioceType = $(this).attr("chioceType");
     			if($(".sliding_" + chioceType).css("display")==="none"){
     				$(".sliding_" + chioceType).css("display","block");
@@ -143,7 +127,7 @@
 				$(this).parents(".sliding").hide();
 				$(this).parents(".sliding").prev().prev().removeClass("clicks")
 			});
-    		
+    		/*
 			$(".identity-ul>li").bind("click",function(){
 				$scc.find("li").hide();
 				if($(".school").val()){
@@ -151,7 +135,16 @@
 				}else{
 					$scc.find("[ptype="+$(this).val()+"]").show();
 				}
+    		})*/
+    		
+    		$(".school").bind("focus",function(){
+        		$(".sliding_schoolName").show();
     		})
+    		$(".school").bind("input",function(){
+    			$scc.find("li").hide();
+    			$scc.find("[value*="+$(".school").val()+"]").show();
+    		})
+    		/*
     		$(".school").bind("change",function(){
     			$scc.find("li").hide();
     			if($("[name=identity]").val()){
@@ -159,7 +152,7 @@
     			}else{
     				$scc.find("[value*="+$(".school").val()+"]").show();
     			}
-    		})
+    		});*/
     		var submiting=false;
     		$(".loginbtn").click(function(){
     			if(!submiting){
@@ -171,7 +164,8 @@
 	    					submitData[m.name] = m.value;
 	    				}else{
 	    					hasSubmit=false;
-	    					alert("请将信息填写完整!");
+		    				
+	    					alert(m.name=="school"?"学校信息必须从列表中选择！":"请将信息填写完整!");
 	    					return false;
 	    				}
 	    			});

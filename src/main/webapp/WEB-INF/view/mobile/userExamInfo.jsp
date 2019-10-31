@@ -36,6 +36,13 @@
         <li><span>答卷耗时：</span><b><fmt:formatNumber value="${modelList[0].userExaminationTimeLength}" pattern="0.0"/></b></li>
         <li><span>得分：</span><b>${modelList[0].userExaminationScore!=null?modelList[0].userExaminationScore:"计算中..."}</b></li>
     </ul>
+    
+    <ul>
+        <li><span>试卷名称：</span><b><lable>${modelList[0].userExaminationExaminationName}</lable></b></li>
+        <li><span>开始时间：</span><b><fmt:formatDate value="${modelList[0].createTime}" pattern="yyyy-MM-dd HH:mm"/></b></li>
+        <li><span>答卷耗时：</span><b><fmt:formatNumber value="${modelList[0].userExaminationTimeLength}" pattern="0.0"/></b></li>
+        <li><span>得分：</span><b>${modelList[0].userExaminationScore!=null?modelList[0].userExaminationScore:"计算中..."}</b></li>
+    </ul>
 </div>
 
 

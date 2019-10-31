@@ -9,11 +9,11 @@
 		<div class="searchBar">
 			<ul class="searchContent">
 				<li><label>姓名：</label> <input type="text" name="S_name" value="${searchParam.S_name}" /></li>
-				<li><label>用户名：</label> <input type="text" name="S_username" value="${searchParam.S_username}" /></li>
+				<li><label>学号：</label> <input type="text" name="S_area" value="${searchParam.S_area}" /></li>
 				<li><label>性别：</label> <select class="combox" name="gender">
 						<option value="" >所有</option>
-						<option value="0" ${searchParam.gender==0?"selected=\"selected\"":""}>男</option>
-						<option value="1" ${searchParam.gender==1?"selected=\"selected\"":""}>女</option>
+						<option value="1" ${searchParam.gender==0?"selected=\"selected\"":""}>男</option>
+						<option value="2" ${searchParam.gender==1?"selected=\"selected\"":""}>女</option>
 				</select></li>
 			</ul>
 			<div class="subBar"> 
@@ -49,6 +49,7 @@
 			<tr>
 				<th width="22"><input type="checkbox" group="id" class="checkboxCtrl"></th>
 				<th orderField="name" class="${searchParam.sortField=='name'?searchParam.sortOrder:""}">姓名</th>
+				<th orderField="area" class="${searchParam.sortField=='area'?searchParam.sortOrder:""}">学号</th>
 				<th orderField="gender" class="${searchParam.sortField=='gender'?searchParam.sortOrder:""}">性别</th>
 				<th orderField="username" class="${searchParam.sortField=='username'?searchParam.sortOrder:""}">用户名</th>
 				<th orderField="age" class="${searchParam.sortField=='age'?searchParam.sortOrder:""}">年龄</th>
@@ -62,7 +63,8 @@
 				<tr target="userId" rel="${model.id}" >
 					<td><input name="id" value="${model.id}" type="checkbox"></td>
 					<td>${model.name}</td>
-					<td>${model.gender==0?"男":"女"}</td>
+					<td>${model.area}</td>
+					<td>${model.gender==1?"男":"女"}</td>
 					<td>${model.username}</td>
 					<td>${model.age}</td>
 					<td>${model.mobilenumber}</td>
