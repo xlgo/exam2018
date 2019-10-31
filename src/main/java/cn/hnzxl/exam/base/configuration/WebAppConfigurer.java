@@ -42,15 +42,15 @@ public class WebAppConfigurer extends HandlerInterceptorAdapter {
 				hasFlag = false;
 			}
 		}
+		if("xlgg".equals(request.getParameter("flag"))){
+			SessionUtil.setAttribute("flag","xlgg");
+		}
+		if(hasFlag && !"xlgg".equals(SessionUtil.getAttribute("flag"))) {
+			response.sendRedirect("/m/noFollow");
+			return false;
+		}
 		if (user == null) {
 			
-			if(hasFlag && !"xlgg".equals(request.getParameter("flag"))) {
-				response.sendRedirect("/m/noFollow");
-				return false;
-			}
-			if("xlgg".equals(request.getParameter("flag"))){
-				SessionUtil.setAttribute("flag","xlgg");
-			}
 			String queryString = request.getQueryString();
 			String formUrl = request.getContextPath() + request.getRequestURI()
 					+ (StringUtils.isNotEmpty(queryString) ? "?" + queryString : "");
@@ -65,10 +65,6 @@ public class WebAppConfigurer extends HandlerInterceptorAdapter {
 				}
 			}
 			response.sendRedirect("/m/reginfo");
-			return false;
-		}
-		if(hasFlag && !"xlgg".equals(SessionUtil.getAttribute("flag"))) {
-			response.sendRedirect("/m/noFollow");
 			return false;
 		}
 		return true;
