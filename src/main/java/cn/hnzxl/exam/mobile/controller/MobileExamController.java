@@ -3,12 +3,14 @@ package cn.hnzxl.exam.mobile.controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Scanner;
 
 import javax.servlet.http.HttpServletRequest;
@@ -95,9 +97,9 @@ public class MobileExamController {
 
 	@RequestMapping(value = "token", method = RequestMethod.GET)
 	@ResponseBody
-	public String token(String signature,String echostr,String timestamp,String nonce) throws IOException {
-		boolean checked = WeiXinUtil.checkSignature(signature,timestamp,nonce);
-		if(!checked){
+	public String token(String signature, String echostr, String timestamp, String nonce) throws IOException {
+		boolean checked = WeiXinUtil.checkSignature(signature, timestamp, nonce);
+		if (!checked) {
 			return "signature验证失败！";
 		}
 		return echostr;
@@ -107,38 +109,38 @@ public class MobileExamController {
 	@ResponseBody
 	public Object tokenPost(HttpServletRequest request, @RequestBody MPMessage message) throws IOException {
 		String msgType = message.getMsgType();
-		
+
 		MPMessage retMessage = new MPMessage();
 		retMessage.setToUserName(message.getFromUserName());
 		retMessage.setFromUserName(message.getToUserName());
 		retMessage.setCreateTime(new Date().getTime() + "");
 		retMessage.setMsgType(MsgType.text.name());
 		String content = "未处理的类型！";
-		/*if(message!=null){
-			retMessage.setContent(JSON.toJSONString(message));
-			return retMessage;
-		}*/
-		if(MsgType.event.name().equals(msgType)){
-			//String userInfo = WeiXinUtil.userInfo(message.getFromUserName());
+		/*
+		 * if(message!=null){ retMessage.setContent(JSON.toJSONString(message)); return
+		 * retMessage; }
+		 */
+		if (MsgType.event.name().equals(msgType)) {
+			// String userInfo = WeiXinUtil.userInfo(message.getFromUserName());
 			switch (message.getEvent()) {
-			case "subscribe"://订阅
+			case "subscribe":// 订阅
 				content = "亲爱的，欢迎来到大学生的聚集地，一个年轻人嗨玩的社交平台！";
 				break;
-			case "unsubscribe"://取消订阅
+			case "unsubscribe":// 取消订阅
 				content = "取消订阅";
 				break;
-			case "CLICK"://菜单点击
+			case "CLICK":// 菜单点击
 				switch (message.getEventKey()) {
 				case "start_exam":
-					String url = baseConfig.getHostName()+"/m/login?openId="+message.getFromUserName();
-					url+="&signature="+DigestUtils.md5Hex(message.getFromUserName()+weChatConfig.getAppId());
-					content="<a href='"+url+"'>您已经通过身份唯一性验证，点击开始答题</a>";
+					String url = baseConfig.getHostName() + "/m/login?openId=" + message.getFromUserName();
+					url += "&signature=" + DigestUtils.md5Hex(message.getFromUserName() + weChatConfig.getAppId());
+					content = "<a href='" + url + "'>您已经通过身份唯一性验证，点击开始答题</a>";
 					break;
 				case "good":
-					content="谢谢支持，我们会更加努力！";
+					content = "谢谢支持，我们会更加努力！";
 					break;
 				case "lxwm-swhz":
-					content="商务合作请联系QQ:3001496102";
+					content = "商务合作请联系QQ:3001496102";
 					break;
 				default:
 					content = "未定义菜单功能！";
@@ -149,88 +151,91 @@ public class MobileExamController {
 				content = "未知的事件类型！";
 				break;
 			}
-			
-		}else if(MsgType.text.name().equals(msgType)){
-			if(StringUtils.contains(message.getContent(), "答题") || StringUtils.contains(message.getContent(), "考试")|| StringUtils.contains(message.getContent(), "验证")){
-				//String userInfo = WeiXinUtil.userInfo(message.getFromUserName());
-				String url = baseConfig.getHostName()+"/m/login?openId="+message.getFromUserName();
-				url+="&signature="+DigestUtils.md5Hex(message.getFromUserName()+weChatConfig.getAppId());
-				content="<a href='"+url+"'>您已经通过身份唯一性验证，点击开始答题</a>";
-			}else if(StringUtils.containsIgnoreCase(message.getContent(), "success")){
+
+		} else if (MsgType.text.name().equals(msgType)) {
+			if (StringUtils.contains(message.getContent(), "答题") || StringUtils.contains(message.getContent(), "考试")
+					|| StringUtils.contains(message.getContent(), "验证")) {
+				// String userInfo = WeiXinUtil.userInfo(message.getFromUserName());
+				String url = baseConfig.getHostName() + "/m/login?openId=" + message.getFromUserName();
+				url += "&signature=" + DigestUtils.md5Hex(message.getFromUserName() + weChatConfig.getAppId());
+				content = "<a href='" + url + "'>您已经通过身份唯一性验证，点击开始答题</a>";
+			} else if (StringUtils.containsIgnoreCase(message.getContent(), "success")) {
 				return message.getContent();
-			}else if(StringUtils.containsIgnoreCase(message.getContent(), "empty")){
+			} else if (StringUtils.containsIgnoreCase(message.getContent(), "empty")) {
 				return "";
-			}else if(StringUtils.containsIgnoreCase(message.getContent(), "null")){
+			} else if (StringUtils.containsIgnoreCase(message.getContent(), "null")) {
 				return null;
-			}else if(StringUtils.containsIgnoreCase(message.getContent(), "ok！")){
+			} else if (StringUtils.containsIgnoreCase(message.getContent(), "ok！")) {
 				return "ok！";
-			}else if(StringUtils.containsIgnoreCase(message.getContent(), "fromUserName")){
-				content=message.getFromUserName();
-			}else if(StringUtils.containsIgnoreCase(message.getContent(), "accessToken")){
-				content=WeiXinUtil.getAccessToken();
-			}else{
-				if(message.getFromUserName().equals("oMwu30Qu71mi6Jz_SuZD0FEirlWk")){
+			} else if (StringUtils.containsIgnoreCase(message.getContent(), "fromUserName")) {
+				content = message.getFromUserName();
+			} else if (StringUtils.containsIgnoreCase(message.getContent(), "accessToken")) {
+				content = WeiXinUtil.getAccessToken();
+			} else {
+				if (message.getFromUserName().equals("oMwu30Qu71mi6Jz_SuZD0FEirlWk")) {
 					WeiXinUtil.messageCustomSendText("oMwu30W4hosuh2qVZopcvevobdVk", message.getContent());
 					return "";
-				}else if(message.getFromUserName().equals("oMwu30W4hosuh2qVZopcvevobdVk")){
+				} else if (message.getFromUserName().equals("oMwu30W4hosuh2qVZopcvevobdVk")) {
 					WeiXinUtil.messageCustomSendText("oMwu30Qu71mi6Jz_SuZD0FEirlWk", message.getContent());
 					return "";
 				}
-				//content=message.getContent();
+				// content=message.getContent();
 				return "";
 			}
-		}else if(MsgType.image.name().equals(msgType)){
-			if(message.getFromUserName().equals("oMwu30Qu71mi6Jz_SuZD0FEirlWk")){
+		} else if (MsgType.image.name().equals(msgType)) {
+			if (message.getFromUserName().equals("oMwu30Qu71mi6Jz_SuZD0FEirlWk")) {
 				WeiXinUtil.messageCustomSendImage("oMwu30W4hosuh2qVZopcvevobdVk", message.getMediaId());
 				return "";
-			}else if(message.getFromUserName().equals("oMwu30W4hosuh2qVZopcvevobdVk")){
+			} else if (message.getFromUserName().equals("oMwu30W4hosuh2qVZopcvevobdVk")) {
 				WeiXinUtil.messageCustomSendImage("oMwu30Qu71mi6Jz_SuZD0FEirlWk", message.getMediaId());
 				return "";
-				
+
 			}
-			
-			content =  "收到您的图片了";
-		}else if(MsgType.voice.name().equals(msgType)){
-			if(message.getFromUserName().equals("oMwu30Qu71mi6Jz_SuZD0FEirlWk")){
+
+			content = "收到您的图片了";
+		} else if (MsgType.voice.name().equals(msgType)) {
+			if (message.getFromUserName().equals("oMwu30Qu71mi6Jz_SuZD0FEirlWk")) {
 				WeiXinUtil.messageCustomSendVoice("oMwu30W4hosuh2qVZopcvevobdVk", message.getMediaId());
 				return "";
-			}else if(message.getFromUserName().equals("oMwu30W4hosuh2qVZopcvevobdVk")){
+			} else if (message.getFromUserName().equals("oMwu30W4hosuh2qVZopcvevobdVk")) {
 				WeiXinUtil.messageCustomSendVoice("oMwu30Qu71mi6Jz_SuZD0FEirlWk", message.getMediaId());
 				return "";
 			}
-			
-			content =  "收到您的语音了";
-		}else{
-			
-			content=JSON.toJSONString(message);
+
+			content = "收到您的语音了";
+		} else {
+
+			content = JSON.toJSONString(message);
 		}
 		retMessage.setContent(content);
-		//retMessage.setContent("<a href='"+JSON.parseObject(userInfo).getString("headimgurl")+"'>亲爱的"+JSON.parseObject(userInfo).getString("nickname")+"，你好。点击查看你的头像</a>");
+		// retMessage.setContent("<a
+		// href='"+JSON.parseObject(userInfo).getString("headimgurl")+"'>亲爱的"+JSON.parseObject(userInfo).getString("nickname")+"，你好。点击查看你的头像</a>");
 		return retMessage;
 	}
-	
+
 	@RequestMapping("/noFollow")
 	public ModelAndView noFollow(HttpServletRequest request, HttpServletResponse response) {
 		return new ModelAndView("/mobile/no_follow");
 	}
+
 	@RequestMapping("/login")
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
 		return new ModelAndView("redirect:/m/index");
 	}
-	
+
 	@RequestMapping("/reginfo")
 	public String reginfo(Model model) {
 		User currentUser = SessionUtil.getCurrentUser();
-		if(currentUser.getStatus()==1){
+		if (currentUser.getStatus() == 1) {
 			return "redirect:/m/index";
 		}
 		model.addAttribute("user", currentUser);
 		return "/mobile/reginfo";
 	}
-	
+
 	@RequestMapping("/reginfoSubmit")
 	@ResponseBody
-	public String reginfoSubmit(User user,Model model) {
+	public String reginfoSubmit(User user, Model model) {
 		user.setUserid(SessionUtil.getCurrentUser().getUserid());
 		user.setStatus(1);
 		userService.updateByPrimaryKeySelective(user);
@@ -238,14 +243,20 @@ public class MobileExamController {
 		SessionUtil.setAttribute(Constant.SESSION_USER_INFO, user);
 		return "success";
 	}
+
 	@RequestMapping("/rule")
 	public String rule() {
 		return "/mobile/rule";
 	}
+	
+	@RequestMapping("/rule2")
+	public String rule2() {
+		return "/mobile/rule2";
+	}
 	@RequestMapping("/index")
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
-		
-		return new ModelAndView("/mobile/index").addObject("user",SessionUtil.getCurrentUser());
+
+		return new ModelAndView("/mobile/index").addObject("user", SessionUtil.getCurrentUser());
 	}
 
 	@RequestMapping("/valid")
@@ -324,18 +335,20 @@ public class MobileExamController {
 	}
 
 	@RequestMapping("save")
-	public ModelAndView save(Long examinationId,HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView save(Long examinationId, HttpServletRequest request, HttpServletResponse response) {
 		log.info(SessionUtil.getIpAddr(request) + ",用户IP:info008:info004");
 		log.info(SessionUtil.getCurrentUser().getUsername() + "提交试卷:info004");
 		Map<String, String[]> userQuestionInfo = new HashMap<>(request.getParameterMap());
-		
-		//userQuestionInfo.put("userId", new String[]{SessionUtil.getCurrentUser().getUserid()+""});
-		//stringRedisTemplate.opsForList().leftPush("exam:2019:saveExam", JSON.toJSONString(userQuestionInfo));
+
+		// userQuestionInfo.put("userId", new
+		// String[]{SessionUtil.getCurrentUser().getUserid()+""});
+		// stringRedisTemplate.opsForList().leftPush("exam:2019:saveExam",
+		// JSON.toJSONString(userQuestionInfo));
 		userQuestionInfo.remove("examinationId");
 		userQuestionInfo.remove("userId");
-		
+
 		userQuestionService.saveUserExam(examinationId, userQuestionInfo, "2");
-		
+
 		return new ModelAndView("redirect:/m/success");
 	}
 
@@ -348,15 +361,14 @@ public class MobileExamController {
 
 		/*
 		 * User nuser = userService.selectByPrimaryKey(currentUser.getId());
-		 * if(nuser.getVerifyquestion()==null ||
-		 * nuser.getVerifyquestion().length()<20){
+		 * if(nuser.getVerifyquestion()==null || nuser.getVerifyquestion().length()<20){
 		 * 
 		 * User upUser = new User(); upUser.setId(currentUser.getId());
-		 * if(nuser.getVerifyquestion()==null){ upUser.setVerifyquestion("0");
-		 * }else{ upUser.setVerifyquestion(nuser.getVerifyquestion()+"0"); }
+		 * if(nuser.getVerifyquestion()==null){ upUser.setVerifyquestion("0"); }else{
+		 * upUser.setVerifyquestion(nuser.getVerifyquestion()+"0"); }
 		 * userService.updateByPrimaryKeySelective(upUser);
-		 * if(upUser.getVerifyquestion().length()>5){ mav.addObject("msg","");
-		 * return mav; } }else{ mav.addObject("msg","刷爽了?"); return mav; }
+		 * if(upUser.getVerifyquestion().length()>5){ mav.addObject("msg",""); return
+		 * mav; } }else{ mav.addObject("msg","刷爽了?"); return mav; }
 		 */
 		if (sc != null && StringUtils.isNotBlank(sc.getValue()) && sc.getValue().split(",").length == 3) {
 			String[] value = sc.getValue().split(",");
@@ -397,7 +409,7 @@ public class MobileExamController {
 	}
 
 	@RequestMapping("contrast")
-	public ModelAndView contrast(Long id,HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView contrast(Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		SystemConfig config = systemconfigService.selectByPrimaryKey(1L);
 		if (config != null) {
 			try {
@@ -441,7 +453,7 @@ public class MobileExamController {
 
 	@RequestMapping("ranking")
 	@ResponseBody
-	public Object ranking(Long id,HttpServletRequest request, HttpServletResponse response) {
+	public Object ranking(Long id, HttpServletRequest request, HttpServletResponse response) {
 		User currentUser = SessionUtil.getCurrentUser();
 		UserExamination ue = new UserExamination();
 		ue.setUserExaminationExaminationId(id);
@@ -457,7 +469,7 @@ public class MobileExamController {
 	@RequestMapping("saveRegister")
 	public ModelAndView saveRegister(User user, HttpServletRequest request, HttpServletResponse response,
 			RedirectAttributes ra) {
-		//user.setUserid(GUIDUtil.getUUID());
+		// user.setUserid(GUIDUtil.getUUID());
 		try {
 			if (StringUtils.isEmpty(user.getUsername())) {
 				throw new Exception("用户名不能为空！");
@@ -502,12 +514,12 @@ public class MobileExamController {
 				throw new Exception("学校不存在，请从列表中选择学校名称！");
 			}
 			log.info(user.getUsername() + "注册提交:info002");
-			String openId  = (String) SessionUtil.getAttribute("openId");
-			if(SessionUtil.getAttribute("openId")!=null){
-				
+			String openId = (String) SessionUtil.getAttribute("openId");
+			if (SessionUtil.getAttribute("openId") != null) {
+
 				User hasExisOpenId = userService.selectByWxOpenid(openId);
-				if(hasExisOpenId!=null){
-					throw new Exception("该微信账号已经关联系统账号("+hasExisOpenId.getUsername()+")，无法注册！");
+				if (hasExisOpenId != null) {
+					throw new Exception("该微信账号已经关联系统账号(" + hasExisOpenId.getUsername() + ")，无法注册！");
 				}
 				user.setWxOpenid(openId);
 			}
@@ -525,25 +537,55 @@ public class MobileExamController {
 	public ModelAndView registerSuccess(User model, HttpServletRequest request, HttpServletResponse response) {
 		return new ModelAndView("/mobile/successRegister");
 	}
-	
+
 	@RequestMapping("/logout")
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
-		String sessOpenId  = (String) SessionUtil.getAttribute("openId");
+		String sessOpenId = (String) SessionUtil.getAttribute("openId");
 		Subject subject = SecurityUtils.getSubject();
 		subject.logout();
 
-		if(sessOpenId!=null){
+		if (sessOpenId != null) {
 			SessionUtil.setAttribute("openId", sessOpenId);
 		}
-	    return new ModelAndView("redirect:/m/login");
+		return new ModelAndView("redirect:/m/login");
 	}
-	
+
 	@RequestMapping("heartbeat")
 	@ResponseBody
-	public Object heartbeat(String info,String info2,HttpServletRequest request){
-		Map<String,Object> res =new HashMap<String,Object>();
+	public Object heartbeat(String info, String info2, HttpServletRequest request) {
+		Map<String, Object> res = new HashMap<String, Object>();
 		res.put("timestamp", new Date().getTime());
 		res.put("status", "success");
+		return res;
+	}
+
+	@RequestMapping("viewCert")
+	@ResponseBody
+	public Object viewCert() {
+		Map<String, Object> res = new HashMap<String, Object>();
+		if (LocalDate.now().isBefore(LocalDate.of(2019, 12, 1))) {
+			res.put("status", false);
+			res.put("msg", "请等待竞赛结束");
+		} else {
+			User currentUser = SessionUtil.getCurrentUser();
+			//"775151-"+currentUser.getId(); MD5 文件名，id%1000 文件路径
+			//没有就初始化，初始化比较慢，计入缓存（初始化先看缓存是否有值，有说明在处理中）
+			//处理中给提示
+			//完毕给图片
+			Map<String, Object> userExaminationParam = new HashMap<String, Object>();
+			userExaminationParam.put("userExaminationUserid", currentUser.getId());
+			userExaminationParam.put("userExaminationStatus", "1");
+			List<UserExamination> examList = userExaminationService.selectAll(userExaminationParam);
+			int maxScore = 0;
+			Optional<UserExamination> max = examList.stream()
+					.max((o1, o2) -> o1.getUserExaminationScore().compareTo(o2.getUserExaminationScore()));
+			if (max.isPresent()) {
+				maxScore = max.get().getUserExaminationScore();
+			}
+			System.out.println(maxScore);
+			res.put("status", true);
+			res.put("url", "/m/index");
+		}
 		return res;
 	}
 }

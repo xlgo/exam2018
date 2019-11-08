@@ -388,14 +388,6 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 		}
 		long c = System.currentTimeMillis();
 
-		ExamCacheInfo eci = ExamCacheInfo.getSave(currentUser.getUserid());
-		redisTemplate.opsForList().leftPush(eci.KEY_PREFIX, eci);
-
-		Map<String, Object> chacheMap = new HashMap<>();
-		chacheMap.put("userQuestions", userQuestions);
-		chacheMap.put("userExaminationId", userExamination.getUserExaminationId());
-		chacheMap.put("examinationId", examinationId);
-		redisTemplate.opsForHash().put(eci.getDataKey(), eci.getUserId(), chacheMap);
 
 		/*
 		 * //userQuestionMapper.updateUserRightAnswer2(userQuestions);
@@ -414,7 +406,17 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 		userExamination.setUserExaminationStatus("1");
 		userExamination.setUserExaminationSysteminfo(type);
 		userExaminationService.updateByPrimaryKey(userExamination);
+		
+		
+		ExamCacheInfo eci = ExamCacheInfo.getSave(currentUser.getUserid());
+		redisTemplate.opsForList().leftPush(eci.KEY_PREFIX, eci);
 
+		Map<String, Object> chacheMap = new HashMap<>();
+		chacheMap.put("userQuestions", userQuestions);
+		chacheMap.put("userExaminationId", userExamination.getUserExaminationId());
+		chacheMap.put("examinationId", examinationId);
+		redisTemplate.opsForHash().put(eci.getDataKey(), eci.getUserId(), chacheMap);
+		
 		log.info(currentUser.getUsername() + "提交：type=" + type + ",size=" + userQuestions.size() + ",times="
 				+ (System.currentTimeMillis() - c));
 

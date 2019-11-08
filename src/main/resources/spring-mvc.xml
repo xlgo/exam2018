@@ -32,6 +32,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 				<property name="ignoreFlag">
 					<list>
 						<value>/m/userExamInfo</value>
+						<value>/m/viewCert</value>
 					</list>
 				</property>
 				<property name="auth">

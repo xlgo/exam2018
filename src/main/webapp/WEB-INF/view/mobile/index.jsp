@@ -40,7 +40,7 @@
     				</div>
     			</div>
     		</div>
-    		<div class="littleoptions">
+    		<div class="littleoptions" style="display: none;">
     			<img src="<c:url value="/resource/mobile/image/optionbg.png"/>" class="optionbg"/>
     			<div class="optioncontent">
     				<img src="<c:url value="/resource/mobile/image/rule.png"/>" class="optionicon" />
@@ -50,6 +50,20 @@
     					</div>
     					<div>
     						<a href="<c:url value="/m/rule"/>" class="btn btn-default btn-xs">点击查看</a>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    		<div class="littleoptions" style="">
+    			<img src="<c:url value="/resource/mobile/image/optionbg.png"/>" class="optionbg"/>
+    			<div class="optioncontent">
+    				<img src="<c:url value="/resource/mobile/image/statistics.png"/>" class="optionicon" />
+    				<div class="optioncontenttext">
+    					<div class="texts">
+    						参赛证书
+    					</div>
+    					<div>
+    						<a href="<c:url value="/m/rule2"/>" class="btn btn-default btn-xs">点击查看</a>
     					</div>
     				</div>
     			</div>

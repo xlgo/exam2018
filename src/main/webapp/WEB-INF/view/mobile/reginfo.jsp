@@ -76,6 +76,7 @@
 				  			<li value="2">大二</li>
 				  			<li value="3">大三</li>
 				  			<li value="4">大四</li>
+				  			<li value="6">大五</li>
 				  			<li value="5">研究生</li>
 				  		</ul>
 				  	</div>
