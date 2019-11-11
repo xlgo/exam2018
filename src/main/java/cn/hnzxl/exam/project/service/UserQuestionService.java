@@ -62,7 +62,7 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 						try {
 							processExam();
 						} catch (Exception e) {
-							log.error(e);
+							log.error("处理失败！",e);
 						}
 					}
 				}
@@ -99,7 +99,7 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 				userExamination.setUserExaminationId(userExaminationId);
 				userExamination.setUserExaminationScore(userScore == null ? 0 : userScore);
 				userExaminationService.updateByPrimaryKeySelective(userExamination);
-
+				System.out.println("获取到数据，处理提交数据！");
 			} else if (info.getType().equals(ExamCacheInfo.Type.EXAM_START)) {
 				// 把抽到的题目信息保存到数据库中去
 				List<UserQuestion> uqs = (List<UserQuestion>) redisTemplate.opsForHash().get(info.getDataKey(),
@@ -107,7 +107,7 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 				redisTemplate.opsForHash().delete(info.getDataKey(), info.getUserId());
 				getBaseMapper().insertBatch(uqs);
 			}
-			System.out.println("获取到数据，进行处理！");
+			System.out.println("获取到数据，处理抽题数据！");
 		} else {
 			try {
 				Thread.sleep(1000L);

@@ -70,7 +70,7 @@ public class HttpClientUtil {
 			if (map != null && map.size() > 0) {
 				List<NameValuePair> pair = new ArrayList<NameValuePair>();
 				for (String key : map.keySet()) {
-					pair.add(new BasicNameValuePair(key, map.get(key).toString()));
+					pair.add(new BasicNameValuePair(key, map.get(key)==null?"":map.get(key).toString()));
 				}
 
 				String params = EntityUtils.toString(new UrlEncodedFormEntity(pair, CHARSET));
