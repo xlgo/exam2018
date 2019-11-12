@@ -60,8 +60,11 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 				public void run() {
 					while (true) {
 						try {
+							//redisTemplate.multi();
 							processExam();
+							//redisTemplate.exec();
 						} catch (Exception e) {
+							//redisTemplate.discard();
 							log.error("处理失败！",e);
 						}
 					}
@@ -254,8 +257,8 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 				// this.getBaseMapper().insertBatch(uqs);
 
 				ExamCacheInfo eci = ExamCacheInfo.getStart(currentUser.getUserid());
-				redisTemplate.opsForList().leftPush(eci.KEY_PREFIX, eci);
 				redisTemplate.opsForHash().put(eci.getDataKey(), eci.getUserId(), uqs);
+				redisTemplate.opsForList().leftPush(eci.KEY_PREFIX, eci);
 
 				log.info(currentUser.getUsername() + ",抽题：" + (System.currentTimeMillis() - c) + ":info010");
 			}
@@ -409,13 +412,14 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 		
 		
 		ExamCacheInfo eci = ExamCacheInfo.getSave(currentUser.getUserid());
-		redisTemplate.opsForList().leftPush(eci.KEY_PREFIX, eci);
 
 		Map<String, Object> chacheMap = new HashMap<>();
 		chacheMap.put("userQuestions", userQuestions);
 		chacheMap.put("userExaminationId", userExamination.getUserExaminationId());
 		chacheMap.put("examinationId", examinationId);
+		
 		redisTemplate.opsForHash().put(eci.getDataKey(), eci.getUserId(), chacheMap);
+		redisTemplate.opsForList().leftPush(eci.KEY_PREFIX, eci);
 		
 		log.info(currentUser.getUsername() + "提交：type=" + type + ",size=" + userQuestions.size() + ",times="
 				+ (System.currentTimeMillis() - c));

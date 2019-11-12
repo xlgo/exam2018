@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <title>河南省高校国家安全教育互联网知识竞赛</title>
-<script type="text/javascript" src="<c:url value="/resource/js/jquery/jquery-1.7.2.js" />"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value="/resource/mobile/css/style.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resource/mobile/css/dati.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resource/mobile/css/gaimi.css"/>">
