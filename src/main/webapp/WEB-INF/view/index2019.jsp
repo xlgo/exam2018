@@ -118,7 +118,7 @@
 					    <br/>
 					</p>
 					<p>
-					    国家安全知识竞赛学习资料:<a href="https://pan.baidu.com/s/1xVyZYJBV_dMHP6jqdgbR_g" target="_blank" title="国家安全知识竞赛学习资料">点击下载</a>
+					    国家安全知识竞赛学习资料:<a href="https://pan.baidu.com/s/1Hb03lgACVPKuX38zHPVGcA" target="_blank" title="国家安全知识竞赛学习资料">点击下载</a>
 					</p>
 					<p>
 					    <br/>
