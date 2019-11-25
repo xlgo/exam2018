@@ -5,6 +5,7 @@
 <head>
 	<meta charset="utf-8" />
 	<title>证书查询</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resource/js/bootstrap/css/bootstrap.min.css"/>" />
 	<script type="text/javascript" src="<c:url value="/resource/js/jquery/jquery-1.11.1.min.js" />"></script>
 	<script type="text/javascript" src="<c:url value="/resource/js/bootstrap/js/bootstrap.min.js" />"></script>
@@ -12,6 +13,20 @@
 		$(function(){
 			$("#valid").click(function(){
 				//alert($("#certCode").val());
+				if($("#certCode").val()){
+					$.get("/viewCert?certCode="+$("#certCode").val(),function(data){
+						//console.log(data);
+						if(data.status){
+							$("#certImg").attr("src",data.url)
+							$("#info").show();
+						}else{
+							$("#info").hide();
+							alert(data.msg);
+						}
+					},"json")
+				}else{
+					alert("请输入验证码！");
+				}
 			});
 			if("${certCode}"){
 				$("#valid").click();
@@ -29,6 +44,9 @@
 	        <button id="valid" class="btn btn-default" type="button">验证</button>
 	      </span>
 	    </div><!-- /input-group -->
+	    <div id="info" style="display: none;">
+			<img id="certImg" width="100%"/>
+	    </div>
 	</div>
 </div>
 </body>
