@@ -20,7 +20,7 @@
     			<img src="${user.headimgurl}" class="portrait" style="border-radius: 68px;">
     		</div>
 	   		<div class="integral">
-	   			欢迎${user.name?user.name:user.nickname}参与竞赛
+	   			欢迎${user.name?user.name:user.nickname}参与竞赛&nbsp;&nbsp;&nbsp;&nbsp;<a href="<c:url value="/m/reginfo" />">修改信息</a>
 	   		</div>
 	   	</div>
     <div class="content">

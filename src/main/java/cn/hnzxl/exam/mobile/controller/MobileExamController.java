@@ -29,6 +29,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,9 +54,11 @@ import cn.hnzxl.exam.base.util.MD5Util;
 import cn.hnzxl.exam.base.util.SessionUtil;
 import cn.hnzxl.exam.base.util.WeChatConfig;
 import cn.hnzxl.exam.base.util.WeiXinUtil;
+import cn.hnzxl.exam.project.dto.ExamCacheInfo;
 import cn.hnzxl.exam.project.model.UserExamination;
 import cn.hnzxl.exam.project.service.UserExaminationService;
 import cn.hnzxl.exam.project.service.UserQuestionService;
+import cn.hnzxl.exam.project.util.CertImageUtil;
 import cn.hnzxl.exam.system.model.SystemConfig;
 import cn.hnzxl.exam.system.model.User;
 import cn.hnzxl.exam.system.model.UserPrize;
@@ -89,7 +92,7 @@ public class MobileExamController {
 	@Autowired
 	private UserExaminationService userExaminationService;
 	@Autowired
-	private StringRedisTemplate stringRedisTemplate;
+	private RedisTemplate<String, Object> redisTemplate;
 	// 用户的奖品
 	@Autowired
 	private UserPrizeService userPrizeService;
@@ -227,7 +230,7 @@ public class MobileExamController {
 	public String reginfo(Model model) {
 		User currentUser = SessionUtil.getCurrentUser();
 		if (currentUser.getStatus() == 1) {
-			return "redirect:/m/index";
+			//return "redirect:/m/index";
 		}
 		model.addAttribute("user", currentUser);
 		return "/mobile/reginfo";
@@ -239,8 +242,8 @@ public class MobileExamController {
 		user.setUserid(SessionUtil.getCurrentUser().getUserid());
 		user.setStatus(1);
 		userService.updateByPrimaryKeySelective(user);
-		userService.selectByPrimaryKey(SessionUtil.getCurrentUser().getUserid());
-		SessionUtil.setAttribute(Constant.SESSION_USER_INFO, user);
+		User u = userService.selectByPrimaryKey(SessionUtil.getCurrentUser().getUserid());
+		SessionUtil.setAttribute(Constant.SESSION_USER_INFO, u);
 		return "success";
 	}
 
@@ -470,7 +473,7 @@ public class MobileExamController {
 	public ModelAndView saveRegister(User user, HttpServletRequest request, HttpServletResponse response,
 			RedirectAttributes ra) {
 		// user.setUserid(GUIDUtil.getUUID());
-		try {
+		try {  
 			if (StringUtils.isEmpty(user.getUsername())) {
 				throw new Exception("用户名不能为空！");
 			}
@@ -562,12 +565,18 @@ public class MobileExamController {
 	@RequestMapping("viewCert")
 	@ResponseBody
 	public Object viewCert() {
+		User currentUser = SessionUtil.getCurrentUser();
 		Map<String, Object> res = new HashMap<String, Object>();
-		if (LocalDate.now().isBefore(LocalDate.of(2019, 12, 1))) {
-			res.put("status", false);
+		
+		res.put("status", false);
+		
+		if (LocalDate.now().isBefore(LocalDate.of(2019, 12, 1)) && StringUtils.isEmpty(currentUser.getUsername())) {
 			res.put("msg", "请等待竞赛结束");
+		}else if("over".equals(currentUser.getPassword())) {
+			res.put("status", true);
+			res.put("url", "/m/certInfo");
+			
 		} else {
-			User currentUser = SessionUtil.getCurrentUser();
 			//"775151-"+currentUser.getId(); MD5 文件名，id%1000 文件路径
 			//没有就初始化，初始化比较慢，计入缓存（初始化先看缓存是否有值，有说明在处理中）
 			//处理中给提示
@@ -582,10 +591,59 @@ public class MobileExamController {
 			if (max.isPresent()) {
 				maxScore = max.get().getUserExaminationScore();
 			}
-			System.out.println(maxScore);
-			res.put("status", true);
-			res.put("url", "/m/index");
+			User updUser = new User();
+			updUser.setUserid(currentUser.getUserid());
+			updUser.setPassword("over");
+			updUser.setAge(maxScore);
+			userService.updateByPrimaryKeySelective(updUser);
+			
+			//更新后修改session中的数据,不用在去查询一次了
+			currentUser.setPassword("over");
+			currentUser.setAge(maxScore);
+			SessionUtil.setAttribute(Constant.SESSION_USER_INFO, currentUser);
+			
+			//System.out.println(maxScore);
+			if(maxScore<70) {//小于70分的内有证书
+				res.put("msg", "您没有达到获得证书的要求，继续努力！");
+			}else {
+				//stringRedisTemplate.opsForList().leftPush(ExamCacheInfo.KEY_PREFIX+":cert", "", value);
+				
+				ExamCacheInfo eci = ExamCacheInfo.getCert(currentUser.getUserid());
+
+				Map<String, Object> chacheMap = new HashMap<>();
+				chacheMap.put("user", currentUser);
+				chacheMap.put("score", maxScore);
+				
+				redisTemplate.opsForHash().put(eci.getDataKey(), eci.getUserId(), chacheMap);
+				redisTemplate.opsForList().leftPush(eci.KEY_PREFIX, eci);
+				
+				res.put("status", true);
+				res.put("url", "/m/certInfo");
+			}
 		}
 		return res;
+	}
+	
+	
+	@RequestMapping("/certInfo")
+	public ModelAndView certInfo() {
+		ModelAndView modelAndView = new ModelAndView("/mobile/cert_info");
+		User currentUser = SessionUtil.getCurrentUser();
+		//这里会分三种情况
+		//1.没有生成  2.分数不够70分，3.已经生成
+		if("over".equals(currentUser.getPassword())) {
+			if(currentUser.getAge()<70) {
+				modelAndView.addObject("msg", "您没有达到获得证书的要求，继续努力！");
+			}else {
+				modelAndView.addObject("certCode", CertImageUtil.encodeCertCode(currentUser.getUserid(), currentUser.getWxOpenid().substring(currentUser.getWxOpenid().length()-8)));
+				modelAndView.addObject("hostName", baseConfig.getHostName());
+				String url="/certImage/"+currentUser.getUserid()%1000+"/"+currentUser.getWxOpenid().substring(currentUser.getWxOpenid().length()-8);
+				modelAndView.addObject("certImage",url);
+			}
+			
+		}else{
+			modelAndView.addObject("msg", "请在 成绩查询->查看证书 对证书进行生成！");
+		}
+		return modelAndView;
 	}
 }

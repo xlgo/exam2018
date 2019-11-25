@@ -16,19 +16,19 @@
     <div class="bg"></div>
 	<div class="loginTop"><img src="<c:url value="/resource/mobile/image/portraitbg.png"/>" class="topImg" /></div>
 	<div class="hint">
-		填写信息快速登录
+		填写信息
 	</div>
     <div class="logincontent">
 		<div class="forms">
     		<div class="inputs">
-			  <input type="text" name="name" class="form-control name" placeholder="请输入本人真实姓名">
+			  <input type="text" name="name" value="${user.name}" class="form-control name" placeholder="请输入本人真实姓名">
 			</div>
 			<div class="inputs">
-			  <input type="tel" name="mobilenumber" class="form-control phone" placeholder="请输入手机号">
+			  <input type="tel" name="mobilenumber" value="${user.mobilenumber}" class="form-control phone" placeholder="请输入手机号">
 			</div>
 			<div class="inputs" style="position: relative;">
-				  <input disabled type="text" class="form-control xb" placeholder="选择性别" />
-				  <input type="hidden" name="gender" />
+				  <input disabled type="text" class="form-control xb" value="${user.gender==1?'男':user.gender==2?'女':''}" placeholder="选择性别" />
+				  <input type="hidden" name="gender" value="${user.gender}"/>
 				  <img class="down" chioceType='sex' src="<c:url value="/resource/mobile/image/down.png"/>"/>
 				  <div class="sliding none sliding_sex" >
 				  	
@@ -44,8 +44,8 @@
 			</div>
 			
 			<div class="inputs" style="position: relative;">
-			  <input type="text" id="schoolType" class="form-control school" placeholder="所在学校">
-			  <input type="hidden" name="school" />
+			  <input type="text" id="schoolType"  value="${user.school}" class="form-control school" placeholder="所在学校">
+			  <input type="hidden" name="school" value="${user.school}" />
 			  <div class="sliding none sliding_schoolName" >
 			  	
 			  	<div class="sliding-down">
@@ -58,14 +58,14 @@
 			  </div>
 			</div>
 			<div class="inputs" style="position: relative;">
-			  <input type="text" name="area" class="form-control xiaoqu" placeholder="学号">
+			  <input type="text" name="area" value="${user.area}" class="form-control xiaoqu" placeholder="学号">
 			</div>
 			<div class="inputs">
-			  <input type="text" name="major" class="form-control zhuanye" placeholder="请输入专业">
+			  <input type="text" name="major" value="${user.major}" class="form-control zhuanye" placeholder="请输入专业">
 			</div>
 			<div class="inputs" style="position: relative;">
-			  <input disabled type="text" class="form-control nianji" placeholder="所在年级">
-			  <input type="hidden" name="grade" /> 
+			  <input disabled type="text" value="${user.grade==1?'大一':user.grade==2?'大二':user.grade==3?'大三':user.grade==4?'大四':user.grade==5?'研究生':user.grade==6?'大五':''}" class="form-control nianji" placeholder="所在年级">
+			  <input type="hidden" name="grade" value="${user.grade}" /> 
 			  <img class="down" chioceType='grade' src="<c:url value="/resource/mobile/image/down.png"/>"/>
 			  <div class="sliding none sliding_grade" >
 			  	
@@ -84,7 +84,7 @@
 			  </div>
 			  </div>
 			<div class="inputs">
-			  <input type="text" name="classname" class="form-control banji" placeholder="请输入班级">
+			  <input type="text" name="classname" value="${user.classname}" class="form-control banji" placeholder="请输入班级">
 			</div>
 			<div class="inputs" style="text-align: right;">
 			  <label class="checkbox-inline">
@@ -92,7 +92,7 @@
 			</div>
     	</div>
     	<div class="login">
-    		<button type="button" class="btn btn-info btn-lg loginbtn">立即登录</button>
+    		<button type="button" class="btn btn-info btn-lg loginbtn">提交信息</button>
     	</div>
     </div>
   </body>
@@ -176,7 +176,7 @@
 	    			}
 	    			$.post("reginfoSubmit",submitData,function(data){
 		    			submiting=false;
-		    			location.reload();
+		    			location.href = "/m/index";
 	    			});
     			}
     		});

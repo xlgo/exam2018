@@ -11,4 +11,7 @@ public class BaseConfig {
 	/**域名*/
 	@Value("${base.hostName}")
 	private String hostName;
+	
+	@Value("${base.path}")
+	private String path;
 }

@@ -9,7 +9,7 @@ public class ExamCacheInfo {
 	public static final String KEY_PREFIX = "exam:2019:info";
 
 	public enum Type {
-		EXAM_SAVE, EXAM_START
+		EXAM_SAVE, EXAM_START , EXAM_CERT
 	}
 
 	// 什么类型的数据
@@ -32,6 +32,14 @@ public class ExamCacheInfo {
 		info.setUserId(userId);
 		info.setType(Type.EXAM_START);
 		info.setDataKey(KEY_PREFIX+":"+Type.EXAM_START.name());
+		return info;
+	}
+	
+	public static ExamCacheInfo getCert(Long userId) {
+		ExamCacheInfo info = new ExamCacheInfo();
+		info.setUserId(userId);
+		info.setType(Type.EXAM_CERT);
+		info.setDataKey(KEY_PREFIX+":"+Type.EXAM_CERT.name());
 		return info;
 	}
 

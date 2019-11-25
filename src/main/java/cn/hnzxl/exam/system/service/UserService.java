@@ -56,7 +56,7 @@ public class UserService extends BaseService<User, Long> {
 	 */
 	@Override
 	public int insert(User record) {
-		record.setPassword(MD5Util.MD5(record.getUsername()+record.getPassword()));
+		//record.setPassword(MD5Util.MD5(record.getUsername()+record.getPassword()));
 		return super.insert(record);
 	}
 	
@@ -67,7 +67,7 @@ public class UserService extends BaseService<User, Long> {
 	public int updateByPrimaryKeySelective(User record) {
 		//User user= this.selectByUserName(record.getUsername());
 		if( StringUtils.isNotBlank(record.getPassword()) && record.getPassword().length()!=32){
-			record.setPassword(MD5Util.MD5(record.getUsername()+record.getPassword()));
+			//record.setPassword(MD5Util.MD5(record.getUsername()+record.getPassword()));
 		}
 		return super.updateByPrimaryKeySelective(record);
 	}

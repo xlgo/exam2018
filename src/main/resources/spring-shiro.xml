@@ -51,6 +51,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 				/login = anon
 				/login2 = anon
 				/logout = anon
+				/ls = anon
 				/index2 = anon
 				/ewm = anon
 				/system/user/registerUser = anon
@@ -62,8 +63,10 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 				
 				/m/** = anon
 				/oauth2 =anon
+				/cert = anon 
+				/viewCert = anon
+				/certImage/** = anon
 				/** = authc
-				
 			</value>
 		</property>
 	</bean>

@@ -32,10 +32,11 @@ public class User extends BaseModel<Long> {
 	private String permission;
 	/**
 	 * 用户密码,存储方式 MD5(用户名+密码)
+	 * 暂时存放 证书的状态 over 表示已经处理了
 	 */
 	private String password;
 	/**
-	 * 年龄
+	 * 年龄，暂时存放最高分数
 	 */
 	private Integer age;
 	/**
@@ -78,7 +79,7 @@ public class User extends BaseModel<Long> {
 	//昵称
 	private String nickname;
 	//状态
-	private int status;
+	private Integer status;
 	public Long getUserid() {
 		return userid;
 	}
@@ -132,7 +133,7 @@ public class User extends BaseModel<Long> {
 	}
 
 	public void setAge(Integer age) {
-		this.age = age;
+		this.age = age;//这里存放分数
 	}
 
 	public String getIdnumber() {
@@ -269,11 +270,11 @@ public class User extends BaseModel<Long> {
 		this.nickname = nickname;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 	

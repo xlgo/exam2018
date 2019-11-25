@@ -1,5 +1,6 @@
 package cn.hnzxl.exam.project.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import cn.hnzxl.exam.base.service.BaseService;
+import cn.hnzxl.exam.base.util.BaseConfig;
 import cn.hnzxl.exam.base.util.SessionUtil;
 import cn.hnzxl.exam.project.dao.UserQuestionMapper;
 import cn.hnzxl.exam.project.dto.ExamCacheInfo;
@@ -28,6 +30,7 @@ import cn.hnzxl.exam.project.model.Headline;
 import cn.hnzxl.exam.project.model.Question;
 import cn.hnzxl.exam.project.model.UserExamination;
 import cn.hnzxl.exam.project.model.UserQuestion;
+import cn.hnzxl.exam.project.util.CertImageUtil;
 import cn.hnzxl.exam.system.model.User;
 
 @Service
@@ -45,7 +48,8 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 	private QuestionUtil questionUtil;
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
-
+	@Autowired
+	private BaseConfig baseConfig;
 	@Override
 	public UserQuestionMapper getBaseMapper() {
 		return userQuestionMapper;
@@ -109,6 +113,16 @@ public class UserQuestionService extends BaseService<UserQuestion, Long> {
 						info.getUserId());
 				redisTemplate.opsForHash().delete(info.getDataKey(), info.getUserId());
 				getBaseMapper().insertBatch(uqs);
+			}else if(info.getType().equals(ExamCacheInfo.Type.EXAM_CERT)){
+				Map<String,Object> certInfo = (Map<String, Object>) redisTemplate.opsForHash().get(info.getDataKey(),info.getUserId());
+				try {
+					CertImageUtil.genCertImage((User)certInfo.get("user"), (Integer)certInfo.get("score"), baseConfig.getPath());
+					redisTemplate.opsForHash().delete(info.getDataKey(), info.getUserId());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}else {
+				redisTemplate.opsForList().leftPush(ExamCacheInfo.KEY_PREFIX+":error", info);
 			}
 			System.out.println("获取到数据，处理抽题数据！");
 		} else {
